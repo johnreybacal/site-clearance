@@ -53,3 +53,8 @@ Road roller (combat)
 - Run over (no self damage)  
 - Execute (25% health)  
 - Rodarorada (self destruct, very high damage)
+
+
+## Credits:
+- https://void1gaming.itch.io/pixel-construction-pack
+- https://swishos.itch.io/swishs-sprite-pack-24x24
