@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Move" load_steps=2 format=3 uid="uid://dtiqaxlx7y7on"]
+
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="1_41ncg"]
+
+[resource]
+script = ExtResource("1_41ncg")
+title = "Run over"
+description = "Run over a single enemy, dealing damage to the enemy and to the truck"
+damage = 1.0
+self_damage = 0.25
+heat_cost = 1.0
+metadata/_custom_type_script = "uid://qjboko3yokku"

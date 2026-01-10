@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://b172hsvrevany"]
+
+[ext_resource type="PackedScene" uid="uid://bo5gubxdgbov4" path="res://scenes/hud.tscn" id="1_uwrxv"]
+[ext_resource type="Script" uid="uid://clgpxii3lq84v" path="res://scripts/game_manager.gd" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://bpxwqemfvxrnj" path="res://scenes/trucks/excavator.tscn" id="3_lnu2h"]
+
+[node name="Node" type="Node"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("1_uwrxv")]
+
+[node name="GameManager" type="Node2D" parent="."]
+script = ExtResource("2_yqjtg")
+trucks = Array[PackedScene]([ExtResource("3_lnu2h")])
+
+[node name="Camera2D" type="Camera2D" parent="."]

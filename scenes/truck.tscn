@@ -1,0 +1,14 @@
+[gd_scene load_steps=5 format=3 uid="uid://c0l64k73txom8"]
+
+[ext_resource type="Texture2D" uid="uid://ctdn5c01i4msc" path="res://assets/sprites/Excavator.png" id="1_8ivgs"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_hldv3"]
+[ext_resource type="Script" uid="uid://dnud481iuhnme" path="res://scripts/truck.gd" id="2_w5yki"]
+[ext_resource type="Resource" uid="uid://dtiqaxlx7y7on" path="res://scripts/moves/trucks/run_over.tres" id="3_bh7du"]
+
+[node name="Truck" type="Node2D"]
+script = ExtResource("2_w5yki")
+moves = Array[ExtResource("2_hldv3")]([ExtResource("3_bh7du")])
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_8ivgs")
