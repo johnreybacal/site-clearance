@@ -10,8 +10,9 @@
 
 [node name="HUD" parent="CanvasLayer" instance=ExtResource("1_uwrxv")]
 
-[node name="GameManager" type="Node2D" parent="."]
+[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("hud")]
 script = ExtResource("2_yqjtg")
+hud = NodePath("../CanvasLayer/HUD")
 trucks = Array[PackedScene]([ExtResource("3_lnu2h")])
 
 [node name="Camera2D" type="Camera2D" parent="."]

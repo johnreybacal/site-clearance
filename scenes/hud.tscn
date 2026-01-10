@@ -41,23 +41,8 @@ theme_override_constants/separation = 20
 layout_mode = 2
 text = "What will you do?"
 
-[node name="FightButton" type="Button" parent="BottomPanel/TurnDecision"]
+[node name="CooldownButton" type="Button" parent="BottomPanel/TurnDecision"]
 layout_mode = 2
-text = "Fight"
+text = "Cool down"
 
-[node name="SkipButton" type="Button" parent="BottomPanel/TurnDecision"]
-layout_mode = 2
-text = "Skip"
-
-[node name="FightDecision" type="HBoxContainer" parent="BottomPanel"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="BackButton" type="Button" parent="BottomPanel/FightDecision"]
-layout_mode = 2
-text = "Back"
-
-[connection signal="pressed" from="BottomPanel/TurnDecision/FightButton" to="." method="_on_fight_button_pressed"]
-[connection signal="pressed" from="BottomPanel/TurnDecision/SkipButton" to="." method="_on_skip_button_pressed"]
-[connection signal="pressed" from="BottomPanel/FightDecision/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="BottomPanel/TurnDecision/CooldownButton" to="." method="_on_cooldown_button_pressed"]
