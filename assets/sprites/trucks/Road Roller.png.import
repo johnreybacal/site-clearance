@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctdn5c01i4msc"
-path="res://.godot/imported/Excavator.png-24d777287110c1bcb89cebf335c562b2.ctex"
+uid="uid://4hyevewyaqyt"
+path="res://.godot/imported/Road Roller.png-c5e0ef9fccdb48b715993f0522f0d246.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Excavator.png"
-dest_files=["res://.godot/imported/Excavator.png-24d777287110c1bcb89cebf335c562b2.ctex"]
+source_file="res://assets/sprites/trucks/Road Roller.png"
+dest_files=["res://.godot/imported/Road Roller.png-c5e0ef9fccdb48b715993f0522f0d246.ctex"]
 
 [params]
 

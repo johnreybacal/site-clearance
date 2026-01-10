@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtrefy2u0aq53"]
+
+[ext_resource type="Script" uid="uid://mu6pa8fl4ivp" path="res://scripts/enemy.gd" id="1_md0e3"]
+[ext_resource type="Texture2D" uid="uid://buiciodsugsqg" path="res://assets/sprites/enemies/swish_anky.png" id="2_4ra3w"]
+
+[node name="Enemy" type="Node2D"]
+script = ExtResource("1_md0e3")
+speed = 60
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("2_4ra3w")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cmrt3lec0assy"
-path="res://.godot/imported/Transportation Truck.png-9eb9bbccbb8757d75f8f864a0b6f42f4.ctex"
+uid="uid://buiciodsugsqg"
+path="res://.godot/imported/swish_anky.png-82caf83f46e9098798c83c650d9b773d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Transportation Truck.png"
-dest_files=["res://.godot/imported/Transportation Truck.png-9eb9bbccbb8757d75f8f864a0b6f42f4.ctex"]
+source_file="res://assets/sprites/enemies/swish_anky.png"
+dest_files=["res://.godot/imported/swish_anky.png-82caf83f46e9098798c83c650d9b773d.ctex"]
 
 [params]
 

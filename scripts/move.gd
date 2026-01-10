@@ -14,7 +14,7 @@ enum TargetType {
 @export var move_type: MoveType
 @export var target_type: TargetType
 
-@export var damage: float
-@export var self_damage: float
+@export var damage: int
+@export var self_damage: int
 
-@export var heat_cost: float
+@export var heat_cost: int

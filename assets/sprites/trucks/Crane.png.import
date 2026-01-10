@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4hyevewyaqyt"
-path="res://.godot/imported/Road Roller.png-375fc66f6ceb648c0a5e13cf2d594e3d.ctex"
+uid="uid://b80llwugkpws0"
+path="res://.godot/imported/Crane.png-0563250d6dbe1513d161690ec333f356.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Road Roller.png"
-dest_files=["res://.godot/imported/Road Roller.png-375fc66f6ceb648c0a5e13cf2d594e3d.ctex"]
+source_file="res://assets/sprites/trucks/Crane.png"
+dest_files=["res://.godot/imported/Crane.png-0563250d6dbe1513d161690ec333f356.ctex"]
 
 [params]
 

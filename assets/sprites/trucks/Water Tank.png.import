@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b80llwugkpws0"
-path="res://.godot/imported/Crane.png-d1d36faa5224fe81dd54d0df061dc66c.ctex"
+uid="uid://cktok26k54vr6"
+path="res://.godot/imported/Water Tank.png-1061471605cb35003be47a3f88db964d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Crane.png"
-dest_files=["res://.godot/imported/Crane.png-d1d36faa5224fe81dd54d0df061dc66c.ctex"]
+source_file="res://assets/sprites/trucks/Water Tank.png"
+dest_files=["res://.godot/imported/Water Tank.png-1061471605cb35003be47a3f88db964d.ctex"]
 
 [params]
 

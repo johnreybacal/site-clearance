@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://he38f1lwss4m"
-path="res://.godot/imported/Mixer.png-bbbc7a6abf91f683bd51b515ee2fdfd0.ctex"
+uid="uid://diw1la823ddft"
+path="res://.godot/imported/Hydraulic.png-b118e169a14df92a97494a9dac997320.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Mixer.png"
-dest_files=["res://.godot/imported/Mixer.png-bbbc7a6abf91f683bd51b515ee2fdfd0.ctex"]
+source_file="res://assets/sprites/trucks/Hydraulic.png"
+dest_files=["res://.godot/imported/Hydraulic.png-b118e169a14df92a97494a9dac997320.ctex"]
 
 [params]
 

@@ -3,15 +3,13 @@
 [ext_resource type="Script" uid="uid://dnud481iuhnme" path="res://scripts/truck.gd" id="1_a4wfb"]
 [ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_fy0fe"]
 [ext_resource type="Resource" uid="uid://dtiqaxlx7y7on" path="res://scripts/moves/trucks/run_over.tres" id="3_papol"]
-[ext_resource type="Texture2D" uid="uid://ctdn5c01i4msc" path="res://assets/sprites/Excavator.png" id="4_0ds2t"]
+[ext_resource type="Texture2D" uid="uid://ctdn5c01i4msc" path="res://assets/sprites/trucks/Excavator.png" id="4_0ds2t"]
 
 [sub_resource type="Resource" id="Resource_a4wfb"]
 script = ExtResource("2_fy0fe")
 title = "Swing"
 description = "Swing arm to hit all enemies"
 target_type = 1
-damage = 0.5
-heat_cost = 3.0
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
 [node name="Excavator" type="Node2D"]
