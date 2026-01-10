@@ -59,15 +59,13 @@ func _process(delta: float) -> void:
         on_fighter_turn()
 
 func on_tick():
-    print("tick: ", tick)
-            
     var indices = fighters.map(func(f: Fighter): return f.move_index)
     move_index = indices.min()
-    print("move_index: ", move_index)
 
     turn_fighters = fighters.filter(func(f: Fighter): return f.move_index == move_index)
 
     for fighter in turn_fighters:
+        hud.add_to_turn_display(fighter)
         set_next_move_index(fighter)
 
     current_fighter_index = 0
@@ -75,11 +73,12 @@ func on_tick():
     is_ticking = false
 
 func on_fighter_turn():
-    print("FIGHTER: ", current_fighter)
+    print()
+    print(move_index, " >> ", current_fighter.name)
     if current_fighter is Truck:
         hud.show_moves(current_fighter.moves)
     else:
-        on_next()
+        on_next.call_deferred()
 
 
 func set_next_move_index(fighter: Fighter):
