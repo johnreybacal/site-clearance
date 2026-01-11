@@ -17,6 +17,22 @@ Battle UI
   - Show moves
 - Do nothing to cool down
 
+Day end
+- all trucks are destroyed
+- tick == MAX_TICK
+
+Money
+- salary 
+  - deduct undertime (MAX_TICK - tick)
+  - deduct truck repairs (max_hp - hp)
+- monsters defeated
+
+Upgrades
+- number of crew (number of trucks deployed)
+- attack
+- hp
+- effects
+
 
 Water tank (support)
 
