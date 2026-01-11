@@ -34,25 +34,16 @@ func show_moves(moves: Array[Move]):
         move_button.pressed.connect(_on_cooldown_button_pressed)
         turn_decision.add_child.call_deferred(move_button)
 
-func add_to_turn_display(fighter: Fighter):
-    # for node in turn_display.get_children():
-    #     var turn = node as TurnDisplayItem
-    #     if turn.move_index < fighter.move_index:
-    #         turn.queue_free()
-    var turn = TurnDisplayItem.new()
-    turn.texture = (fighter.get_node("Sprite2D") as Sprite2D).texture
-    turn.move_index = fighter.move_index
-    turn_display.add_child(turn)
-    # turn_display.add_child(label)
-
-    var sorted_nodes := turn_display.get_children()
-
-    sorted_nodes.sort_custom(
-        func(a: TurnDisplayItem, b: TurnDisplayItem): return a.move_index < b.move_index
-    )
-
+func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameManager.FighterQueue):
     for node in turn_display.get_children():
-        turn_display.remove_child(node)
+        node.queue_free()
 
-    for node in sorted_nodes:
-        turn_display.add_child(node)
+    for item in queue:
+        var turn = TurnDisplayItem.new()
+        turn.texture = (item.fighter.get_node("Sprite2D") as Sprite2D).texture
+        turn.fighter_id = item.fighter.get_instance_id()
+        turn.move_index = item.move_index
+        var is_current_fighter = turn.fighter_id == current.fighter.get_instance_id() and turn.move_index == current.move_index
+        if not is_current_fighter:
+            turn.modulate.a = 0.5
+        turn_display.add_child(turn)

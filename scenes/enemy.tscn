@@ -5,7 +5,7 @@
 
 [node name="Enemy" type="Node2D"]
 script = ExtResource("1_md0e3")
-speed = 60
+speed = 50
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
