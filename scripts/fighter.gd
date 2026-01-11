@@ -18,18 +18,38 @@ var upcoming_move_indices: Array[int]
 
 signal died()
 
+var current_shake = 0
+@export var shake_amount := 5.0
+@export var shake_duration := 1
+
+var sprite: Sprite2D
+var shadow: Sprite2D
+var shadow_position: Vector2
+
 func _ready():
     hp = max_hp
     update_hp_label()
 
-    var sprite = get_node("Sprite2D") as Sprite2D
-    var shadow = sprite.duplicate()
+    sprite = get_node("Sprite2D") as Sprite2D
+    shadow = sprite.duplicate()
+    shadow.name = "ShadowSprite"
     shadow.flip_v = true
     shadow.modulate = "#00000044"
-    shadow.position = Vector2(5, shadow.texture.get_height() * .66)
+    shadow_position = Vector2(5, shadow.texture.get_height() * .66)
+    shadow.position = shadow_position
     shadow.scale = Vector2(sprite.scale.x, sprite.scale.y / 2)
     shadow.skew = deg_to_rad(-15)
     add_child(shadow)
+
+func _process(delta: float) -> void:
+    current_shake -= shake_amount * delta / shake_duration
+    if current_shake < 0:
+        current_shake = 0
+    
+    var shake_position = Vector2(randf_range(-current_shake, current_shake), randf_range(-current_shake, current_shake))
+    sprite.position = shake_position
+    shadow.position = shadow_position + shake_position
+
 
 func take_damage(damage: int):
     hp -= damage
@@ -53,6 +73,7 @@ func perform_move(move: Move, targets: Array[Fighter]):
     print(title + " used " + move.title)
     if len(targets) > 0:
         print("  on ", ", ".join(targets.map(func(t: Fighter): return t.title)))
+    current_shake = 5
     if self is Truck:
         var truck = self
         truck.heat_level += move.heat_cost
@@ -66,3 +87,4 @@ func perform_move(move: Move, targets: Array[Fighter]):
     elif move.move_type == Move.MoveType.Attack:
         for target in targets:
             target.take_damage(move.damage)
+            target.current_shake = 10

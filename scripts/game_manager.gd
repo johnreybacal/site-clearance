@@ -6,7 +6,7 @@ class_name GameManager
 
 var tick = 0
 var is_ticking = true
-const TICK_INTERVAL = 1
+const TICK_INTERVAL = 2
 var tick_interval = TICK_INTERVAL
 
 var prev_move_index: int = -1
@@ -129,6 +129,7 @@ func on_tick():
     is_ticking = false
 
 func on_fighter_turn():
+    current_fighter.current_shake = 2.5
     if current_fighter is Truck:
         hud.fighters = fighters
         hud.show_moves(current_fighter)

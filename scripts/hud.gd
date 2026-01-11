@@ -9,20 +9,33 @@ class_name HUD
 signal on_move_selected(move: Move)
 signal on_move_cancelled()
 signal on_target_selected(move: Move, targets: Array[Fighter])
+signal on_target_hovered(fighter: Fighter)
 
-const MOVE_BUTTON_GROUP = "custom_move_button"
+const MOVE_BUTTON_GROUP = "move_button"
+const TARGET_BUTTON_GROUP = "target_button"
+const TARGET_ID_META = "target_id"
 var fighters: Array[Fighter] = []
 
 func _ready():
     bottom_panel.visible = false
 
+func _process(delta: float):
+    for node in turn_decision.get_children():
+        if node is Button:
+            var button = node
+            if button.is_in_group(TARGET_BUTTON_GROUP):
+                if button.is_hovered():
+                    var target_id = button.get_meta(TARGET_ID_META)
+                    var fighter = instance_from_id(target_id) as Fighter
+                    fighter.current_shake = 1
+
+
 func hide_moves():
     bottom_panel.visible = false
 
 func show_moves(truck: Truck):
-    var buttons = get_tree().get_nodes_in_group(MOVE_BUTTON_GROUP)
-    for button in buttons:
-        button.queue_free.call_deferred()
+    for node in turn_decision.get_children():
+        node.queue_free.call_deferred()
 
     bottom_panel.visible = true
 
@@ -37,9 +50,8 @@ func show_moves(truck: Truck):
         turn_decision.add_child.call_deferred(move_button)
 
 func show_targets(move: Move, targets: Array[Fighter]):
-    var buttons = get_tree().get_nodes_in_group(MOVE_BUTTON_GROUP)
-    for button in buttons:
-        button.queue_free.call_deferred()
+    for node in turn_decision.get_children():
+        node.queue_free.call_deferred()
 
     bottom_panel.visible = true
 
@@ -52,8 +64,9 @@ func show_targets(move: Move, targets: Array[Fighter]):
     for target in targets:
         var target_button = Button.new()
         target_button.text = target.title
-        target_button.add_to_group(MOVE_BUTTON_GROUP)
+        target_button.add_to_group(TARGET_BUTTON_GROUP)
         var single_target: Array[Fighter] = [target]
+        target_button.set_meta(TARGET_ID_META, target.get_instance_id())
         target_button.pressed.connect(Callable(on_target_selected.emit).bind(move, single_target))
         turn_decision.add_child.call_deferred(target_button)
 
