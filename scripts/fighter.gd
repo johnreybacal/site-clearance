@@ -60,6 +60,7 @@ func _process(delta: float) -> void:
         modulate.a = move_toward(modulate.a, 0, delta)
         if modulate.a == 0:
             queue_free()
+        return
 
     if current_shake > 0:
         current_shake -= shake_amount * delta / shake_duration
@@ -84,10 +85,11 @@ func _process(delta: float) -> void:
         position = position.move_toward(initial_position, delta * 1000)
 
 
-func take_damage(damage: int):
+func take_damage(damage: int, self_inflicted: bool = false):
     hp -= damage
     update_hp_label()
-    is_attacked = true
+    if not self_inflicted:
+        is_attacked = true
     if hp <= 0:
         on_died.emit(self)
         is_dying = true
@@ -124,6 +126,9 @@ func perform_move(move: Move, targets: Array[Fighter]):
         if truck.heat_level < 0:
             truck.heat_level = 0
         truck.update_heat_label()
+
+    if move.self_damage > 0:
+        take_damage(move.self_damage, true)
 
     if move.target_type == Move.TargetType.Self:
         pass
