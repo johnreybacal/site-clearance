@@ -19,6 +19,7 @@ load_path = "res://.godot/imported/excavator.png-b17a9be501f09bf3dd42d6d26fa44ba
 
 [node name="Truck" type="Node2D"]
 script = ExtResource("2_w5yki")
+speed = 25
 moves = Array[ExtResource("2_hldv3")]([ExtResource("3_0xl1e"), ExtResource("3_bh7du"), SubResource("Resource_1n0o7")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

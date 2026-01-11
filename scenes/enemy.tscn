@@ -9,7 +9,7 @@
 z_index = 5
 script = ExtResource("1_md0e3")
 title = "Ankylosaur"
-speed = 50
+speed = 25
 moves = Array[ExtResource("2_5uy6h")]([ExtResource("3_c4w8v")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

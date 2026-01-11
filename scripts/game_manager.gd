@@ -9,7 +9,7 @@ var is_ticking = true
 const TICK_INTERVAL = 1
 var tick_interval = TICK_INTERVAL
 
-var prev_move_index: int = -1
+var prev_move_index: int = 0
 var move_index: int = 0
 const MAX_SPEED = 100
 
@@ -34,16 +34,21 @@ func _ready() -> void:
         truck.position = Vector2(-300, 0)
         add_fighter(truck)
 
-    var enemy: Enemy = enemy_scene.instantiate()
-    enemy.position = Vector2(300, 0)
-    enemy.title = "Ankylosaur"
-    add_fighter(enemy)
+    add_enemy()
 
     update_queue()
 
     hud.on_move_selected.connect(on_move_selected)
     hud.on_move_cancelled.connect(on_fighter_turn)
     hud.on_target_selected.connect(on_move_confirmed)
+
+func add_enemy():
+    var enemy: Enemy = enemy_scene.instantiate()
+    enemy.position = Vector2(300, 0)
+    enemy.title = "Ankylosaur"
+    enemy.move_index = prev_move_index
+    enemy.update_move_index()
+    add_fighter(enemy)
 
 func add_fighter(fighter: Fighter):
     add_child.call_deferred(fighter)
@@ -55,6 +60,9 @@ func remove_fighter(fighter: Fighter):
     turn_queue = turn_queue.filter(func(f: FighterQueue): return f.fighter != fighter)
     turn_fighters = turn_fighters.filter(func(f: Fighter): return f != fighter)
     hud.update_turn_display(turn_queue, new_queue_item(current_fighter, move_index))
+
+    if fighter is Enemy:
+        add_enemy()
 
 func on_move_selected(move: Move):
     if move.target_type == Move.TargetType.Enemy:
@@ -109,7 +117,7 @@ func update_queue():
         if fighter.move_index == move_index:
             fighter.update_move_index()
             turn_queue.append(new_queue_item(fighter, fighter.move_index))
-            turn_queue.append_array(fighter.upcoming_move_indices.map(func(i: int): return new_queue_item(fighter, i)))
+        turn_queue.append_array(fighter.upcoming_move_indices.map(func(i: int): return new_queue_item(fighter, i)))
 
     var unique_queue: Array[FighterQueue] = []
     for item in turn_queue:

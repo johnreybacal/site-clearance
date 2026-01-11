@@ -17,6 +17,7 @@ metadata/_custom_type_script = "uid://qjboko3yokku"
 z_index = 10
 script = ExtResource("1_a4wfb")
 title = "Excavator"
+speed = 25
 moves = Array[ExtResource("2_fy0fe")]([SubResource("Resource_a4wfb")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
