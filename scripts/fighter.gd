@@ -15,6 +15,7 @@ var move_index: int = 0
 var upcoming_move_indices: Array[int]
 
 @onready var hp_label: Label = $HpLabel
+@onready var effect_label: Label = $EffectLabel
 
 signal on_ready()
 signal on_died(fighter: Fighter)
@@ -36,6 +37,14 @@ const ATTACKED_INTEVAL = 1
 var attacked_interval = ATTACKED_INTEVAL
 
 var is_dying = false
+
+# Debuff
+var slowed: int
+var stunned: int
+var weakened: int
+# Buff
+var strengthened: int
+var toughened: int
 
 
 func _ready():
@@ -86,6 +95,8 @@ func _process(delta: float) -> void:
 
 
 func take_damage(damage: int, self_inflicted: bool = false):
+    if toughened > 0:
+        damage *= .75
     hp -= damage
     update_hp_label()
     if not self_inflicted:
@@ -94,33 +105,65 @@ func take_damage(damage: int, self_inflicted: bool = false):
         on_died.emit(self)
         is_dying = true
 
+func heal(amount: int):
+    hp += amount
+    if hp > max_hp:
+        hp = max_hp
+    update_hp_label()
+
 func update_hp_label():
     hp_label.text = "HP: " + str(hp) + " / " + str(max_hp)
 
+func update_effect_label():
+    var effects = []
+    if slowed > 0:
+        effects.append("SLW:" + str(slowed))
+    if stunned > 0:
+        effects.append("STN:" + str(stunned))
+    if weakened > 0:
+        effects.append("WKN:" + str(weakened))
+    if strengthened > 0:
+        effects.append("STN:" + str(strengthened))
+    if toughened > 0:
+        effects.append("TGN:" + str(toughened))
+    effect_label.text = "; ".join(effects)
+
 func update_move_index():
-    move_index += MAX_SPEED - speed
+    var s = speed
+    if slowed > 0:
+        s *= .75
+    move_index += MAX_SPEED - s
 
 func project_upcoming_move_index():
+    var s = speed
+    if slowed > 0:
+        s *= .75
     var move_index_projection = move_index
     upcoming_move_indices.clear()
     for i in range(1):
-        move_index_projection += MAX_SPEED - speed
+        move_index_projection += MAX_SPEED - s
         upcoming_move_indices.append(move_index_projection)
 
 func move_to_center():
     is_ready = false
-    initial_position = position
+    if not is_going_to_center:
+        initial_position = position
     is_going_to_center = true
 
 func return_to_initial_position():
+    reduce_effect()
     is_going_to_center = false
 
 
 func perform_move(move: Move, targets: Array[Fighter]):
+    current_shake = 5
+    if stunned > 0:
+        print(title + " is stunned, turn missed")
+        return_to_initial_position()
+        return
     print(title + " used " + move.title)
     if len(targets) > 0:
         print("  on ", ", ".join(targets.map(func(t: Fighter): return t.title)))
-    current_shake = 5
     if self is Truck:
         var truck = self
         truck.heat_level += move.heat_cost
@@ -131,11 +174,48 @@ func perform_move(move: Move, targets: Array[Fighter]):
     if move.self_damage > 0:
         take_damage(move.self_damage, true)
 
-    if move.target_type == Move.TargetType.Self:
-        pass
-    elif move.move_type == Move.MoveType.Attack:
+    # if move.target_type == Move.TargetType.Self:
+    #     pass
+    if move.move_type == Move.MoveType.Attack:
         for target in targets:
-            target.take_damage(move.damage)
+            var damage = move.damage
+            if weakened > 0:
+                damage *= .25
+            if strengthened > 0:
+                damage *= 1.25
+            target.take_damage(damage)
             target.current_shake = 10
+    else: # Effect
+        for target in targets:
+            # Debuff
+            target.slowed += move.slow_turn
+            target.stunned += move.stun_turn
+            target.weakened += move.weaken_turn
+
+            # Buff
+            target.strengthened += move.strengten_turn
+            target.toughened += move.toughen_turn
+
+            if move.heal_amount > 0:
+                target.heal(move.heal_amount)
+            if move.cool_down_amount > 0 and target is Truck:
+                (target as Truck).cool_down(move.cool_down_amount)
+
+            target.current_shake = 5
+            target.update_effect_label()
+
 
     return_to_initial_position()
+
+func reduce_effect():
+    if slowed > 0:
+        slowed -= 1
+    if stunned > 0:
+        stunned -= 1
+    if weakened > 0:
+        weakened -= 1
+    if strengthened > 0:
+        strengthened -= 1
+    if toughened > 0:
+        toughened -= 1
+    update_effect_label()

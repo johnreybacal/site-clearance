@@ -1,29 +1,29 @@
-[gd_scene load_steps=5 format=3 uid="uid://bpxwqemfvxrnj"]
+[gd_scene load_steps=5 format=3 uid="uid://d0at7r8r01h45"]
 
-[ext_resource type="Script" uid="uid://dnud481iuhnme" path="res://scripts/truck.gd" id="1_a4wfb"]
-[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_fy0fe"]
-[ext_resource type="Texture2D" uid="uid://bdcjh5bat83ic" path="res://assets/sprites/trucks/excavator.png" id="5_lgsma"]
+[ext_resource type="Script" uid="uid://dnud481iuhnme" path="res://scripts/truck.gd" id="1_wd782"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_f270p"]
+[ext_resource type="Texture2D" uid="uid://d3kenotkcfvub" path="res://assets/sprites/trucks/cement_mixer.png" id="3_6akaj"]
 
-[sub_resource type="Resource" id="Resource_a4wfb"]
-script = ExtResource("2_fy0fe")
-title = "Swing"
-description = "Swing arm to hit all enemies"
-is_area_target = true
-damage = 20
-heat_cost = 3
+[sub_resource type="Resource" id="Resource_wd782"]
+script = ExtResource("2_f270p")
+title = "Pour Cement"
+description = "Stops enemy movement"
+move_type = 1
+heat_cost = 5
+stun_turn = 3
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
-[node name="Excavator" type="Node2D"]
+[node name="CementMixer" type="Node2D"]
 z_index = 5
-script = ExtResource("1_a4wfb")
+script = ExtResource("1_wd782")
 title = "Excavator"
-speed = 25
-moves = Array[ExtResource("2_fy0fe")]([SubResource("Resource_a4wfb")])
+max_hp = 12
+speed = 35
+moves = Array[ExtResource("2_f270p")]([SubResource("Resource_wd782")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("5_lgsma")
-flip_h = true
+texture = ExtResource("3_6akaj")
 
 [node name="HpLabel" type="Label" parent="."]
 texture_filter = 1

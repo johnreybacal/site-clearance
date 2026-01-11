@@ -40,10 +40,9 @@ var bg_y = BG_Y_INITIAL
 var sun_position = 0
 
 func _ready() -> void:
-    for truck_scene in truck_scenes:
-        var truck: Truck = truck_scene.instantiate()
-        truck.position = Vector2(-300, 0)
-        add_fighter(truck)
+    var truck: Truck = truck_scenes.pick_random().instantiate()
+    truck.position = Vector2(-300, 0)
+    add_fighter(truck)
 
     add_enemy()
     update_queue()

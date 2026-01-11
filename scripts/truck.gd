@@ -2,7 +2,6 @@ extends Fighter
 class_name Truck
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
-@onready var heal_label: Label = $HeatLabel
 
 @export var max_heat_level = 10
 var heat_level = 0
@@ -17,7 +16,7 @@ func _ready():
     moves.push_front(move_cd)
 
 func on_heat_updated():
-    heal_label.text = "HEAT: " + str(heat_level) + " / " + str(max_heat_level)
+    update_effect_label()
     var color: float = 1 - (heat_level as float / 25)
     sprite_2d.modulate.b = color
     sprite_2d.modulate.g = color
@@ -28,3 +27,7 @@ func cool_down(amount: int):
        heat_level = 0
 
     on_heat_updated()
+
+func update_effect_label():
+    super.update_effect_label()
+    effect_label.text = "HEAT: " + str(heat_level) + " / " + str(max_heat_level) + "\n" + effect_label.text
