@@ -22,6 +22,15 @@ func _ready():
     hp = max_hp
     update_hp_label()
 
+    var sprite = get_node("Sprite2D") as Sprite2D
+    var shadow = sprite.duplicate()
+    shadow.flip_v = true
+    shadow.modulate = "#00000044"
+    shadow.position = Vector2(5, shadow.texture.get_height() * .66)
+    shadow.scale = Vector2(sprite.scale.x, sprite.scale.y / 2)
+    shadow.skew = deg_to_rad(-15)
+    add_child(shadow)
+
 func take_damage(damage: int):
     hp -= damage
     update_hp_label()

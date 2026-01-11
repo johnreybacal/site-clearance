@@ -2,9 +2,8 @@
 
 [ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_hldv3"]
 [ext_resource type="Script" uid="uid://dnud481iuhnme" path="res://scripts/truck.gd" id="2_w5yki"]
-[ext_resource type="Resource" uid="uid://cht21nviifxg3" path="res://scripts/moves/trucks/cool_down.tres" id="3_0xl1e"]
-[ext_resource type="Resource" uid="uid://dtiqaxlx7y7on" path="res://scripts/moves/trucks/run_over.tres" id="3_bh7du"]
-[ext_resource type="Texture2D" uid="uid://cnr561cd2d6fo" path="res://assets/sprites/trucks/excavator.png" id="5_bh7du"]
+[ext_resource type="Resource" uid="uid://cht21nviifxg3" path="res://moves/trucks/cool_down.tres" id="3_0xl1e"]
+[ext_resource type="Resource" uid="uid://dtiqaxlx7y7on" path="res://moves/trucks/run_over.tres" id="3_bh7du"]
 
 [sub_resource type="Resource" id="Resource_1n0o7"]
 script = ExtResource("2_hldv3")
@@ -15,6 +14,9 @@ damage = 1
 heat_cost = 3
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hldv3"]
+load_path = "res://.godot/imported/excavator.png-b17a9be501f09bf3dd42d6d26fa44ba4.ctex"
+
 [node name="Truck" type="Node2D"]
 script = ExtResource("2_w5yki")
 moves = Array[ExtResource("2_hldv3")]([ExtResource("3_0xl1e"), ExtResource("3_bh7du"), SubResource("Resource_1n0o7")])
@@ -22,7 +24,7 @@ moves = Array[ExtResource("2_hldv3")]([ExtResource("3_0xl1e"), ExtResource("3_bh
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 2
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("5_bh7du")
+texture = SubResource("CompressedTexture2D_hldv3")
 
 [node name="HpLabel" type="Label" parent="."]
 texture_filter = 1

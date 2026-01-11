@@ -1,10 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bpxwqemfvxrnj"]
+[gd_scene load_steps=5 format=3 uid="uid://bpxwqemfvxrnj"]
 
 [ext_resource type="Script" uid="uid://dnud481iuhnme" path="res://scripts/truck.gd" id="1_a4wfb"]
 [ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_fy0fe"]
-[ext_resource type="Resource" uid="uid://dtiqaxlx7y7on" path="res://scripts/moves/trucks/run_over.tres" id="3_papol"]
-[ext_resource type="Resource" uid="uid://cht21nviifxg3" path="res://scripts/moves/trucks/cool_down.tres" id="4_lgsma"]
-[ext_resource type="Texture2D" uid="uid://cnr561cd2d6fo" path="res://assets/sprites/trucks/excavator.png" id="5_lgsma"]
+[ext_resource type="Texture2D" uid="uid://bdcjh5bat83ic" path="res://assets/sprites/trucks/excavator.png" id="5_lgsma"]
 
 [sub_resource type="Resource" id="Resource_a4wfb"]
 script = ExtResource("2_fy0fe")
@@ -16,14 +14,15 @@ heat_cost = 3
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
 [node name="Excavator" type="Node2D"]
+z_index = 10
 script = ExtResource("1_a4wfb")
-moves = Array[ExtResource("2_fy0fe")]([ExtResource("4_lgsma"), ExtResource("3_papol"), SubResource("Resource_a4wfb")])
 title = "Excavator"
+moves = Array[ExtResource("2_fy0fe")]([SubResource("Resource_a4wfb")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture_filter = 2
-scale = Vector2(0.5, 0.5)
+texture_filter = 1
 texture = ExtResource("5_lgsma")
+flip_h = true
 
 [node name="HpLabel" type="Label" parent="."]
 texture_filter = 1
