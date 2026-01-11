@@ -1,8 +1,13 @@
 extends Node2D
 class_name GameManager
 
+class FighterQueue:
+    var fighter: Fighter
+    var move_index: int
 
 @export var hud: HUD
+@export var truck_scenes: Array[PackedScene]
+@export var enemy_scene: PackedScene
 
 var tick = 0
 var is_ticking = true
@@ -11,14 +16,6 @@ var tick_interval = TICK_INTERVAL
 
 var prev_move_index: int = 0
 var move_index: int = 0
-const MAX_SPEED = 100
-
-@export var truck_scenes: Array[PackedScene]
-@export var enemy_scene: PackedScene
-
-class FighterQueue:
-    var fighter: Fighter
-    var move_index: int
 
 var fighters: Array[Fighter] = []
 var turn_queue: Array[FighterQueue] = []
@@ -42,52 +39,6 @@ func _ready() -> void:
     hud.on_move_cancelled.connect(on_fighter_turn)
     hud.on_target_selected.connect(on_move_confirmed)
 
-func add_enemy():
-    var enemy: Enemy = enemy_scene.instantiate()
-    enemy.position = Vector2(300, 0)
-    enemy.title = "Ankylosaur"
-    enemy.move_index = prev_move_index
-    enemy.update_move_index()
-    add_fighter(enemy)
-
-func add_fighter(fighter: Fighter):
-    add_child.call_deferred(fighter)
-    fighter.on_died.connect(remove_fighter)
-    fighters.append(fighter)
-
-func remove_fighter(fighter: Fighter):
-    fighters = fighters.filter(func(f: Fighter): return f != fighter)
-    turn_queue = turn_queue.filter(func(f: FighterQueue): return f.fighter != fighter)
-    turn_fighters = turn_fighters.filter(func(f: Fighter): return f != fighter)
-    hud.update_turn_display(turn_queue, new_queue_item(current_fighter, move_index))
-
-    if fighter is Enemy:
-        add_enemy()
-
-func on_move_selected(move: Move):
-    if move.target_type == Move.TargetType.Enemy:
-        var enemies = fighters.filter(func(f: Fighter): return f is Enemy)
-        if move.is_area_target:
-            on_move_confirmed(move, enemies)
-        else:
-            hud.show_targets(move, enemies)
-    elif move.target_type == Move.TargetType.Ally:
-        var allies = fighters.filter(func(f: Fighter): return f is Truck and f != current_fighter)
-        if move.is_area_target:
-            on_move_confirmed(move, allies)
-        else:
-            hud.show_targets(move, allies)
-    else:
-        on_move_confirmed(move, [])
-
-func on_move_confirmed(move: Move, targets: Array[Fighter]):
-    current_fighter.perform_move(move, targets)
-    if current_fighter_index < len(turn_fighters):
-        is_next_turn = true
-    else:
-        is_ticking = true
-    hud.hide_moves()
-
     
 func _process(delta: float) -> void:
     if is_ticking:
@@ -105,6 +56,8 @@ func _process(delta: float) -> void:
         hud.update_turn_display(turn_queue, new_queue_item(current_fighter, move_index))
         is_next_turn = false
         on_fighter_turn()
+
+#region Queue Management
 
 func new_queue_item(f: Fighter, i: int):
     var queue_item = FighterQueue.new()
@@ -143,6 +96,32 @@ func on_tick():
     is_next_turn = true
     is_ticking = false
 
+#endregion
+
+#region Fighter Management
+
+func add_enemy():
+    var enemy: Enemy = enemy_scene.instantiate()
+    enemy.position = Vector2(300, 0)
+    enemy.title = "Ankylosaur"
+    enemy.move_index = prev_move_index
+    enemy.update_move_index()
+    add_fighter(enemy)
+
+func add_fighter(fighter: Fighter):
+    add_child.call_deferred(fighter)
+    fighter.on_died.connect(remove_fighter)
+    fighters.append(fighter)
+
+func remove_fighter(fighter: Fighter):
+    fighters = fighters.filter(func(f: Fighter): return f != fighter)
+    turn_queue = turn_queue.filter(func(f: FighterQueue): return f.fighter != fighter)
+    turn_fighters = turn_fighters.filter(func(f: Fighter): return f != fighter)
+    hud.update_turn_display(turn_queue, new_queue_item(current_fighter, move_index))
+
+    if fighter is Enemy:
+        add_enemy()
+
 func on_fighter_turn():
     current_fighter.move_to_center()
     current_fighter.on_ready.connect(on_fighter_ready)
@@ -156,6 +135,33 @@ func on_fighter_ready():
         await get_tree().create_timer(1.0).timeout
         enemy_decide()
         
+#endregion
+
+#region Move Management
+
+func on_move_selected(move: Move):
+    if move.target_type == Move.TargetType.Enemy:
+        var enemies = fighters.filter(func(f: Fighter): return f is Enemy)
+        if move.is_area_target:
+            on_move_confirmed(move, enemies)
+        else:
+            hud.show_targets(move, enemies)
+    elif move.target_type == Move.TargetType.Ally:
+        var allies = fighters.filter(func(f: Fighter): return f is Truck and f != current_fighter)
+        if move.is_area_target:
+            on_move_confirmed(move, allies)
+        else:
+            hud.show_targets(move, allies)
+    else:
+        on_move_confirmed(move, [])
+
+func on_move_confirmed(move: Move, targets: Array[Fighter]):
+    current_fighter.perform_move(move, targets)
+    if current_fighter_index < len(turn_fighters):
+        is_next_turn = true
+    else:
+        is_ticking = true
+    hud.hide_moves()
 
 func enemy_decide():
     var move = current_fighter.moves.pick_random()
@@ -167,3 +173,5 @@ func enemy_decide():
         else:
             targets = [trucks.pick_random()]
     on_move_confirmed.call_deferred(move, targets)
+
+#endregion
