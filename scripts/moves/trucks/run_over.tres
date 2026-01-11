@@ -6,7 +6,7 @@
 script = ExtResource("1_41ncg")
 title = "Run over"
 description = "Run over a single enemy, dealing damage to the enemy and to the truck"
-damage = 1.0
-self_damage = 0.25
-heat_cost = 1.0
+damage = 3
+self_damage = 1
+heat_cost = 2
 metadata/_custom_type_script = "uid://qjboko3yokku"

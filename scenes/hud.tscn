@@ -43,9 +43,3 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 20
-
-[node name="CooldownButton" type="Button" parent="BottomPanel/TurnDecision"]
-layout_mode = 2
-text = "Cool down"
-
-[connection signal="pressed" from="BottomPanel/TurnDecision/CooldownButton" to="." method="_on_cooldown_button_pressed"]

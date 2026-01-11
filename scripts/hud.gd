@@ -6,33 +6,57 @@ class_name HUD
 
 @onready var turn_display: HBoxContainer = $TopPanel/TurnDisplay
 
-signal temp_next()
+signal on_move_selected(move: Move)
+signal on_move_cancelled()
+signal on_target_selected(move: Move, targets: Array[Fighter])
 
 const MOVE_BUTTON_GROUP = "custom_move_button"
+var fighters: Array[Fighter] = []
 
 func _ready():
     bottom_panel.visible = false
 
-func _on_cooldown_button_pressed() -> void:
-    temp_next.emit()
-
 func hide_moves():
     bottom_panel.visible = false
 
-func show_moves(moves: Array[Move]):
-    var move_buttons = get_tree().get_nodes_in_group(MOVE_BUTTON_GROUP)
-    for move_button in move_buttons:
-        move_button.queue_free.call_deferred()
+func show_moves(truck: Truck):
+    var buttons = get_tree().get_nodes_in_group(MOVE_BUTTON_GROUP)
+    for button in buttons:
+        button.queue_free.call_deferred()
 
     bottom_panel.visible = true
 
-    for move in moves:
+    for move in truck.moves:
         var move_button = Button.new()
         move_button.text = move.title + "[" + str(move.heat_cost) + "]"
+        if truck.heat_level > truck.max_heat_level and move.heat_cost > 0:
+            move_button.disabled = true
         move_button.tooltip_text = move.description
         move_button.add_to_group(MOVE_BUTTON_GROUP)
-        move_button.pressed.connect(_on_cooldown_button_pressed)
+        move_button.pressed.connect(Callable(on_move_selected.emit).bind(move))
         turn_decision.add_child.call_deferred(move_button)
+
+func show_targets(move: Move, targets: Array[Fighter]):
+    var buttons = get_tree().get_nodes_in_group(MOVE_BUTTON_GROUP)
+    for button in buttons:
+        button.queue_free.call_deferred()
+
+    bottom_panel.visible = true
+
+    var cancel_button = Button.new()
+    cancel_button.text = "Cancel"
+    cancel_button.add_to_group(MOVE_BUTTON_GROUP)
+    cancel_button.pressed.connect(on_move_cancelled.emit)
+    turn_decision.add_child.call_deferred(cancel_button)
+
+    for target in targets:
+        var target_button = Button.new()
+        target_button.text = target.title
+        target_button.add_to_group(MOVE_BUTTON_GROUP)
+        var single_target: Array[Fighter] = [target]
+        target_button.pressed.connect(Callable(on_target_selected.emit).bind(move, single_target))
+        turn_decision.add_child.call_deferred(target_button)
+
 
 func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameManager.FighterQueue):
     for node in turn_display.get_children():

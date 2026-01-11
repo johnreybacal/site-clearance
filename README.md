@@ -56,5 +56,6 @@ Road roller (combat)
 
 
 ## Credits:
-- https://void1gaming.itch.io/pixel-construction-pack
+- <a href="https://www.flaticon.com/free-icons/excavator" title="excavator icons">Excavator icons created by nawicon - Flaticon</a>
 - https://swishos.itch.io/swishs-sprite-pack-24x24
+- https://ninjikin.itch.io/grass

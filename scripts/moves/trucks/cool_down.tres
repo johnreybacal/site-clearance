@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Move" load_steps=2 format=3 uid="uid://cht21nviifxg3"]
+
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="1_rekow"]
+
+[resource]
+script = ExtResource("1_rekow")
+title = "Cool Down"
+description = "Skip a turn and let your truck reduce heat level"
+move_type = 1
+target_type = 2
+heat_reduction = 5
+metadata/_custom_type_script = "uid://qjboko3yokku"

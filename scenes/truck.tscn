@@ -1,14 +1,56 @@
-[gd_scene load_steps=5 format=3 uid="uid://c0l64k73txom8"]
+[gd_scene load_steps=7 format=3 uid="uid://c0l64k73txom8"]
 
-[ext_resource type="Texture2D" uid="uid://ctdn5c01i4msc" path="res://assets/sprites/trucks/Excavator.png" id="1_8ivgs"]
 [ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_hldv3"]
 [ext_resource type="Script" uid="uid://dnud481iuhnme" path="res://scripts/truck.gd" id="2_w5yki"]
+[ext_resource type="Resource" uid="uid://cht21nviifxg3" path="res://scripts/moves/trucks/cool_down.tres" id="3_0xl1e"]
 [ext_resource type="Resource" uid="uid://dtiqaxlx7y7on" path="res://scripts/moves/trucks/run_over.tres" id="3_bh7du"]
+[ext_resource type="Texture2D" uid="uid://cnr561cd2d6fo" path="res://assets/sprites/trucks/excavator.png" id="5_bh7du"]
+
+[sub_resource type="Resource" id="Resource_1n0o7"]
+script = ExtResource("2_hldv3")
+title = "Swing"
+description = "Hit all enemies"
+is_area_target = true
+damage = 1
+heat_cost = 3
+metadata/_custom_type_script = "uid://qjboko3yokku"
 
 [node name="Truck" type="Node2D"]
 script = ExtResource("2_w5yki")
-moves = Array[ExtResource("2_hldv3")]([ExtResource("3_bh7du")])
+moves = Array[ExtResource("2_hldv3")]([ExtResource("3_0xl1e"), ExtResource("3_bh7du"), SubResource("Resource_1n0o7")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_bh7du")
+
+[node name="HpLabel" type="Label" parent="."]
 texture_filter = 1
-texture = ExtResource("1_8ivgs")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 34.0
+offset_right = 20.0
+offset_bottom = 57.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "HP:"
+
+[node name="HeatLabel" type="Label" parent="."]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.5
+offset_top = 54.0
+offset_right = 22.5
+offset_bottom = 77.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HEAT:"

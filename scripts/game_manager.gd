@@ -29,6 +29,7 @@ var is_next_turn: bool = false
 
 var is_player_turn: bool = false
 
+
 func _ready() -> void:
     for truck_scene in truck_scenes:
         var truck: Truck = truck_scene.instantiate()
@@ -38,21 +39,41 @@ func _ready() -> void:
 
     var enemy: Enemy = enemy_scene.instantiate()
     enemy.position = Vector2(300, 0)
+    enemy.title = "Ankylosaur"
     add_child.call_deferred(enemy)
     fighters.append(enemy)
 
     update_queue()
 
-    hud.temp_next.connect(on_next)
+    hud.on_move_selected.connect(on_move_selected)
+    hud.on_move_cancelled.connect(on_fighter_turn)
+    hud.on_target_selected.connect(on_move_confirmed)
 
-func on_next():
+func on_move_selected(move: Move):
+    if move.target_type == Move.TargetType.Enemy:
+        var enemies = fighters.filter(func(f: Fighter): return f is Enemy)
+        if move.is_area_target:
+            on_move_confirmed(move, enemies)
+        else:
+            hud.show_targets(move, enemies)
+    elif move.target_type == Move.TargetType.Ally:
+        var allies = fighters.filter(func(f: Fighter): return f is Truck and f != current_fighter)
+        if move.is_area_target:
+            on_move_confirmed(move, allies)
+        else:
+            hud.show_targets(move, allies)
+    else:
+        on_move_confirmed(move, [])
+
+func on_move_confirmed(move: Move, targets: Array[Fighter]):
+    current_fighter.perform_move(move, targets)
     if current_fighter_index < len(turn_fighters):
         is_next_turn = true
     else:
         is_ticking = true
     hud.hide_moves()
-    
 
+    
 func _process(delta: float) -> void:
     if is_ticking:
         tick_interval -= delta
@@ -109,7 +130,20 @@ func on_tick():
 
 func on_fighter_turn():
     if current_fighter is Truck:
-        hud.show_moves(current_fighter.moves)
+        hud.fighters = fighters
+        hud.show_moves(current_fighter)
     else:
         await get_tree().create_timer(1.0).timeout
-        on_next.call_deferred()
+        enemy_decide()
+        
+
+func enemy_decide():
+    var move = current_fighter.moves.pick_random()
+    var targets: Array[Fighter] = []
+    if move.move_type == Move.MoveType.Attack:
+        var trucks = fighters.filter(func(f: Fighter): return f is Truck)
+        if move.is_area_target:
+            targets = trucks
+        else:
+            targets = [trucks.pick_random()]
+    on_move_confirmed.call_deferred(move, targets)
