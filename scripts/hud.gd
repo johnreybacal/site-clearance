@@ -70,7 +70,7 @@ func show_targets(move: Move, targets: Array[Fighter]):
         turn_decision.add_child.call_deferred(target_button)
 
 
-func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameManager.FighterQueue):
+func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameManager.FighterQueue = null):
     for node in turn_display.get_children():
         node.queue_free()
 
@@ -79,7 +79,9 @@ func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameMa
         turn.texture = (item.fighter.get_node("Sprite2D") as Sprite2D).texture
         turn.fighter_id = item.fighter.get_instance_id()
         turn.move_index = item.move_index
-        var is_current_fighter = turn.fighter_id == current.fighter.get_instance_id() and turn.move_index == current.move_index
-        if not is_current_fighter:
-            turn.modulate.a = 0.5
+        turn.modulate.a = 0.5
+        if current:
+            var is_current_fighter = turn.fighter_id == current.fighter.get_instance_id() and turn.move_index == current.move_index
+            if is_current_fighter:
+                turn.modulate.a = 1
         turn_display.add_child(turn)

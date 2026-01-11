@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_hldv3"]
 [ext_resource type="Script" uid="uid://dnud481iuhnme" path="res://scripts/truck.gd" id="2_w5yki"]
-[ext_resource type="Resource" uid="uid://cht21nviifxg3" path="res://moves/trucks/cool_down.tres" id="3_0xl1e"]
-[ext_resource type="Resource" uid="uid://dtiqaxlx7y7on" path="res://moves/trucks/run_over.tres" id="3_bh7du"]
+[ext_resource type="Resource" uid="uid://cht21nviifxg3" path="res://resources/moves/trucks/cool_down.tres" id="3_0xl1e"]
+[ext_resource type="Resource" uid="uid://dtiqaxlx7y7on" path="res://resources/moves/trucks/run_over.tres" id="3_bh7du"]
 
 [sub_resource type="Resource" id="Resource_1n0o7"]
 script = ExtResource("2_hldv3")

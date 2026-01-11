@@ -8,7 +8,10 @@ class FighterQueue:
 @export var hud: HUD
 @export var truck_scenes: Array[PackedScene]
 @export var enemy_scene: PackedScene
+@export var bg_tile_map: TileMapLayer
+@export var bg_tile_set: TileSet
 
+var MAX_TICK = 12
 var tick = 0
 var is_ticking = true
 const TICK_INTERVAL = 1
@@ -24,6 +27,17 @@ var current_fighter_index: int
 var current_fighter: Fighter
 var is_next_turn: bool = false
 
+var is_proceeding = false
+const PROCEED_INTERVAL = 2
+var proceed_interval = PROCEED_INTERVAL
+var proceeds: int = 0
+const BG_X_INITIAL = -13
+var bg_x = BG_X_INITIAL
+const BG_Y_INITIAL = -7
+var bg_y = BG_Y_INITIAL
+@export var sunlight_foreground: Sprite2D
+@export var sunlight_gradient: GradientTexture2D
+var sun_position = 0
 
 func _ready() -> void:
     for truck_scene in truck_scenes:
@@ -32,20 +46,36 @@ func _ready() -> void:
         add_fighter(truck)
 
     add_enemy()
-
     update_queue()
+    hud.update_turn_display(turn_queue)
+
+    draw_bg(true)
+    sunlight_foreground.texture = sunlight_gradient
 
     hud.on_move_selected.connect(on_move_selected)
     hud.on_move_cancelled.connect(on_fighter_turn)
     hud.on_target_selected.connect(on_move_confirmed)
 
-    
 func _process(delta: float) -> void:
+    if sunlight_foreground.texture.fill_from.x != sun_position:
+        sunlight_foreground.texture.fill_from.x = move_toward(sunlight_foreground.texture.fill_from.x, sun_position, delta / 3)
+    if is_proceeding:
+        bg_tile_map.position += Vector2.LEFT * delta * 150
+        proceed_interval -= delta
+        if proceed_interval <= 0:
+            add_enemy()
+            proceed_interval = PROCEED_INTERVAL
+            is_proceeding = false
+            update_queue()
+            hud.update_turn_display(turn_queue)
+        return
     if is_ticking:
         tick_interval -= delta
         if tick_interval <= 0:
             tick_interval = TICK_INTERVAL
             tick += 1
+            if tick == MAX_TICK:
+                print("day over")
             on_tick()
     if is_next_turn:
         if len(turn_fighters) == 0:
@@ -56,6 +86,7 @@ func _process(delta: float) -> void:
         hud.update_turn_display(turn_queue, new_queue_item(current_fighter, move_index))
         is_next_turn = false
         on_fighter_turn()
+    
 
 #region Queue Management
 
@@ -70,6 +101,7 @@ func update_queue():
         if fighter.move_index == move_index:
             fighter.update_move_index()
             turn_queue.append(new_queue_item(fighter, fighter.move_index))
+        fighter.project_upcoming_move_index()
         turn_queue.append_array(fighter.upcoming_move_indices.map(func(i: int): return new_queue_item(fighter, i)))
 
     var unique_queue: Array[FighterQueue] = []
@@ -87,10 +119,18 @@ func on_tick():
     prev_move_index = move_index
     move_index = indices.min()
 
+    print("tick: ", tick)
+
     turn_fighters.assign(turn_queue.filter(
         func(f: FighterQueue): return f.move_index == move_index
         ).map(func(f: FighterQueue): return f.fighter))
     update_queue()
+
+    var trucks = get_trucks() as Array[Truck]
+    for truck in trucks:
+        truck.cool_down(1)
+
+    sun_position = tick as float / MAX_TICK
 
     current_fighter_index = 0
     is_next_turn = true
@@ -103,9 +143,8 @@ func on_tick():
 func add_enemy():
     var enemy: Enemy = enemy_scene.instantiate()
     enemy.position = Vector2(300, 0)
+    enemy.max_hp += randi_range(proceeds - 1, proceeds + 2)
     enemy.title = "Ankylosaur"
-    enemy.move_index = prev_move_index
-    enemy.update_move_index()
     add_fighter(enemy)
 
 func add_fighter(fighter: Fighter):
@@ -120,7 +159,16 @@ func remove_fighter(fighter: Fighter):
     hud.update_turn_display(turn_queue, new_queue_item(current_fighter, move_index))
 
     if fighter is Enemy:
-        add_enemy()
+        var enemies = get_enemies()
+        if len(enemies) == 0:
+            proceed()
+    else:
+        var trucks = get_trucks()
+        if len(trucks) == 0:
+            turn_queue.clear()
+            turn_fighters.clear()
+            hud.update_turn_display([])
+
 
 func on_fighter_turn():
     current_fighter.move_to_center()
@@ -141,7 +189,7 @@ func on_fighter_ready():
 
 func on_move_selected(move: Move):
     if move.target_type == Move.TargetType.Enemy:
-        var enemies = fighters.filter(func(f: Fighter): return f is Enemy)
+        var enemies = get_enemies()
         if move.is_area_target:
             on_move_confirmed(move, enemies)
         else:
@@ -167,11 +215,55 @@ func enemy_decide():
     var move = current_fighter.moves.pick_random()
     var targets: Array[Fighter] = []
     if move.move_type == Move.MoveType.Attack:
-        var trucks = fighters.filter(func(f: Fighter): return f is Truck)
+        var trucks = get_trucks()
         if move.is_area_target:
             targets = trucks
         else:
             targets = [trucks.pick_random()]
     on_move_confirmed.call_deferred(move, targets)
+
+#endregion
+
+#region Proceed
+
+func proceed():
+    current_fighter.return_to_initial_position()
+    current_fighter = null
+    turn_queue.clear()
+    turn_fighters.clear()
+    hud.update_turn_display([])
+    is_proceeding = true
+    move_index = 0
+    prev_move_index = 0
+    for fighter in fighters:
+        fighter.move_index = 0
+    draw_bg()
+
+func draw_bg(initial = false):
+    var source_id = bg_tile_set.get_source_id(0)
+    var atlas_coords = [Vector2i(8, 2), Vector2i(0, 0), Vector2i(2, 2), Vector2i(2, 6), Vector2i(6, 2)]
+
+    var max_bg_x = bg_x + 11
+    if initial:
+        max_bg_x = abs(BG_X_INITIAL)
+        
+    for x in range(bg_x, max_bg_x):
+        for y in range(bg_y, bg_y + abs(BG_Y_INITIAL) * 2):
+            var coords = Vector2i(x, y)
+            bg_tile_map.set_cell(coords, source_id, atlas_coords.pick_random())
+        bg_x = x
+    bg_y = BG_Y_INITIAL
+
+
+#endregion
+
+#region utils
+
+func get_trucks():
+    return fighters.filter(func(f: Fighter): return f is Truck)
+
+func get_enemies():
+    return fighters.filter(func(f: Fighter): return f is Enemy)
+
 
 #endregion

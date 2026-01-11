@@ -99,6 +99,8 @@ func update_hp_label():
 
 func update_move_index():
     move_index += MAX_SPEED - speed
+
+func project_upcoming_move_index():
     var move_index_projection = move_index
     upcoming_move_indices.clear()
     for i in range(1):
@@ -122,10 +124,9 @@ func perform_move(move: Move, targets: Array[Fighter]):
     if self is Truck:
         var truck = self
         truck.heat_level += move.heat_cost
-        truck.heat_level -= move.heat_reduction
-        if truck.heat_level < 0:
-            truck.heat_level = 0
-        truck.update_heat_label()
+        if move.heat_reduction:
+            truck.cool_down(move.heat_reduction)
+        truck.on_heat_updated()
 
     if move.self_damage > 0:
         take_damage(move.self_damage, true)

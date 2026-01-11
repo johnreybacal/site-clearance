@@ -7,14 +7,24 @@ class_name Truck
 @export var max_heat_level = 10
 var heat_level = 0
 
-var cool_down = preload("res://moves/trucks/cool_down.tres")
-var run_over = preload("res://moves/trucks/run_over.tres")
 
 func _ready():
     super._ready()
-    update_heat_label()
-    moves.push_front(run_over)
-    moves.push_front(cool_down)
+    on_heat_updated()
+    var move_cd = preload("res://resources/moves/trucks/cool_down.tres")
+    var move_ro = preload("res://resources/moves/trucks/run_over.tres")
+    moves.push_front(move_ro)
+    moves.push_front(move_cd)
 
-func update_heat_label():
+func on_heat_updated():
     heal_label.text = "HEAT: " + str(heat_level) + " / " + str(max_heat_level)
+    var color: float = 1 - (heat_level as float / 25)
+    sprite_2d.modulate.b = color
+    sprite_2d.modulate.g = color
+
+func cool_down(amount: int):
+    heat_level -= amount
+    if heat_level < 0:
+       heat_level = 0
+
+    on_heat_updated()

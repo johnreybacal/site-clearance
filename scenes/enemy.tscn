@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://mu6pa8fl4ivp" path="res://scripts/enemy.gd" id="1_md0e3"]
 [ext_resource type="Texture2D" uid="uid://buiciodsugsqg" path="res://assets/sprites/enemies/swish_anky.png" id="2_4ra3w"]
 [ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_5uy6h"]
-[ext_resource type="Resource" uid="uid://bqc38ipa5goau" path="res://moves/enemies/attack.tres" id="3_c4w8v"]
+[ext_resource type="Resource" uid="uid://bqc38ipa5goau" path="res://resources/moves/enemies/attack.tres" id="3_c4w8v"]
 
 [node name="Enemy" type="Node2D"]
 z_index = 5
