@@ -6,7 +6,7 @@ class_name GameManager
 
 var tick = 0
 var is_ticking = true
-const TICK_INTERVAL = 2
+const TICK_INTERVAL = 1
 var tick_interval = TICK_INTERVAL
 
 var prev_move_index: int = -1
@@ -27,27 +27,34 @@ var current_fighter_index: int
 var current_fighter: Fighter
 var is_next_turn: bool = false
 
-var is_player_turn: bool = false
-
 
 func _ready() -> void:
     for truck_scene in truck_scenes:
         var truck: Truck = truck_scene.instantiate()
         truck.position = Vector2(-300, 0)
-        add_child.call_deferred(truck)
-        fighters.append(truck)
+        add_fighter(truck)
 
     var enemy: Enemy = enemy_scene.instantiate()
     enemy.position = Vector2(300, 0)
     enemy.title = "Ankylosaur"
-    add_child.call_deferred(enemy)
-    fighters.append(enemy)
+    add_fighter(enemy)
 
     update_queue()
 
     hud.on_move_selected.connect(on_move_selected)
     hud.on_move_cancelled.connect(on_fighter_turn)
     hud.on_target_selected.connect(on_move_confirmed)
+
+func add_fighter(fighter: Fighter):
+    add_child.call_deferred(fighter)
+    fighter.on_died.connect(remove_fighter)
+    fighters.append(fighter)
+
+func remove_fighter(fighter: Fighter):
+    fighters = fighters.filter(func(f: Fighter): return f != fighter)
+    turn_queue = turn_queue.filter(func(f: FighterQueue): return f.fighter != fighter)
+    turn_fighters = turn_fighters.filter(func(f: Fighter): return f != fighter)
+    hud.update_turn_display(turn_queue, new_queue_item(current_fighter, move_index))
 
 func on_move_selected(move: Move):
     if move.target_type == Move.TargetType.Enemy:
@@ -129,7 +136,11 @@ func on_tick():
     is_ticking = false
 
 func on_fighter_turn():
-    current_fighter.current_shake = 2.5
+    current_fighter.move_to_center()
+    current_fighter.on_ready.connect(on_fighter_ready)
+
+func on_fighter_ready():
+    current_fighter.on_ready.disconnect(on_fighter_ready)
     if current_fighter is Truck:
         hud.fighters = fighters
         hud.show_moves(current_fighter)

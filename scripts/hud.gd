@@ -9,7 +9,6 @@ class_name HUD
 signal on_move_selected(move: Move)
 signal on_move_cancelled()
 signal on_target_selected(move: Move, targets: Array[Fighter])
-signal on_target_hovered(fighter: Fighter)
 
 const MOVE_BUTTON_GROUP = "move_button"
 const TARGET_BUTTON_GROUP = "target_button"
@@ -19,7 +18,7 @@ var fighters: Array[Fighter] = []
 func _ready():
     bottom_panel.visible = false
 
-func _process(delta: float):
+func _process(_delta: float):
     for node in turn_decision.get_children():
         if node is Button:
             var button = node

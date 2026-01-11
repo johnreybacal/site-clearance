@@ -9,7 +9,7 @@ script = ExtResource("2_fy0fe")
 title = "Swing"
 description = "Swing arm to hit all enemies"
 is_area_target = true
-damage = 1
+damage = 10
 heat_cost = 3
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
