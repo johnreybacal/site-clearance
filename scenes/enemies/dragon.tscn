@@ -1,9 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://xbwrp7gvi42b"]
+[gd_scene load_steps=5 format=3 uid="uid://xbwrp7gvi42b"]
 
 [ext_resource type="Script" uid="uid://mu6pa8fl4ivp" path="res://scripts/enemy.gd" id="1_gr06a"]
 [ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_2jhgq"]
-[ext_resource type="Resource" uid="uid://bqc38ipa5goau" path="res://resources/moves/enemies/attack.tres" id="3_ew4wb"]
-[ext_resource type="Resource" uid="uid://bnlt4hulr7ww" path="res://resources/moves/enemies/rest.tres" id="4_lflv6"]
 [ext_resource type="Texture2D" uid="uid://pksw6u4o41m7" path="res://assets/sprites/enemies/swish_winged_dragon.png" id="5_m5qde"]
 
 [sub_resource type="Resource" id="Resource_ptdwj"]
@@ -20,7 +18,7 @@ script = ExtResource("1_gr06a")
 title = "Dragon"
 max_hp = 14.0
 speed = 38.0
-moves = Array[ExtResource("2_2jhgq")]([ExtResource("3_ew4wb"), ExtResource("4_lflv6"), SubResource("Resource_ptdwj")])
+moves = Array[ExtResource("2_2jhgq")]([SubResource("Resource_ptdwj")])
 
 [node name="TextureContainer" type="Node2D" parent="."]
 

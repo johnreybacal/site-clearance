@@ -185,6 +185,8 @@ func add_enemies():
         var enemy: Enemy = enemy_scenes.pick_random().instantiate()
         enemy.position = enemies_position[num_enemies - 1][i]
         enemy.max_hp += randf_range(enemy.max_hp - 1, enemy.max_hp + proceeds + 2)
+        enemy.on_move_selected.connect(on_move_selected)
+        enemy.on_move_confirmed.connect(on_move_confirmed)
         add_fighter(enemy)
 
 func add_fighter(fighter: Fighter):
@@ -220,10 +222,11 @@ func on_fighter_ready():
     if current_fighter is Truck:
         hud.fighters = fighters
         hud.show_moves(current_fighter)
-    else:
+    elif current_fighter is Enemy:
         await get_tree().create_timer(1.0).timeout
-        enemy_decide()
-        
+        current_fighter.decide()
+
+
 #endregion
 
 #region Move Management
@@ -247,20 +250,24 @@ func on_target_hovered(target_id: int):
     target.highlight_duration = .1
 
 func on_move_selected(move: Move):
-    if move.target_type == Move.TargetType.Enemy:
-        var enemies = get_enemies()
-        if move.is_area_target:
-            on_move_confirmed(move, enemies)
-        else:
-            hud.show_targets(move, enemies)
-    elif move.target_type == Move.TargetType.Ally:
-        var allies = get_trucks()
-        if move.is_area_target:
-            on_move_confirmed(move, allies)
-        else:
-            hud.show_targets(move, allies)
-    else:
+    if move.target_type == Move.TargetType.Self:
         on_move_confirmed(move, [])
+    else:
+        var targets: Array[Fighter] = []
+
+        if current_fighter is Truck:
+            targets = get_trucks() if move.target_type == Move.TargetType.Ally else get_enemies()
+        else:
+            targets = get_enemies() if move.target_type == Move.TargetType.Ally else get_trucks()
+
+        if move.is_area_target:
+            on_move_confirmed(move, targets)
+        else:
+            if current_fighter is Enemy:
+                current_fighter.select_target(move, targets)
+            else:
+                hud.show_targets(move, targets)
+
 
 func on_move_confirmed(move: Move, targets: Array[Fighter]):
     current_fighter.perform_move(move, targets)

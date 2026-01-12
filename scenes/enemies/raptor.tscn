@@ -1,9 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bk5vrshvhnk00"]
+[gd_scene load_steps=3 format=3 uid="uid://bk5vrshvhnk00"]
 
 [ext_resource type="Script" uid="uid://mu6pa8fl4ivp" path="res://scripts/enemy.gd" id="1_gkkn6"]
-[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_3e031"]
-[ext_resource type="Resource" uid="uid://bqc38ipa5goau" path="res://resources/moves/enemies/attack.tres" id="3_v0sab"]
-[ext_resource type="Resource" uid="uid://bnlt4hulr7ww" path="res://resources/moves/enemies/rest.tres" id="4_6cg6b"]
 [ext_resource type="Texture2D" uid="uid://dkqky3exdbi7o" path="res://assets/sprites/enemies/swish_raptor.png" id="5_tw42o"]
 
 [node name="Raptor" type="Node2D"]
@@ -12,7 +9,6 @@ script = ExtResource("1_gkkn6")
 title = "Raptor"
 max_hp = 6.0
 speed = 50.0
-moves = Array[ExtResource("2_3e031")]([ExtResource("3_v0sab"), ExtResource("4_6cg6b")])
 
 [node name="TextureContainer" type="Node2D" parent="."]
 
