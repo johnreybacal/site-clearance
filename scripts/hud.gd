@@ -93,14 +93,24 @@ func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameMa
     for node in turn_display.get_children():
         node.queue_free()
 
+    var counter = 0
+    var max_display = 5
+    var is_before_current = true
     for item in queue:
+        var is_current_fighter = false
+        if current:
+            is_current_fighter = item.fighter.get_instance_id() == current.fighter.get_instance_id() and item.move_index == current.move_index
+            if is_current_fighter:
+                is_before_current = false
+            elif is_before_current:
+                continue
+        
         var turn = TurnDisplayItem.new()
         turn.texture = (item.fighter.get_node("TextureContainer/Sprite2D") as Sprite2D).texture
         turn.fighter_id = item.fighter.get_instance_id()
         turn.move_index = item.move_index
-        turn.modulate.a = 0.5
-        if current:
-            var is_current_fighter = turn.fighter_id == current.fighter.get_instance_id() and turn.move_index == current.move_index
-            if is_current_fighter:
-                turn.modulate.a = 1
+        turn.modulate.a = 1.0 if is_current_fighter else 0.5
         turn_display.add_child(turn)
+        counter += 1
+        if counter > max_display:
+            break
