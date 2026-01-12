@@ -85,7 +85,7 @@ func _process(delta: float) -> void:
         texture_container.scale = texture_container.scale.move_toward(Vector2.ONE, delta * 2.5)
 
     if is_dying:
-        position += Vector2.DOWN
+        position += Vector2.LEFT if self is Truck else Vector2.RIGHT
         modulate.a = move_toward(modulate.a, 0, delta)
         if modulate.a == 0:
             queue_free()
