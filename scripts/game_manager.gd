@@ -7,7 +7,7 @@ class FighterQueue:
 
 @export var hud: HUD
 @export var truck_scenes: Array[PackedScene]
-@export var enemy_scene: PackedScene
+@export var enemy_scenes: Array[PackedScene]
 @export var bg_tile_map: TileMapLayer
 @export var bg_tile_set: TileSet
 
@@ -182,10 +182,9 @@ func on_tick():
 
 func add_enemies():
     for i in range(num_enemies):
-        var enemy: Enemy = enemy_scene.instantiate()
+        var enemy: Enemy = enemy_scenes.pick_random().instantiate()
         enemy.position = enemies_position[num_enemies - 1][i]
-        enemy.max_hp += randi_range(proceeds - 1, proceeds + 2)
-        enemy.title = "Ankylosaur"
+        enemy.max_hp += randf_range(enemy.max_hp - 1, enemy.max_hp + proceeds + 2)
         add_fighter(enemy)
 
 func add_fighter(fighter: Fighter):
