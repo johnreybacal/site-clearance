@@ -44,7 +44,7 @@ var num_enemies = 4
 
 var trucks_spawned: Array[String] = []
 
-var fighters_position = [
+var trucks_position = [
     [Vector2(-300, 0)],
     [Vector2(-275, 75), Vector2(-275, -75)],
     [Vector2(-250, 100), Vector2(-300, 0), Vector2(-250, -100)]
@@ -65,7 +65,7 @@ func _ready() -> void:
             truck.queue_free()
             continue
 
-        truck.position = fighters_position[num_trucks - 1][truck_count]
+        truck.position = trucks_position[num_trucks - 1][truck_count]
         add_fighter(truck)
         trucks_spawned.append(truck.title)
         truck_count += 1
@@ -197,6 +197,18 @@ func add_fighter(fighter: Fighter):
 
 func remove_fighter(fighter: Fighter):
     fighters = fighters.filter(func(f: Fighter): return f != fighter)
+    if fighter is Truck:
+        var trucks = get_trucks() as Array[Truck]
+        var counter = 0
+        for truck in trucks:
+            truck.initial_position = trucks_position[len(trucks) - 1][counter]
+            counter += 1
+    else:
+        var enemies = get_enemies() as Array[Enemy]
+        var counter = 0
+        for enemy in enemies:
+            enemy.initial_position = enemies_position[len(enemies) - 1][counter]
+            counter += 1
     turn_queue = turn_queue.filter(func(f: FighterQueue): return f.fighter != fighter)
     turn_fighters = turn_fighters.filter(func(f: Fighter): return f != fighter)
     hud.update_turn_display(turn_queue, new_queue_item(current_fighter, move_index))
