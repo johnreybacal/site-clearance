@@ -39,8 +39,10 @@ var bg_y = BG_Y_INITIAL
 @export var sunlight_gradient: GradientTexture2D
 var sun_position = 0
 
-var num_trucks = 1
-var num_enemies = 1
+var num_trucks = 3
+var num_enemies = 4
+
+var trucks_spawned: Array[String] = []
 
 var fighters_position = [
     [Vector2(-300, 0)],
@@ -57,8 +59,14 @@ var enemies_position = [
 func _ready() -> void:
     for i in range(num_trucks):
         var truck: Truck = truck_scenes.pick_random().instantiate()
+        
+        if truck.title in trucks_spawned:
+            i -= 1
+            continue
+
         truck.position = fighters_position[num_trucks - 1][i]
         add_fighter(truck)
+        trucks_spawned.append(truck.title)
 
     add_enemies()
 

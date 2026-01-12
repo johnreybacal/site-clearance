@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://3qwn2vedy3y1"]
+
+[ext_resource type="Script" uid="uid://dnud481iuhnme" path="res://scripts/truck.gd" id="1_2y7h8"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_mggmb"]
+[ext_resource type="Texture2D" uid="uid://baw5g6vuc2kjc" path="res://assets/sprites/trucks/driller.png" id="3_bmmhe"]
+
+[sub_resource type="Resource" id="Resource_btkop"]
+script = ExtResource("2_mggmb")
+title = "Pierce"
+description = "Damages and weakens an enemy"
+damage = 7.5
+heat_cost = 6.0
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[sub_resource type="Resource" id="Resource_2blhf"]
+script = ExtResource("2_mggmb")
+title = "Torque overload"
+description = "Increases damage"
+move_type = 1
+target_type = 2
+heat_cost = 3.0
+damage_buff_turns = 3
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[node name="Excavator" type="Node2D"]
+z_index = 5
+script = ExtResource("1_2y7h8")
+max_heat_level = 8
+title = "Driller"
+speed = 44.0
+moves = Array[ExtResource("2_mggmb")]([SubResource("Resource_btkop"), SubResource("Resource_2blhf")])
+
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
+texture_filter = 1
+texture = ExtResource("3_bmmhe")
+flip_h = true

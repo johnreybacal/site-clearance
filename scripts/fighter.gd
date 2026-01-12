@@ -119,7 +119,7 @@ func _process(delta: float) -> void:
 
 func take_damage(damage: float, self_inflicted: bool = false):
     if defense_buff_turns > 0:
-        damage *= .75
+        damage *= .5
     hp -= damage
     fighter_data.update_hp(hp, max_hp)
     if not self_inflicted:
@@ -182,11 +182,14 @@ func perform_move(move: Move, targets: Array[Fighter]):
     if move.self_damage > 0:
         take_damage(move.self_damage, true)
 
+    if move.target_type == Move.TargetType.Self:
+        targets = [self]
+
     for target in targets:
         # Attack
         var damage = move.damage
         if damage_buff_turns > 0:
-            damage *= 1.25
+            damage *= 1.5
         target.take_damage(damage)
         target.highlight_duration = 0
         

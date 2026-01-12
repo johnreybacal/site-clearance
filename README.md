@@ -57,7 +57,7 @@ Excavator (combat)
 Hydraulic (combat)
 
 - Pierce (single)  
-- Earthquake (small damage to all)
+- Pressurize (increase attack)
 
 Transport truck (support)
 
@@ -74,6 +74,10 @@ Road roller (combat)
 ## Credits:
 - <a href="https://www.flaticon.com/free-icons/excavator" title="excavator icons">Excavator icons created by monkik - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/concrete" title="concrete icons">Concrete icons created by Freepik - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/dagger" title="dagger icons">Dagger icons created by Roundicons Premium - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/shield" title="shield icons">Shield icons created by rukanicon - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/delay" title="delay icons">Delay icons created by meaicon - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/music-player" title="music player icons">Music player icons created by Dewi Sari - Flaticon</a>
 - https://swishos.itch.io/swishs-sprite-pack-24x24
 - https://ninjikin.itch.io/grass
 - https://pixelartvillage.com/
