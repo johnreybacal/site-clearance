@@ -49,7 +49,7 @@ fill_from = Vector2(0.5, 1)
 fill_to = Vector2(0.5, 0)
 
 [node name="FighterData" type="Node2D"]
-z_index = 10
+z_index = 7
 script = ExtResource("1_pj6e5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -61,7 +61,6 @@ offset_left = 5.0
 offset_top = -32.0
 offset_right = 69.0
 offset_bottom = 32.0
-value = 50.0
 fill_mode = 3
 texture_under = SubResource("GradientTexture2D_j1lxg")
 texture_progress = SubResource("GradientTexture2D_xxd54")
@@ -71,7 +70,6 @@ offset_left = -11.0
 offset_top = -32.0
 offset_right = 53.0
 offset_bottom = 32.0
-value = 50.0
 fill_mode = 3
 texture_under = SubResource("GradientTexture2D_glisr")
 texture_progress = SubResource("GradientTexture2D_g2k61")
