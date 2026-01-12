@@ -21,7 +21,9 @@ max_hp = 12
 speed = 35
 moves = Array[ExtResource("2_f270p")]([SubResource("Resource_wd782")])
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
 texture_filter = 1
 texture = ExtResource("3_6akaj")
 

@@ -1,7 +1,7 @@
 extends Fighter
 class_name Truck
 
-@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var sprite_2d: Sprite2D = $TextureContainer/Sprite2D
 
 @export var max_heat_level = 10
 var heat_level = 0

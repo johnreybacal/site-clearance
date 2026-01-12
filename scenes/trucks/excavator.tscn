@@ -20,7 +20,9 @@ title = "Excavator"
 speed = 25
 moves = Array[ExtResource("2_fy0fe")]([SubResource("Resource_a4wfb")])
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
 texture_filter = 1
 texture = ExtResource("5_lgsma")
 flip_h = true

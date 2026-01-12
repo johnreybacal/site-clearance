@@ -25,13 +25,14 @@ func _process(_delta: float):
     for node in turn_decision.get_children():
         if node is Button:
             var button = node
-            if button.is_hovered():
+            if button.is_hovered() or button.has_focus():
                 if button.is_in_group(MOVE_BUTTON_GROUP):
                     var move_id = button.get_meta(MOVE_ID_META)
                     on_move_hovered.emit(move_id)
                 if button.is_in_group(TARGET_BUTTON_GROUP):
-                    var target_id = button.get_meta(TARGET_ID_META)
-                    on_target_hovered.emit(target_id)
+                    var target_id = button.get_meta(TARGET_ID_META, -1)
+                    if target_id != -1:
+                        on_target_hovered.emit(target_id)
 
 
 func hide_moves():
@@ -42,17 +43,22 @@ func show_moves(truck: Truck):
         node.queue_free.call_deferred()
 
     bottom_panel.visible = true
-
+    var is_first_button = true
     for move in truck.moves:
-        var move_button = Button.new()
-        move_button.text = move.title + "[" + str(move.heat_cost) + "]"
+        var button = Button.new()
+        button.text = move.title + "[" + str(move.heat_cost) + "]"
         if truck.heat_level > truck.max_heat_level and move.heat_cost > 0:
-            move_button.disabled = true
-        move_button.tooltip_text = move.description
-        move_button.set_meta(MOVE_ID_META, move.get_instance_id())
-        move_button.add_to_group(MOVE_BUTTON_GROUP)
-        move_button.pressed.connect(Callable(on_move_selected.emit).bind(move))
-        turn_decision.add_child.call_deferred(move_button)
+            button.disabled = true
+        button.tooltip_text = move.description
+        button.set_meta(MOVE_ID_META, move.get_instance_id())
+        button.add_to_group(MOVE_BUTTON_GROUP)
+        
+        button.pressed.connect(Callable(on_move_selected.emit).bind(move))
+        turn_decision.add_child.call_deferred(button)
+        if is_first_button:
+            button.grab_focus.call_deferred()
+            is_first_button = false
+
 
 func show_targets(move: Move, targets: Array[Fighter]):
     for node in turn_decision.get_children():
@@ -62,18 +68,19 @@ func show_targets(move: Move, targets: Array[Fighter]):
 
     var cancel_button = Button.new()
     cancel_button.text = "Cancel"
-    cancel_button.add_to_group(MOVE_BUTTON_GROUP)
+    cancel_button.add_to_group(TARGET_BUTTON_GROUP)
     cancel_button.pressed.connect(on_move_cancelled.emit)
     turn_decision.add_child.call_deferred(cancel_button)
+    cancel_button.grab_focus.call_deferred()
 
     for target in targets:
-        var target_button = Button.new()
-        target_button.text = target.title
-        target_button.add_to_group(TARGET_BUTTON_GROUP)
+        var button = Button.new()
+        button.text = target.title
+        button.add_to_group(TARGET_BUTTON_GROUP)
         var single_target: Array[Fighter] = [target]
-        target_button.set_meta(TARGET_ID_META, target.get_instance_id())
-        target_button.pressed.connect(Callable(on_target_selected.emit).bind(move, single_target))
-        turn_decision.add_child.call_deferred(target_button)
+        button.set_meta(TARGET_ID_META, target.get_instance_id())
+        button.pressed.connect(Callable(on_target_selected.emit).bind(move, single_target))
+        turn_decision.add_child.call_deferred(button)
 
 
 func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameManager.FighterQueue = null):
@@ -82,7 +89,7 @@ func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameMa
 
     for item in queue:
         var turn = TurnDisplayItem.new()
-        turn.texture = (item.fighter.get_node("Sprite2D") as Sprite2D).texture
+        turn.texture = (item.fighter.get_node("TextureContainer/Sprite2D") as Sprite2D).texture
         turn.fighter_id = item.fighter.get_instance_id()
         turn.move_index = item.move_index
         turn.modulate.a = 0.5

@@ -24,6 +24,7 @@ var current_shake: float = 0
 @export var shake_amount := 5.0
 @export var shake_duration := 1
 
+var texture_container: Node2D
 var sprite: Sprite2D
 var shadow: Sprite2D
 var shadow_position: Vector2
@@ -52,8 +53,8 @@ var toughened: int
 func _ready():
     hp = max_hp
     update_hp_label()
-
-    sprite = get_node("Sprite2D") as Sprite2D
+    texture_container = get_node("TextureContainer")
+    sprite = get_node("TextureContainer/Sprite2D") as Sprite2D
     shadow = sprite.duplicate()
     shadow.name = "ShadowSprite"
     shadow.flip_v = true
@@ -62,23 +63,23 @@ func _ready():
     shadow.position = shadow_position
     shadow.scale = Vector2(sprite.scale.x, sprite.scale.y / 2)
     shadow.skew = deg_to_rad(-15)
-    add_child(shadow)
+    texture_container.add_child(shadow)
     initial_position = position
 
 func _process(delta: float) -> void:
+    if highlight_duration > 0:
+        highlight_duration -= delta
+        current_shake = .5
+        texture_container.scale = texture_container.scale.move_toward(Vector2(1.25, 1.25), delta * 5)
+    else:
+        texture_container.scale = texture_container.scale.move_toward(Vector2.ONE, delta * 2.5)
+
     if is_dying:
         position += Vector2.DOWN
         modulate.a = move_toward(modulate.a, 0, delta)
         if modulate.a == 0:
             queue_free()
         return
-
-    if highlight_duration > 0:
-        highlight_duration -= delta
-        current_shake = 1
-        scale = scale.move_toward(Vector2(1.2, 1.2), delta * 5)
-    else:
-        scale = scale.move_toward(Vector2.ONE, delta * 2.5)
 
     if current_shake > 0:
         current_shake -= shake_amount * delta / shake_duration

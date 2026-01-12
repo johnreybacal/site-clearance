@@ -12,7 +12,9 @@ title = "Ankylosaur"
 speed = 25
 moves = Array[ExtResource("2_5uy6h")]([ExtResource("3_c4w8v")])
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
 texture_filter = 1
 scale = Vector2(2, 2)
 texture = ExtResource("2_4ra3w")
