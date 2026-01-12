@@ -2,7 +2,8 @@ extends Control
 class_name HUD
 
 @onready var bottom_panel: PanelContainer = $BottomPanel
-@onready var turn_decision: HFlowContainer = $BottomPanel/TurnDecision
+@onready var turn_decision: HFlowContainer = $BottomPanel/VBoxContainer/TurnDecision
+@onready var description: Label = $BottomPanel/VBoxContainer/Label
 
 @onready var turn_display: HBoxContainer = $TopPanel/TurnDisplay
 
@@ -26,14 +27,20 @@ func _process(_delta: float):
         if node is Button:
             var button = node
             if button.is_hovered() or button.has_focus():
+                button.grab_focus()
                 if button.is_in_group(MOVE_BUTTON_GROUP):
                     var move_id = button.get_meta(MOVE_ID_META)
                     on_move_hovered.emit(move_id)
+                    var move = instance_from_id(move_id) as Move
+                    description.text = move.description + ". HEAT COST: " + str(move.heat_cost)
+
                 if button.is_in_group(TARGET_BUTTON_GROUP):
                     var target_id = button.get_meta(TARGET_ID_META, -1)
                     if target_id != -1:
                         on_target_hovered.emit(target_id)
 
+func set_description_text(value: String):
+    description.text = value
 
 func hide_moves():
     bottom_panel.visible = false
@@ -46,10 +53,9 @@ func show_moves(truck: Truck):
     var is_first_button = true
     for move in truck.moves:
         var button = Button.new()
-        button.text = move.title + "[" + str(move.heat_cost) + "]"
+        button.text = move.title
         if truck.heat_level > truck.max_heat_level and move.heat_cost > 0:
             button.disabled = true
-        button.tooltip_text = move.description
         button.set_meta(MOVE_ID_META, move.get_instance_id())
         button.add_to_group(MOVE_BUTTON_GROUP)
         
