@@ -14,6 +14,7 @@ func _ready() -> void:
     heat.value = 100
     if not is_truck:
         heat.visible = false
+        $HeatBg.visible = false
 
 func _process(delta: float) -> void:
     if hp.value != target_hp:

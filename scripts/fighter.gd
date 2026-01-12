@@ -67,7 +67,7 @@ func _ready():
 
     fighter_data = FighterDataScene.instantiate()
     fighter_data.is_truck = self is Truck
-    fighter_data.position = Vector2(-60 if self is Truck else 50, 0)
+    fighter_data.position = Vector2(-50 if self is Truck else 50, 0)
     
     fighter_data.skew = deg_to_rad(-25 if self is Truck else 25)
     # fighter_data.rotation = deg_to_rad(-5 if self is Truck else 5)
@@ -85,11 +85,12 @@ func _process(delta: float) -> void:
         texture_container.scale = texture_container.scale.move_toward(Vector2.ONE, delta * 2.5)
 
     if is_dying:
+        current_shake = 1
         position += Vector2.LEFT if self is Truck else Vector2.RIGHT
+        texture_container.scale.x = move_toward(texture_container.scale.x, -1, delta * 10)
         modulate.a = move_toward(modulate.a, 0, delta)
         if modulate.a == 0:
             queue_free()
-        return
 
     if current_shake > 0:
         current_shake -= shake_amount * delta / shake_duration
@@ -127,7 +128,10 @@ func take_damage(damage: int, self_inflicted: bool = false):
         is_attacked = true
     if hp <= 0:
         on_died.emit(self)
+        fighter_data.visible = false
         is_dying = true
+    else:
+        current_shake = 10
 
 func heal(amount: int):
     hp += amount
@@ -192,7 +196,6 @@ func perform_move(move: Move, targets: Array[Fighter]):
             if strengthened > 0:
                 damage *= 1.25
             target.take_damage(damage)
-            target.current_shake = 10
             target.highlight_duration = 0
     else: # Effect
         for target in targets:
