@@ -39,12 +39,28 @@ var bg_y = BG_Y_INITIAL
 @export var sunlight_gradient: GradientTexture2D
 var sun_position = 0
 
-func _ready() -> void:
-    var truck: Truck = truck_scenes.pick_random().instantiate()
-    truck.position = Vector2(-300, 0)
-    add_fighter(truck)
+var num_trucks = 3
+var num_enemies = 4
 
-    add_enemy()
+var fighters_position = [
+    [Vector2(-300, 0)],
+    [Vector2(-275, 75), Vector2(-275, -75)],
+    [Vector2(-250, 100), Vector2(-300, 0), Vector2(-250, -100)]
+]
+var enemies_position = [
+    [Vector2(300, 0)],
+    [Vector2(275, 75), Vector2(275, -75)],
+    [Vector2(250, 100), Vector2(300, 0), Vector2(250, -100)],
+    [Vector2(225, 125), Vector2(300, 50), Vector2(300, -50), Vector2(225, -125)],
+]
+
+func _ready() -> void:
+    for i in range(num_trucks):
+        var truck: Truck = truck_scenes.pick_random().instantiate()
+        truck.position = fighters_position[num_trucks - 1][i]
+        add_fighter(truck)
+
+    add_enemies()
     update_queue()
     hud.update_turn_display(turn_queue)
 
@@ -65,7 +81,7 @@ func _process(delta: float) -> void:
         bg_tile_map.position += Vector2.LEFT * delta * 150
         proceed_interval -= delta
         if proceed_interval <= 0:
-            add_enemy()
+            add_enemies()
             proceed_interval = PROCEED_INTERVAL
             is_proceeding = false
             update_queue()
@@ -142,12 +158,13 @@ func on_tick():
 
 #region Fighter Management
 
-func add_enemy():
-    var enemy: Enemy = enemy_scene.instantiate()
-    enemy.position = Vector2(300, 0)
-    enemy.max_hp += randi_range(proceeds - 1, proceeds + 2)
-    enemy.title = "Ankylosaur"
-    add_fighter(enemy)
+func add_enemies():
+    for i in range(num_enemies):
+        var enemy: Enemy = enemy_scene.instantiate()
+        enemy.position = enemies_position[num_enemies - 1][i]
+        enemy.max_hp += randi_range(proceeds - 1, proceeds + 2)
+        enemy.title = "Ankylosaur"
+        add_fighter(enemy)
 
 func add_fighter(fighter: Fighter):
     add_child.call_deferred(fighter)

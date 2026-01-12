@@ -2,7 +2,7 @@ extends Control
 class_name HUD
 
 @onready var bottom_panel: PanelContainer = $BottomPanel
-@onready var turn_decision: HBoxContainer = $BottomPanel/TurnDecision
+@onready var turn_decision: HFlowContainer = $BottomPanel/TurnDecision
 
 @onready var turn_display: HBoxContainer = $TopPanel/TurnDisplay
 

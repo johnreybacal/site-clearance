@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bo5gubxdgbov4"]
+[gd_scene load_steps=3 format=3 uid="uid://bo5gubxdgbov4"]
 
 [ext_resource type="Script" uid="uid://cld8sidgyvfvi" path="res://scripts/hud.gd" id="1_ahhtf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ahhtf"]
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -28,18 +30,21 @@ layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="BottomPanel" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(275, 75)
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_top = -31.0
+offset_left = -100.0
+offset_top = -40.0
+offset_right = 100.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ahhtf")
 
-[node name="TurnDecision" type="HBoxContainer" parent="BottomPanel"]
+[node name="TurnDecision" type="HFlowContainer" parent="BottomPanel"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_constants/separation = 20
+alignment = 1
+last_wrap_alignment = 2
