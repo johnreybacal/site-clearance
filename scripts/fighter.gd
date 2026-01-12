@@ -38,6 +38,8 @@ var attacked_interval = ATTACKED_INTEVAL
 
 var is_dying = false
 
+var highlight_duration = 0
+
 # Debuff
 var slowed: int
 var stunned: int
@@ -71,6 +73,13 @@ func _process(delta: float) -> void:
             queue_free()
         return
 
+    if highlight_duration > 0:
+        highlight_duration -= delta
+        current_shake = 1
+        scale = scale.move_toward(Vector2(1.2, 1.2), delta * 5)
+    else:
+        scale = scale.move_toward(Vector2.ONE, delta * 2.5)
+
     if current_shake > 0:
         current_shake -= shake_amount * delta / shake_duration
         if current_shake < 0:
@@ -92,7 +101,6 @@ func _process(delta: float) -> void:
                 is_ready = true
         else:
             current_shake = 1
-
     else:
         position = position.move_toward(initial_position, delta * 750)
         if position != initial_position:
@@ -190,6 +198,7 @@ func perform_move(move: Move, targets: Array[Fighter]):
                 damage *= 1.25
             target.take_damage(damage)
             target.current_shake = 10
+            target.highlight_duration = 0
     else: # Effect
         for target in targets:
             # Debuff

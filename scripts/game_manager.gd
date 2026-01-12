@@ -69,7 +69,9 @@ func _ready() -> void:
 
     hud.on_move_selected.connect(on_move_selected)
     hud.on_move_cancelled.connect(on_fighter_turn)
+    hud.on_move_hovered.connect(on_move_hovered)
     hud.on_target_selected.connect(on_move_confirmed)
+    hud.on_target_hovered.connect(on_target_hovered)
 
 func _process(delta: float) -> void:
     if sunlight_foreground.texture.fill_from.x != sun_position:
@@ -205,6 +207,24 @@ func on_fighter_ready():
 #endregion
 
 #region Move Management
+
+func on_move_hovered(move_id: int):
+    var move = instance_from_id(move_id) as Move
+    if move.target_type == Move.TargetType.Self:
+        current_fighter.highlight_duration = .1
+    elif move.is_area_target:
+        if move.target_type == Move.TargetType.Enemy:
+            var enemies = get_enemies()
+            for enemy in enemies:
+                enemy.highlight_duration = .1
+        elif move.target_type == Move.TargetType.Ally:
+            var trucks = get_trucks()
+            for truck in trucks:
+                truck.highlight_duration = .1
+
+func on_target_hovered(target_id: int):
+    var target = instance_from_id(target_id) as Fighter
+    target.highlight_duration = .1
 
 func on_move_selected(move: Move):
     if move.target_type == Move.TargetType.Enemy:

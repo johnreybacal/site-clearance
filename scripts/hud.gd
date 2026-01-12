@@ -8,10 +8,13 @@ class_name HUD
 
 signal on_move_selected(move: Move)
 signal on_move_cancelled()
+signal on_move_hovered(move_id: int)
+signal on_target_hovered(target_id: int)
 signal on_target_selected(move: Move, targets: Array[Fighter])
 
 const MOVE_BUTTON_GROUP = "move_button"
 const TARGET_BUTTON_GROUP = "target_button"
+const MOVE_ID_META = "move_id"
 const TARGET_ID_META = "target_id"
 var fighters: Array[Fighter] = []
 
@@ -22,11 +25,13 @@ func _process(_delta: float):
     for node in turn_decision.get_children():
         if node is Button:
             var button = node
-            if button.is_in_group(TARGET_BUTTON_GROUP):
-                if button.is_hovered():
+            if button.is_hovered():
+                if button.is_in_group(MOVE_BUTTON_GROUP):
+                    var move_id = button.get_meta(MOVE_ID_META)
+                    on_move_hovered.emit(move_id)
+                if button.is_in_group(TARGET_BUTTON_GROUP):
                     var target_id = button.get_meta(TARGET_ID_META)
-                    var fighter = instance_from_id(target_id) as Fighter
-                    fighter.current_shake = 1
+                    on_target_hovered.emit(target_id)
 
 
 func hide_moves():
@@ -44,6 +49,7 @@ func show_moves(truck: Truck):
         if truck.heat_level > truck.max_heat_level and move.heat_cost > 0:
             move_button.disabled = true
         move_button.tooltip_text = move.description
+        move_button.set_meta(MOVE_ID_META, move.get_instance_id())
         move_button.add_to_group(MOVE_BUTTON_GROUP)
         move_button.pressed.connect(Callable(on_move_selected.emit).bind(move))
         turn_decision.add_child.call_deferred(move_button)
