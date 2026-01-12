@@ -20,7 +20,7 @@ description = "Damage and slow a single enemy"
 move_type = 1
 damage = 3.0
 heat_cost = 4.0
-slow_turn = 2
+slow_debuff_turns = 3
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
 [node name="Excavator" type="Node2D"]

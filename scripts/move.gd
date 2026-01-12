@@ -23,13 +23,14 @@ enum TargetType {
 @export_category("Truck only")
 @export var heat_cost: float
 
-@export_category("Debuff")
-@export var slow_turn: int # turns (speed * .75)
-@export var stun_turn: int # turns (skip turn)
-@export var weaken_turn: int # turns (damage * .75)
+@export_category("Debuff (turns)")
+@export var slow_debuff_turns: int # turns (speed * .75)
+@export var stun_debuff_turns: int # turns (skip turn)
 
-@export_category("Buff")
+@export_category("Buff (instant)")
 @export var heal_amount: float # amount
-@export var strengten_turn: int # turns (damage * 1.25)
-@export var toughen_turn: int # turns (damage received * .75)
 @export var cool_down_amount: float # amount
+
+@export_category("Buff (turns)")
+@export var damage_buff_turns: int # turns (damage * 1.25)
+@export var defense_buff_turns: int # turns (damage received * .75)

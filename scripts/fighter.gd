@@ -40,12 +40,11 @@ var is_dying = false
 var highlight_duration = 0
 
 # Debuff
-var slowed: int
-var stunned: int
-var weakened: int
+var slow_debuff_turns: int
+var stun_debuff_turns: int
 # Buff
-var strengthened: int
-var toughened: int
+var damage_buff_turns: int
+var defense_buff_turns: int
 
 
 var FighterDataScene = preload("res://scenes/fighter_data.tscn")
@@ -68,11 +67,9 @@ func _ready():
 
     fighter_data = FighterDataScene.instantiate()
     fighter_data.is_truck = self is Truck
-    fighter_data.position = Vector2(-50 if self is Truck else 50, 0)
-    
-    fighter_data.skew = deg_to_rad(-25 if self is Truck else 25)
-    # fighter_data.rotation = deg_to_rad(-5 if self is Truck else 5)
     add_child(fighter_data)
+    fighter_data.skew_container.position = Vector2(-50 if self is Truck else 50, 0)
+    fighter_data.skew_container.skew = deg_to_rad(-25 if self is Truck else 25)
     fighter_data.update_hp(hp, max_hp)
 
     initial_position = position
@@ -121,7 +118,7 @@ func _process(delta: float) -> void:
 
 
 func take_damage(damage: float, self_inflicted: bool = false):
-    if toughened > 0:
+    if defense_buff_turns > 0:
         damage *= .75
     hp -= damage
     fighter_data.update_hp(hp, max_hp)
@@ -142,16 +139,14 @@ func heal(amount: float):
 
 
 func update_move_index():
-    var s = speed
-    if slowed > 0:
-        s *= .75
+    var s = speed * .25 if slow_debuff_turns > 0 else speed
     move_index += round(MAX_SPEED - s)
+    # print(title, " speed: ", s)
 
 func project_upcoming_move_index():
-    var s = speed
-    if slowed > 0:
-        s *= .75
+    var s = speed * .25 if slow_debuff_turns > 0 else speed
     var move_index_projection: int = move_index
+    # print(title, " upcoming speed: ", s)
     upcoming_move_indices.clear()
     for i in range(1):
         move_index_projection += round(MAX_SPEED - s)
@@ -170,7 +165,7 @@ func return_to_initial_position():
 
 func perform_move(move: Move, targets: Array[Fighter]):
     current_shake = 5
-    if stunned > 0:
+    if stun_debuff_turns > 0:
         print(title + " is stunned, turn missed")
         return_to_initial_position()
         return
@@ -187,46 +182,42 @@ func perform_move(move: Move, targets: Array[Fighter]):
     if move.self_damage > 0:
         take_damage(move.self_damage, true)
 
-    # if move.target_type == Move.TargetType.Self:
-    #     pass
-    if move.move_type == Move.MoveType.Attack:
-        for target in targets:
-            var damage = move.damage
-            if weakened > 0:
-                damage *= .25
-            if strengthened > 0:
-                damage *= 1.25
-            target.take_damage(damage)
-            target.highlight_duration = 0
-    else: # Effect
-        for target in targets:
-            # Debuff
-            target.slowed += move.slow_turn
-            target.stunned += move.stun_turn
-            target.weakened += move.weaken_turn
+    for target in targets:
+        # Attack
+        var damage = move.damage
+        if damage_buff_turns > 0:
+            damage *= 1.25
+        target.take_damage(damage)
+        target.highlight_duration = 0
+        
+        # Debuff
+        target.slow_debuff_turns += move.slow_debuff_turns
+        target.stun_debuff_turns += move.stun_debuff_turns
 
-            # Buff
-            target.strengthened += move.strengten_turn
-            target.toughened += move.toughen_turn
+        # Buff
+        target.damage_buff_turns += move.damage_buff_turns
+        target.defense_buff_turns += move.defense_buff_turns
 
-            if move.heal_amount > 0:
-                target.heal(move.heal_amount)
-            if move.cool_down_amount > 0 and target is Truck:
-                (target as Truck).cool_down(move.cool_down_amount)
+        if move.heal_amount > 0:
+            target.heal(move.heal_amount)
+        if move.cool_down_amount > 0 and target is Truck:
+            (target as Truck).cool_down(move.cool_down_amount)
 
-            target.current_shake = 5
-
+        target.current_shake = 5
+        target.update_status()
 
     return_to_initial_position()
 
 func reduce_effect():
-    if slowed > 0:
-        slowed -= 1
-    if stunned > 0:
-        stunned -= 1
-    if weakened > 0:
-        weakened -= 1
-    if strengthened > 0:
-        strengthened -= 1
-    if toughened > 0:
-        toughened -= 1
+    if slow_debuff_turns > 0:
+        slow_debuff_turns -= 1
+    if stun_debuff_turns > 0:
+        stun_debuff_turns -= 1
+    if damage_buff_turns > 0:
+        damage_buff_turns -= 1
+    if defense_buff_turns > 0:
+        defense_buff_turns -= 1
+    update_status()
+
+func update_status():
+    fighter_data.update_status(slow_debuff_turns, stun_debuff_turns, damage_buff_turns, defense_buff_turns)

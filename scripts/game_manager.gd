@@ -39,8 +39,8 @@ var bg_y = BG_Y_INITIAL
 @export var sunlight_gradient: GradientTexture2D
 var sun_position = 0
 
-var num_trucks = 3
-var num_enemies = 4
+var num_trucks = 1
+var num_enemies = 1
 
 var fighters_position = [
     [Vector2(-300, 0)],
@@ -117,6 +117,12 @@ func new_queue_item(f: Fighter, i: int):
 
 func update_queue():
     for fighter in fighters:
+        if fighter.slow_debuff_turns > 0:
+            # Update queue when slowed (upcoming only)
+            # Remove all queue items
+            turn_queue = turn_queue.filter(func(f: FighterQueue): return f.fighter != fighter)
+            # Retain next move
+            turn_queue.append(new_queue_item(fighter, fighter.move_index))
         if fighter.move_index == move_index:
             fighter.update_move_index()
             turn_queue.append(new_queue_item(fighter, fighter.move_index))
@@ -131,6 +137,10 @@ func update_queue():
     
     turn_queue = unique_queue.filter(func(i: FighterQueue): return i.move_index >= prev_move_index)
     turn_queue.sort_custom(func(a: FighterQueue, b: FighterQueue): return a.move_index < b.move_index)
+
+    # if from_effect:
+    #     for turn in turn_queue:
+    #         print(turn.fighter.title, " :: ", turn.move_index)
     hud.update_turn_display(turn_queue)
 
 
@@ -245,6 +255,8 @@ func on_move_selected(move: Move):
 
 func on_move_confirmed(move: Move, targets: Array[Fighter]):
     current_fighter.perform_move(move, targets)
+    if move.slow_debuff_turns > 0:
+        update_queue()
     if current_fighter_index < len(turn_fighters):
         is_next_turn = true
     else:
@@ -267,7 +279,6 @@ func enemy_decide():
 #region Proceed
 
 func proceed():
-    current_fighter.return_to_initial_position()
     current_fighter = null
     turn_queue.clear()
     turn_fighters.clear()

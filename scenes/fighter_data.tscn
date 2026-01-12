@@ -52,10 +52,12 @@ fill_to = Vector2(0.5, 0)
 z_index = 7
 script = ExtResource("1_pj6e5")
 
-[node name="HPBg" type="Sprite2D" parent="."]
+[node name="SkewContainer" type="Node2D" parent="."]
+
+[node name="HPBg" type="Sprite2D" parent="SkewContainer"]
 texture = SubResource("GradientTexture2D_njyf1")
 
-[node name="HP" type="TextureProgressBar" parent="."]
+[node name="HP" type="TextureProgressBar" parent="SkewContainer"]
 offset_left = -4.0
 offset_top = -32.0
 offset_right = 60.0
@@ -64,11 +66,11 @@ fill_mode = 3
 texture_under = SubResource("GradientTexture2D_j1lxg")
 texture_progress = SubResource("GradientTexture2D_xxd54")
 
-[node name="HeatBg" type="Sprite2D" parent="."]
+[node name="HeatBg" type="Sprite2D" parent="SkewContainer"]
 position = Vector2(-16, 0)
 texture = SubResource("GradientTexture2D_njyf1")
 
-[node name="Heat" type="TextureProgressBar" parent="."]
+[node name="Heat" type="TextureProgressBar" parent="SkewContainer"]
 offset_left = -20.0
 offset_top = -32.0
 offset_right = 44.0
@@ -78,11 +80,16 @@ texture_under = SubResource("GradientTexture2D_glisr")
 texture_progress = SubResource("GradientTexture2D_g2k61")
 
 [node name="Status" type="HBoxContainer" parent="."]
+texture_filter = 1
+custom_minimum_size = Vector2(128, 16)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
+offset_left = -64.0
 offset_top = 34.0
-offset_right = 20.0
-offset_bottom = 74.0
+offset_right = 64.0
+offset_bottom = 50.0
 grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
