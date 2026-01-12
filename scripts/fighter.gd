@@ -14,9 +14,6 @@ var hp: int
 var move_index: int = 0
 var upcoming_move_indices: Array[int]
 
-@onready var hp_label: Label = $HpLabel
-@onready var effect_label: Label = $EffectLabel
-
 signal on_ready()
 signal on_died(fighter: Fighter)
 
@@ -28,6 +25,7 @@ var texture_container: Node2D
 var sprite: Sprite2D
 var shadow: Sprite2D
 var shadow_position: Vector2
+var fighter_data: FighterData
 
 var initial_position: Vector2
 var is_going_to_center: bool = false
@@ -50,9 +48,11 @@ var strengthened: int
 var toughened: int
 
 
+var FighterDataScene = preload("res://scenes/fighter_data.tscn")
+
 func _ready():
     hp = max_hp
-    update_hp_label()
+
     texture_container = get_node("TextureContainer")
     sprite = get_node("TextureContainer/Sprite2D") as Sprite2D
     shadow = sprite.duplicate()
@@ -64,6 +64,16 @@ func _ready():
     shadow.scale = Vector2(sprite.scale.x, sprite.scale.y / 2)
     shadow.skew = deg_to_rad(-15)
     texture_container.add_child(shadow)
+
+    fighter_data = FighterDataScene.instantiate()
+    fighter_data.is_truck = self is Truck
+    fighter_data.position = Vector2(-60 if self is Truck else 50, 0)
+    
+    fighter_data.skew = deg_to_rad(-25 if self is Truck else 25)
+    # fighter_data.rotation = deg_to_rad(-5 if self is Truck else 5)
+    add_child(fighter_data)
+    fighter_data.update_hp(hp, max_hp)
+
     initial_position = position
 
 func _process(delta: float) -> void:
@@ -112,7 +122,7 @@ func take_damage(damage: int, self_inflicted: bool = false):
     if toughened > 0:
         damage *= .75
     hp -= damage
-    update_hp_label()
+    fighter_data.update_hp(hp, max_hp)
     if not self_inflicted:
         is_attacked = true
     if hp <= 0:
@@ -123,24 +133,8 @@ func heal(amount: int):
     hp += amount
     if hp > max_hp:
         hp = max_hp
-    update_hp_label()
+    fighter_data.update_hp(hp, max_hp)
 
-func update_hp_label():
-    hp_label.text = "HP: " + str(hp) + " / " + str(max_hp)
-
-func update_effect_label():
-    var effects = []
-    if slowed > 0:
-        effects.append("SLW:" + str(slowed))
-    if stunned > 0:
-        effects.append("STN:" + str(stunned))
-    if weakened > 0:
-        effects.append("WKN:" + str(weakened))
-    if strengthened > 0:
-        effects.append("STN:" + str(strengthened))
-    if toughened > 0:
-        effects.append("TGN:" + str(toughened))
-    effect_label.text = "; ".join(effects)
 
 func update_move_index():
     var s = speed
@@ -183,7 +177,7 @@ func perform_move(move: Move, targets: Array[Fighter]):
         truck.heat_level += move.heat_cost
         if move.heat_reduction:
             truck.cool_down(move.heat_reduction)
-        truck.on_heat_updated()
+        fighter_data.update_heat(truck.heat_level, truck.max_heat_level)
 
     if move.self_damage > 0:
         take_damage(move.self_damage, true)
@@ -217,7 +211,6 @@ func perform_move(move: Move, targets: Array[Fighter]):
                 (target as Truck).cool_down(move.cool_down_amount)
 
             target.current_shake = 5
-            target.update_effect_label()
 
 
     return_to_initial_position()
@@ -233,4 +226,3 @@ func reduce_effect():
         strengthened -= 1
     if toughened > 0:
         toughened -= 1
-    update_effect_label()

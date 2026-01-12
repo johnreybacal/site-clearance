@@ -1,0 +1,87 @@
+[gd_scene load_steps=12 format=3 uid="uid://dvo6emstij1dc"]
+
+[ext_resource type="Script" uid="uid://hq2m7dh6ffi0" path="res://scripts/fighter_data.gd" id="1_pj6e5"]
+
+[sub_resource type="Gradient" id="Gradient_g2k61"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_njyf1"]
+gradient = SubResource("Gradient_g2k61")
+width = 12
+height = 68
+
+[sub_resource type="Gradient" id="Gradient_glisr"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.5723527, 0.19852906, 0.13649836, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_j1lxg"]
+gradient = SubResource("Gradient_glisr")
+width = 8
+fill_from = Vector2(0.5, 1)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Gradient" id="Gradient_njyf1"]
+offsets = PackedFloat32Array(0, 0.47136563, 1)
+colors = PackedColorArray(0, 0.20392157, 0.21176471, 1, 0.14509805, 0.50980395, 0.2627451, 1, 0.5974216, 0.7268752, 0.50699294, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xxd54"]
+gradient = SubResource("Gradient_njyf1")
+width = 8
+fill_from = Vector2(0.5, 1)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Gradient" id="Gradient_pj6e5"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.09411765, 0.26666668, 0.5803922, 0.5176471)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_glisr"]
+gradient = SubResource("Gradient_pj6e5")
+width = 8
+
+[sub_resource type="Gradient" id="Gradient_j1lxg"]
+colors = PackedColorArray(0.80685127, 0.62663877, 0.087936185, 1, 0.64115953, 0.044698447, 0.20350799, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_g2k61"]
+gradient = SubResource("Gradient_j1lxg")
+width = 8
+fill_from = Vector2(0.5, 1)
+fill_to = Vector2(0.5, 0)
+
+[node name="FighterData" type="Node2D"]
+z_index = 10
+script = ExtResource("1_pj6e5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(9, 0)
+texture = SubResource("GradientTexture2D_njyf1")
+
+[node name="HP" type="TextureProgressBar" parent="."]
+offset_left = 5.0
+offset_top = -32.0
+offset_right = 69.0
+offset_bottom = 32.0
+value = 50.0
+fill_mode = 3
+texture_under = SubResource("GradientTexture2D_j1lxg")
+texture_progress = SubResource("GradientTexture2D_xxd54")
+
+[node name="Heat" type="TextureProgressBar" parent="."]
+offset_left = -11.0
+offset_top = -32.0
+offset_right = 53.0
+offset_bottom = 32.0
+value = 50.0
+fill_mode = 3
+texture_under = SubResource("GradientTexture2D_glisr")
+texture_progress = SubResource("GradientTexture2D_g2k61")
+
+[node name="Status" type="HBoxContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 34.0
+offset_right = 20.0
+offset_bottom = 74.0
+grow_horizontal = 2
