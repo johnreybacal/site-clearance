@@ -20,7 +20,7 @@ var upcoming_move_indices: Array[int]
 signal on_ready()
 signal on_died(fighter: Fighter)
 
-var current_shake = 0
+var current_shake: float = 0
 @export var shake_amount := 5.0
 @export var shake_duration := 1
 
@@ -85,13 +85,18 @@ func _process(delta: float) -> void:
             attacked_interval = ATTACKED_INTEVAL
             is_attacked = false
     elif is_going_to_center:
-        position = position.move_toward(Vector2.ZERO, delta * 1000)
+        position = position.move_toward(Vector2.ZERO, delta * 750)
         if position == Vector2.ZERO:
             if not is_ready:
                 on_ready.emit()
                 is_ready = true
+        else:
+            current_shake = 1
+
     else:
-        position = position.move_toward(initial_position, delta * 1000)
+        position = position.move_toward(initial_position, delta * 750)
+        if position != initial_position:
+            current_shake = 1
 
 
 func take_damage(damage: int, self_inflicted: bool = false):

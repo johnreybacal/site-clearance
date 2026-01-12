@@ -59,6 +59,9 @@ func _process(delta: float) -> void:
     if sunlight_foreground.texture.fill_from.x != sun_position:
         sunlight_foreground.texture.fill_from.x = move_toward(sunlight_foreground.texture.fill_from.x, sun_position, delta / 3)
     if is_proceeding:
+        var trucks = get_trucks()
+        for truck in trucks:
+            truck.current_shake = 1
         bg_tile_map.position += Vector2.LEFT * delta * 150
         proceed_interval -= delta
         if proceed_interval <= 0:
