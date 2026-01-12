@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cu0mjr03vlepk"
-path="res://.godot/imported/defense.png-cfd6ceb60580a533c35e58477855e9eb.ctex"
+uid="uid://0mtqs7l1j87i"
+path="res://.godot/imported/stun.png-b50873fd1164eb80d307dcb2c80c0c50.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/status/defense.png"
-dest_files=["res://.godot/imported/defense.png-cfd6ceb60580a533c35e58477855e9eb.ctex"]
+source_file="res://assets/sprites/status/stun.png"
+dest_files=["res://.godot/imported/stun.png-b50873fd1164eb80d307dcb2c80c0c50.ctex"]
 
 [params]
 

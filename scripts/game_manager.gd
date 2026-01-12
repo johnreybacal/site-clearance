@@ -57,16 +57,18 @@ var enemies_position = [
 ]
 
 func _ready() -> void:
-    for i in range(num_trucks):
+    var truck_count = 0
+    while truck_count < num_trucks:
         var truck: Truck = truck_scenes.pick_random().instantiate()
         
         if truck.title in trucks_spawned:
-            i -= 1
+            truck.queue_free()
             continue
 
-        truck.position = fighters_position[num_trucks - 1][i]
+        truck.position = fighters_position[num_trucks - 1][truck_count]
         add_fighter(truck)
         trucks_spawned.append(truck.title)
+        truck_count += 1
 
     add_enemies()
 

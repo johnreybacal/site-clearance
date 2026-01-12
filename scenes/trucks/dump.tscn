@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://b7cbmf50rbg40"]
+
+[ext_resource type="Script" uid="uid://dnud481iuhnme" path="res://scripts/truck.gd" id="1_onl6s"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_sxspr"]
+[ext_resource type="Texture2D" uid="uid://14w0hn8ybajd" path="res://assets/sprites/trucks/dump.png" id="3_x622c"]
+
+[sub_resource type="Resource" id="Resource_it2c7"]
+script = ExtResource("2_sxspr")
+title = "Drop Payload"
+description = "Damages and slows all enemies"
+is_area_target = true
+damage = 1.0
+heat_cost = 5.0
+slow_debuff_turns = 2
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[sub_resource type="Resource" id="Resource_ci6le"]
+script = ExtResource("2_sxspr")
+title = "Distribute scrap"
+description = "Heal an allied unit"
+target_type = 1
+heat_cost = 4.0
+heal_amount = 5.0
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[node name="Dump" type="Node2D"]
+z_index = 5
+script = ExtResource("1_onl6s")
+max_heat_level = 8
+title = "Dump"
+max_hp = 15.0
+speed = 44.0
+moves = Array[ExtResource("2_sxspr")]([SubResource("Resource_it2c7"), SubResource("Resource_ci6le")])
+
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
+texture_filter = 1
+texture = ExtResource("3_x622c")

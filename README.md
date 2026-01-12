@@ -78,6 +78,7 @@ Road roller (combat)
 - <a href="https://www.flaticon.com/free-icons/shield" title="shield icons">Shield icons created by rukanicon - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/delay" title="delay icons">Delay icons created by meaicon - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/music-player" title="music player icons">Music player icons created by Dewi Sari - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/driller" title="driller icons">Driller icons created by puppie - Flaticon</a>
 - https://swishos.itch.io/swishs-sprite-pack-24x24
 - https://ninjikin.itch.io/grass
 - https://pixelartvillage.com/

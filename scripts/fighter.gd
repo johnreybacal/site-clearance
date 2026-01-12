@@ -55,14 +55,15 @@ func _ready():
 
     texture_container = get_node("TextureContainer")
     sprite = get_node("TextureContainer/Sprite2D") as Sprite2D
+    sprite.z_index = 2
     shadow = sprite.duplicate()
     shadow.name = "ShadowSprite"
-    shadow.flip_v = true
     shadow.modulate = "#00000044"
     shadow_position = Vector2(5, shadow.texture.get_height() * .66)
     shadow.position = shadow_position
-    shadow.scale = Vector2(sprite.scale.x, sprite.scale.y / 2)
-    shadow.skew = deg_to_rad(-15)
+    shadow.scale = Vector2(sprite.scale.x, sprite.scale.y / -1.5)
+    shadow.skew = deg_to_rad(-30)
+    shadow.z_index = 1
     texture_container.add_child(shadow)
 
     fighter_data = FighterDataScene.instantiate()
@@ -186,12 +187,14 @@ func perform_move(move: Move, targets: Array[Fighter]):
         targets = [self]
 
     for target in targets:
-        # Attack
-        var damage = move.damage
-        if damage_buff_turns > 0:
-            damage *= 1.5
-        target.take_damage(damage)
         target.highlight_duration = 0
+        
+        # Attack
+        if move.damage > 0:
+            var damage = move.damage
+            if damage_buff_turns > 0:
+                damage *= 1.5
+            target.take_damage(damage)
         
         # Debuff
         target.slow_debuff_turns += move.slow_debuff_turns

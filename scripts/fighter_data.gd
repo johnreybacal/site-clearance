@@ -11,10 +11,10 @@ var is_truck: bool
 var target_hp: float = 100
 var target_heat: float = 0
 
-var damage_buff_texture = preload("res://assets/status/damage.png")
-var defense_buff_texture = preload("res://assets/status/defense.png")
-var slow_debuff_texture = preload("res://assets/status/slow.png")
-var stun_debuff_texture = preload("res://assets/status/stun.png")
+var damage_buff_texture = preload("res://assets/sprites/status/damage.png")
+var defense_buff_texture = preload("res://assets/sprites/status/defense.png")
+var slow_debuff_texture = preload("res://assets/sprites/status/slow.png")
+var stun_debuff_texture = preload("res://assets/sprites/status/stun.png")
 
 func _ready() -> void:
     status.scale = Vector2(.25, .25)

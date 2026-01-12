@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4pn2jg3njbn6"
-path="res://.godot/imported/slow.png-f1b292b93420ccdd773dd697b37ac9b5.ctex"
+uid="uid://sshvqhxego1c"
+path="res://.godot/imported/damage.png-12da7f35b394ccf33a9742397fc2d7c0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/status/slow.png"
-dest_files=["res://.godot/imported/slow.png-f1b292b93420ccdd773dd697b37ac9b5.ctex"]
+source_file="res://assets/sprites/status/damage.png"
+dest_files=["res://.godot/imported/damage.png-12da7f35b394ccf33a9742397fc2d7c0.ctex"]
 
 [params]
 

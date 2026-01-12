@@ -54,7 +54,7 @@ func show_moves(truck: Truck):
     for move in truck.moves:
         var button = Button.new()
         button.text = move.title
-        if truck.heat_level > truck.max_heat_level and move.heat_cost > 0:
+        if truck.heat_level >= truck.max_heat_level and move.heat_cost > 0:
             button.disabled = true
         button.set_meta(MOVE_ID_META, move.get_instance_id())
         button.add_to_group(MOVE_BUTTON_GROUP)

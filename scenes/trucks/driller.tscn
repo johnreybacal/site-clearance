@@ -22,7 +22,7 @@ heat_cost = 3.0
 damage_buff_turns = 3
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
-[node name="Excavator" type="Node2D"]
+[node name="Driller" type="Node2D"]
 z_index = 5
 script = ExtResource("1_2y7h8")
 max_heat_level = 8

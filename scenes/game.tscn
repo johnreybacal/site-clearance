@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b172hsvrevany"]
+[gd_scene load_steps=10 format=3 uid="uid://b172hsvrevany"]
 
 [ext_resource type="Texture2D" uid="uid://c3byo6xahqd55" path="res://resources/sunlight_gradient.tres" id="1_p57ef"]
 [ext_resource type="PackedScene" uid="uid://bo5gubxdgbov4" path="res://scenes/hud.tscn" id="1_uwrxv"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://d0at7r8r01h45" path="res://scenes/trucks/cement_mixer.tscn" id="4_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://3qwn2vedy3y1" path="res://scenes/trucks/driller.tscn" id="5_gee14"]
 [ext_resource type="TileSet" uid="uid://bpdf6haxuyibs" path="res://tile_sets/grass.tres" id="5_iywne"]
+[ext_resource type="PackedScene" uid="uid://b7cbmf50rbg40" path="res://scenes/trucks/dump.tscn" id="6_0tnpc"]
 
 [node name="Node" type="Node"]
 
@@ -27,7 +28,7 @@ z_index = 10
 [node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("hud", "bg_tile_map", "sunlight_foreground")]
 script = ExtResource("2_yqjtg")
 hud = NodePath("../CanvasLayer/HUD")
-truck_scenes = Array[PackedScene]([ExtResource("3_lnu2h"), ExtResource("4_u5sy4"), ExtResource("5_gee14")])
+truck_scenes = Array[PackedScene]([ExtResource("3_lnu2h"), ExtResource("4_u5sy4"), ExtResource("5_gee14"), ExtResource("6_0tnpc")])
 enemy_scene = ExtResource("4_lbhrr")
 bg_tile_map = NodePath("../Background")
 bg_tile_set = ExtResource("5_iywne")
