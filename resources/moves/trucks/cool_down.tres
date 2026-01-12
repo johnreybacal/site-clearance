@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1_rekow")
 title = "Cool Down"
-description = "Skip a turn and let your truck reduce heat level"
+description = "Reduce heat level"
 move_type = 1
 target_type = 2
-heat_reduction = 5
+cool_down_amount = 5.0
 metadata/_custom_type_script = "uid://qjboko3yokku"

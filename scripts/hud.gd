@@ -32,7 +32,7 @@ func _process(_delta: float):
                     var move_id = button.get_meta(MOVE_ID_META)
                     on_move_hovered.emit(move_id)
                     var move = instance_from_id(move_id) as Move
-                    description.text = move.description + ". HEAT COST: " + str(move.heat_cost)
+                    description.text = move.description
 
                 if button.is_in_group(TARGET_BUTTON_GROUP):
                     var target_id = button.get_meta(TARGET_ID_META, -1)

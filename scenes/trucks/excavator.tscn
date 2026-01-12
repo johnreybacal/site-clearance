@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bpxwqemfvxrnj"]
+[gd_scene load_steps=6 format=3 uid="uid://bpxwqemfvxrnj"]
 
 [ext_resource type="Script" uid="uid://dnud481iuhnme" path="res://scripts/truck.gd" id="1_a4wfb"]
 [ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_fy0fe"]
@@ -7,18 +7,28 @@
 [sub_resource type="Resource" id="Resource_a4wfb"]
 script = ExtResource("2_fy0fe")
 title = "Swing"
-description = "Swing arm to hit all enemies"
+description = "Attack all enemies"
 is_area_target = true
-damage = 20
-heat_cost = 3
+damage = 3.0
+heat_cost = 5.0
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[sub_resource type="Resource" id="Resource_5pcn0"]
+script = ExtResource("2_fy0fe")
+title = "Throw Debris"
+description = "Damage and slow a single enemy"
+move_type = 1
+damage = 3.0
+heat_cost = 4.0
+slow_turn = 2
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
 [node name="Excavator" type="Node2D"]
 z_index = 5
 script = ExtResource("1_a4wfb")
 title = "Excavator"
-speed = 25
-moves = Array[ExtResource("2_fy0fe")]([SubResource("Resource_a4wfb")])
+speed = 30.0
+moves = Array[ExtResource("2_fy0fe")]([SubResource("Resource_a4wfb"), SubResource("Resource_5pcn0")])
 
 [node name="TextureContainer" type="Node2D" parent="."]
 

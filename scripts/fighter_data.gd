@@ -18,9 +18,9 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
     if hp.value != target_hp:
-        hp.value = move_toward(hp.value, target_hp, delta * 250)
+        hp.value = move_toward(hp.value, target_hp, delta * 100)
     if heat.value != target_heat:
-        heat.value = move_toward(heat.value, target_heat, delta * 250)
+        heat.value = move_toward(heat.value, target_heat, delta * 100)
 
 func update_hp(amount: float, max_amount: float):
     target_hp = (amount / max_amount) * 100

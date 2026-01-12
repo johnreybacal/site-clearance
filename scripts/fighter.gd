@@ -5,9 +5,9 @@ class_name Fighter
 const MAX_SPEED = 100
 
 @export var title: String
-@export var max_hp: int = 10
-@export var speed: int = 75
-var hp: int
+@export var max_hp: float = 10
+@export var speed: float = 75
+var hp: float
 
 @export var moves: Array[Move]
 
@@ -52,6 +52,7 @@ var FighterDataScene = preload("res://scenes/fighter_data.tscn")
 
 func _ready():
     hp = max_hp
+    # speed = randf_range(speed - 1, speed + 1)
 
     texture_container = get_node("TextureContainer")
     sprite = get_node("TextureContainer/Sprite2D") as Sprite2D
@@ -119,7 +120,7 @@ func _process(delta: float) -> void:
             current_shake = 1
 
 
-func take_damage(damage: int, self_inflicted: bool = false):
+func take_damage(damage: float, self_inflicted: bool = false):
     if toughened > 0:
         damage *= .75
     hp -= damage
@@ -133,7 +134,7 @@ func take_damage(damage: int, self_inflicted: bool = false):
     else:
         current_shake = 10
 
-func heal(amount: int):
+func heal(amount: float):
     hp += amount
     if hp > max_hp:
         hp = max_hp
@@ -144,16 +145,16 @@ func update_move_index():
     var s = speed
     if slowed > 0:
         s *= .75
-    move_index += MAX_SPEED - s
+    move_index += round(MAX_SPEED - s)
 
 func project_upcoming_move_index():
     var s = speed
     if slowed > 0:
         s *= .75
-    var move_index_projection = move_index
+    var move_index_projection: int = move_index
     upcoming_move_indices.clear()
     for i in range(1):
-        move_index_projection += MAX_SPEED - s
+        move_index_projection += round(MAX_SPEED - s)
         upcoming_move_indices.append(move_index_projection)
 
 func move_to_center():
@@ -179,8 +180,8 @@ func perform_move(move: Move, targets: Array[Fighter]):
     if self is Truck:
         var truck = self
         truck.heat_level += move.heat_cost
-        if move.heat_reduction:
-            truck.cool_down(move.heat_reduction)
+        if move.cool_down_amount:
+            truck.cool_down(move.cool_down_amount)
         fighter_data.update_heat(truck.heat_level, truck.max_heat_level)
 
     if move.self_damage > 0:

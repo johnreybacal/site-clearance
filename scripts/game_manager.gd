@@ -61,8 +61,8 @@ func _ready() -> void:
         add_fighter(truck)
 
     add_enemies()
+
     update_queue()
-    hud.update_turn_display(turn_queue)
 
     draw_bg(true)
     sunlight_foreground.texture = sunlight_gradient
@@ -87,7 +87,6 @@ func _process(delta: float) -> void:
             proceed_interval = PROCEED_INTERVAL
             is_proceeding = false
             update_queue()
-            hud.update_turn_display(turn_queue)
         return
     if is_ticking:
         tick_interval -= delta
@@ -132,6 +131,7 @@ func update_queue():
     
     turn_queue = unique_queue.filter(func(i: FighterQueue): return i.move_index >= prev_move_index)
     turn_queue.sort_custom(func(a: FighterQueue, b: FighterQueue): return a.move_index < b.move_index)
+    hud.update_turn_display(turn_queue)
 
 
 func on_tick():
@@ -171,6 +171,7 @@ func add_enemies():
 func add_fighter(fighter: Fighter):
     add_child.call_deferred(fighter)
     fighter.on_died.connect(remove_fighter)
+    print("added ", fighter.title, " on ", move_index)
     fighters.append(fighter)
 
 func remove_fighter(fighter: Fighter):
@@ -234,7 +235,7 @@ func on_move_selected(move: Move):
         else:
             hud.show_targets(move, enemies)
     elif move.target_type == Move.TargetType.Ally:
-        var allies = fighters.filter(func(f: Fighter): return f is Truck and f != current_fighter)
+        var allies = get_trucks()
         if move.is_area_target:
             on_move_confirmed(move, allies)
         else:

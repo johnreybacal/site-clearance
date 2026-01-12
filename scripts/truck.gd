@@ -15,7 +15,7 @@ func _ready():
     moves.push_front(move_cd)
     fighter_data.update_heat(heat_level, max_heat_level)
 
-func cool_down(amount: int):
+func cool_down(amount: float):
     heat_level -= amount
     if heat_level < 0:
        heat_level = 0
