@@ -15,6 +15,10 @@ var damage_buff_texture = preload("res://assets/sprites/status/damage.png")
 var defense_buff_texture = preload("res://assets/sprites/status/defense.png")
 var slow_debuff_texture = preload("res://assets/sprites/status/slow.png")
 var stun_debuff_texture = preload("res://assets/sprites/status/stun.png")
+var overheat_texture = preload("res://assets/sprites/status/overheat.png")
+
+var show_overheat: bool
+var overheat_status: Node
 
 func _ready() -> void:
     status.scale = Vector2(.25, .25)
@@ -24,6 +28,8 @@ func _ready() -> void:
     if not is_truck:
         heat.visible = false
         $SkewContainer/HeatBg.visible = false
+    else:
+        overheat_status = add_status(overheat_texture, 0)
 
 func _process(delta: float) -> void:
     if hp.value != target_hp:
@@ -36,6 +42,7 @@ func update_hp(amount: float, max_amount: float):
 
 func update_heat(amount: float, max_amount: float):
     target_heat = (amount / max_amount) * 100
+    overheat_status.visible = amount >= max_amount
 
 func add_status(texture: CompressedTexture2D, _duration: int):
     var rect = TextureRect.new()
@@ -51,6 +58,8 @@ func add_status(texture: CompressedTexture2D, _duration: int):
 
     status.add_child(panel)
 
+    return panel
+
 func update_status(
     slow_debuff_turns: int,
     stun_debuff_turns: int,
@@ -58,7 +67,11 @@ func update_status(
     defense_buff_turns: int,
 ):
     for node in status.get_children():
-        node.queue_free()
+        if node != overheat_status:
+            node.queue_free()
+
+    if show_overheat:
+        add_status(overheat_texture, 0)
     if slow_debuff_turns > 0:
         add_status(slow_debuff_texture, slow_debuff_turns)
     if stun_debuff_turns > 0:

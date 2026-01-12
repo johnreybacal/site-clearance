@@ -79,6 +79,9 @@ Road roller (combat)
 - <a href="https://www.flaticon.com/free-icons/delay" title="delay icons">Delay icons created by meaicon - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/music-player" title="music player icons">Music player icons created by Dewi Sari - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/driller" title="driller icons">Driller icons created by puppie - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/dump-truck" title="dump truck icons">Dump truck icons created by Freepik - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/fire" title="fire icons">Fire icons created by juicy_fish - Flaticon</a>
 - https://swishos.itch.io/swishs-sprite-pack-24x24
 - https://ninjikin.itch.io/grass
 - https://pixelartvillage.com/
+- https://www.1001fonts.com/chinese-rocks-free-font.html

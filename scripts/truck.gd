@@ -19,3 +19,4 @@ func cool_down(amount: float):
     heat_level -= amount
     if heat_level < 0:
        heat_level = 0
+    fighter_data.update_heat(heat_level, max_heat_level)

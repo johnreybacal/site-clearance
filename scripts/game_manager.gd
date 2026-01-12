@@ -184,7 +184,7 @@ func add_enemies():
     for i in range(num_enemies):
         var enemy: Enemy = enemy_scenes.pick_random().instantiate()
         enemy.position = enemies_position[num_enemies - 1][i]
-        enemy.max_hp += randf_range(enemy.max_hp - 1, enemy.max_hp + proceeds + 2)
+        enemy.max_hp += randf_range(enemy.max_hp - 1, enemy.max_hp + proceeds)
         enemy.on_move_selected.connect(on_move_selected)
         enemy.on_move_confirmed.connect(on_move_confirmed)
         add_fighter(enemy)
