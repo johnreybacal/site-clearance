@@ -16,9 +16,17 @@ var defense_buff_texture = preload("res://assets/sprites/status/defense.png")
 var slow_debuff_texture = preload("res://assets/sprites/status/slow.png")
 var stun_debuff_texture = preload("res://assets/sprites/status/stun.png")
 var overheat_texture = preload("res://assets/sprites/status/overheat.png")
+var floating_text = preload("res://scenes/floating_text.tscn")
 
-var show_overheat: bool
 var overheat_status: Node
+
+class TextQueue:
+    var text: String
+    var color: Color
+
+var text_queue: Array[TextQueue] = []
+const TEXT_INTERVAL = 0.5
+var text_interval = 0
 
 func _ready() -> void:
     status.scale = Vector2(.25, .25)
@@ -36,13 +44,28 @@ func _process(delta: float) -> void:
         hp.value = move_toward(hp.value, target_hp, delta * 100)
     if heat.value != target_heat:
         heat.value = move_toward(heat.value, target_heat, delta * 100)
+    if len(text_queue) > 0:
+        text_interval -= delta
+        if text_interval <= 0:
+            var item = text_queue.pop_back()
+            display_text(item.text, item.color)
+            text_interval = TEXT_INTERVAL if len(text_queue) > 0 else 0.0
 
 func update_hp(amount: float, max_amount: float):
     target_hp = (amount / max_amount) * 100
 
 func update_heat(amount: float, max_amount: float):
     target_heat = (amount / max_amount) * 100
-    overheat_status.visible = amount >= max_amount
+    var previous_show_overheat = overheat_status.visible
+    var show_overheat = amount >= max_amount
+    overheat_status.visible = show_overheat
+    if show_overheat and not previous_show_overheat:
+        queue_text("Overheating", Color.DARK_RED)
+
+func hide_data():
+    skew_container.visible = false
+    status.visible = false
+
 
 func add_status(texture: CompressedTexture2D, _duration: int):
     var rect = TextureRect.new()
@@ -70,8 +93,6 @@ func update_status(
         if node != overheat_status:
             node.queue_free()
 
-    if show_overheat:
-        add_status(overheat_texture, 0)
     if slow_debuff_turns > 0:
         add_status(slow_debuff_texture, slow_debuff_turns)
     if stun_debuff_turns > 0:
@@ -80,3 +101,15 @@ func update_status(
         add_status(damage_buff_texture, damage_buff_turns)
     if defense_buff_turns > 0:
         add_status(defense_buff_texture, defense_buff_turns)
+
+func queue_text(value: String, color: Color = "#FFFFFF"):
+    var item = TextQueue.new()
+    item.text = value
+    item.color = color
+    text_queue.push_front(item)
+
+func display_text(value: String, color: Color = "#FFFFFF"):
+    var text: Node2D = floating_text.instantiate()
+    text.modulate = color
+    (text.get_child(1).get_child(0) as Label).text = value
+    add_child(text)

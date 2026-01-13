@@ -1,10 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bo5gubxdgbov4"]
+[gd_scene load_steps=3 format=3 uid="uid://bo5gubxdgbov4"]
 
 [ext_resource type="Script" uid="uid://cld8sidgyvfvi" path="res://scripts/hud.gd" id="1_ahhtf"]
-[ext_resource type="FontFile" uid="uid://cyydyarja1nla" path="res://assets/fonts/chinese rocks rg.otf" id="1_oo0fn"]
-
-[sub_resource type="Theme" id="Theme_5ysmq"]
-default_font = ExtResource("1_oo0fn")
+[ext_resource type="Theme" uid="uid://w03an4spcyps" path="res://resources/theme.tres" id="1_oo0fn"]
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -13,7 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_5ysmq")
+theme = ExtResource("1_oo0fn")
 script = ExtResource("1_ahhtf")
 
 [node name="TopPanel" type="PanelContainer" parent="."]

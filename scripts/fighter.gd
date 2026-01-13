@@ -122,12 +122,13 @@ func take_damage(damage: float, self_inflicted: bool = false):
     if defense_buff_turns > 0:
         damage *= .5
     hp -= damage
+    fighter_data.queue_text("-" + str(damage))
     fighter_data.update_hp(hp, max_hp)
     if not self_inflicted:
         is_attacked = true
     if hp <= 0:
         on_died.emit(self)
-        fighter_data.visible = false
+        fighter_data.hide_data()
         is_dying = true
     else:
         current_shake = 10
@@ -136,6 +137,7 @@ func heal(amount: float):
     hp += amount
     if hp > max_hp:
         hp = max_hp
+    fighter_data.queue_text("+" + str(amount))
     fighter_data.update_hp(hp, max_hp)
 
 
@@ -165,6 +167,7 @@ func return_to_initial_position():
 func perform_move(move: Move, targets: Array[Fighter]):
     current_shake = 5
     if stun_debuff_turns > 0:
+        fighter_data.queue_text("STUNNED")
         print(title + " is stunned, turn missed")
         return_to_initial_position()
         return
@@ -174,12 +177,6 @@ func perform_move(move: Move, targets: Array[Fighter]):
     
     if len(targets) > 0:
         print("  on ", ", ".join(targets.map(func(t: Fighter): return t.title)))
-    if self is Truck:
-        var truck = self
-        truck.heat_level += move.heat_cost
-        if move.cool_down_amount:
-            truck.cool_down(move.cool_down_amount)
-        fighter_data.update_heat(truck.heat_level, truck.max_heat_level)
 
     if move.self_damage > 0:
         take_damage(move.self_damage, true)
@@ -198,12 +195,21 @@ func perform_move(move: Move, targets: Array[Fighter]):
             target.take_damage(damage)
         
         # Debuff
-        target.slow_debuff_turns += move.slow_debuff_turns
-        target.stun_debuff_turns += move.stun_debuff_turns
+        if move.slow_debuff_turns > 0:
+            target.fighter_data.queue_text("SLOWED")
+            target.slow_debuff_turns += move.slow_debuff_turns
+            
+        if move.stun_debuff_turns > 0:
+            target.fighter_data.queue_text("STUNNED")
+            target.stun_debuff_turns += move.stun_debuff_turns
 
         # Buff
-        target.damage_buff_turns += move.damage_buff_turns
-        target.defense_buff_turns += move.defense_buff_turns
+        if move.damage_buff_turns > 0:
+            target.fighter_data.queue_text("DMG+")
+            target.damage_buff_turns += move.damage_buff_turns
+        if move.defense_buff_turns > 0:
+            target.fighter_data.queue_text("DEF+")
+            target.defense_buff_turns += move.defense_buff_turns
 
         if move.heal_amount > 0:
             target.heal(move.heal_amount)

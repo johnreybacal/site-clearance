@@ -20,3 +20,4 @@ func cool_down(amount: float):
     if heat_level < 0:
        heat_level = 0
     fighter_data.update_heat(heat_level, max_heat_level)
+    fighter_data.queue_text("-" + str(amount), Color.SKY_BLUE)

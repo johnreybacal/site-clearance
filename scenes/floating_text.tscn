@@ -1,0 +1,88 @@
+[gd_scene load_steps=6 format=3 uid="uid://dwnvhv47a7fv8"]
+
+[ext_resource type="FontFile" uid="uid://cyydyarja1nla" path="res://assets/fonts/chinese rocks rg.otf" id="1_45khh"]
+
+[sub_resource type="Animation" id="Animation_vqah5"]
+resource_name = "default"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LabelContainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 0.28717402),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -50)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LabelContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 3.5809953),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ki2nc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LabelContainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -50)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LabelContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_27d3m"]
+_data = {
+&"RESET": SubResource("Animation_ki2nc"),
+&"default": SubResource("Animation_vqah5")
+}
+
+[sub_resource type="Theme" id="Theme_073qt"]
+default_font = ExtResource("1_45khh")
+
+[node name="FloatingText" type="Node2D"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_27d3m")
+}
+autoplay = "default"
+
+[node name="LabelContainer" type="Node2D" parent="."]
+position = Vector2(0, -50)
+
+[node name="Label" type="Label" parent="LabelContainer"]
+texture_filter = 1
+offset_left = -26.0
+offset_top = -10.0
+offset_right = 26.0
+offset_bottom = 13.0
+theme = SubResource("Theme_073qt")
+text = "Stunned"
+horizontal_alignment = 1
