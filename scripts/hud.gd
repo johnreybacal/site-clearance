@@ -7,12 +7,13 @@ class_name HUD
 
 @onready var turn_display: HBoxContainer = $TopPanel/TurnDisplay
 
+@onready var ui_feedback: AudioStreamPlayer = $UIFeedback
+
 signal on_move_selected(move: Move)
 signal on_move_cancelled()
 signal on_move_hovered(move_id: int)
 signal on_target_hovered(target_id: int)
 signal on_target_selected(move: Move, targets: Array[Fighter])
-
 const MOVE_BUTTON_GROUP = "move_button"
 const TARGET_BUTTON_GROUP = "target_button"
 const MOVE_ID_META = "move_id"
@@ -60,6 +61,8 @@ func show_moves(truck: Truck):
         button.add_to_group(MOVE_BUTTON_GROUP)
         
         button.pressed.connect(Callable(on_move_selected.emit).bind(move))
+        button.pressed.connect(play_ui_feedback)
+        button.focus_entered.connect(play_ui_feedback)
         turn_decision.add_child.call_deferred(button)
         if is_first_button:
             button.grab_focus.call_deferred()
@@ -78,6 +81,8 @@ func show_targets(move: Move, targets: Array[Fighter]):
     cancel_button.pressed.connect(on_move_cancelled.emit)
     turn_decision.add_child.call_deferred(cancel_button)
     cancel_button.grab_focus.call_deferred()
+    cancel_button.focus_entered.connect(play_ui_feedback)
+    cancel_button.pressed.connect(play_ui_feedback)
 
     for target in targets:
         var button = Button.new()
@@ -86,6 +91,8 @@ func show_targets(move: Move, targets: Array[Fighter]):
         var single_target: Array[Fighter] = [target]
         button.set_meta(TARGET_ID_META, target.get_instance_id())
         button.pressed.connect(Callable(on_target_selected.emit).bind(move, single_target))
+        button.pressed.connect(play_ui_feedback)
+        button.focus_entered.connect(play_ui_feedback)
         turn_decision.add_child.call_deferred(button)
 
 
@@ -119,3 +126,7 @@ func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameMa
         counter += 1
         if counter > max_display:
             break
+
+func play_ui_feedback():
+    ui_feedback.pitch_scale = randf_range(0.8, 1.2)
+    ui_feedback.play()

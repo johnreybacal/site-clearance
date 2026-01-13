@@ -6,6 +6,9 @@ const REST_INDEX = 0
 signal on_move_selected(move: Move)
 signal on_move_confirmed(move: Move, targets: Array[Fighter])
 
+func _init() -> void:
+    fighter_sfx_stream = preload("res://assets/sfx/enemy.mp3")
+
 func _ready():
     super._ready()
     var move_at = preload("res://resources/moves/enemies/attack.tres")

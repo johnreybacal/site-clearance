@@ -49,6 +49,11 @@ var defense_buff_turns: int
 
 var FighterDataScene = preload("res://scenes/fighter_data.tscn")
 var smoke_scene = preload("res://scenes/smoke.tscn")
+var hit_sfx_stream = preload("res://assets/sfx/hit.mp3")
+var fighter_sfx_stream: AudioStream
+
+var hit_sfx: AudioStreamPlayer
+var fighter_sfx: AudioStreamPlayer
 
 func _ready():
     hp = max_hp
@@ -66,6 +71,18 @@ func _ready():
     shadow.skew = deg_to_rad(-30)
     shadow.z_index = 1
     texture_container.add_child(shadow)
+
+    hit_sfx = AudioStreamPlayer.new()
+    hit_sfx.name = "HitSfx"
+    hit_sfx.stream = hit_sfx_stream
+    hit_sfx.volume_db = -5
+    add_child(hit_sfx)
+
+    fighter_sfx = AudioStreamPlayer.new()
+    fighter_sfx.name = "FighterSfx"
+    fighter_sfx.stream = fighter_sfx_stream
+    fighter_sfx.volume_db = -10
+    add_child(fighter_sfx)
 
     fighter_data = FighterDataScene.instantiate()
     fighter_data.is_truck = self is Truck
@@ -129,14 +146,19 @@ func take_damage(damage: float, self_inflicted: bool = false):
     if self is Enemy:
         smoke.scale = Vector2(-1, 1)
     add_child(smoke)
+    
     if not self_inflicted:
         is_attacked = true
     if hp <= 0:
         on_died.emit(self)
         fighter_data.hide_data()
         is_dying = true
+        play_fighter_sfx()
     else:
         current_shake = 10
+
+    hit_sfx.pitch_scale = randf_range(0.8, 1.2)
+    hit_sfx.play()
 
 func heal(amount: float):
     hp += amount
@@ -163,6 +185,7 @@ func project_upcoming_move_index():
 func move_to_center():
     is_ready = false
     is_going_to_center = true
+    play_fighter_sfx()
 
 func return_to_initial_position():
     reduce_effect()
@@ -242,3 +265,7 @@ func reduce_effect():
 
 func update_status():
     fighter_data.update_status(slow_debuff_turns, stun_debuff_turns, damage_buff_turns, defense_buff_turns)
+
+func play_fighter_sfx():
+    fighter_sfx.pitch_scale = randf_range(0.8, 1.2)
+    fighter_sfx.play()

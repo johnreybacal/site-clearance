@@ -6,6 +6,8 @@ class_name Truck
 @export var max_heat_level = 10
 var heat_level = 0
 
+func _init() -> void:
+    fighter_sfx_stream = preload("res://assets/sfx/truck.mp3")
 
 func _ready():
     super._ready()
