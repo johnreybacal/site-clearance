@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_41ncg")
-title = "Run over"
+title = "Crash"
 description = "Deal damage to an enemy and self"
 damage = 3.0
 self_damage = 1.0

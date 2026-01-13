@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_rekow")
-title = "Cool Down"
+title = "Cooldown"
 description = "Reduce heat level"
 move_type = 1
 target_type = 2

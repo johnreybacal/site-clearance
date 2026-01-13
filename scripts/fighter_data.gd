@@ -60,7 +60,7 @@ func update_heat(amount: float, max_amount: float):
     var show_overheat = amount >= max_amount
     overheat_status.visible = show_overheat
     if show_overheat and not previous_show_overheat:
-        queue_text("Overheating", Color.DARK_RED)
+        queue_text("Overheating", Color.RED)
 
 func hide_data():
     skew_container.visible = false

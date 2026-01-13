@@ -5,23 +5,16 @@
 [ext_resource type="AudioStream" uid="uid://2iv2buj0vs0c" path="res://assets/sfx/ui_feedback.mp3" id="3_5ysmq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ysmq"]
-bg_color = Color(0.23137255, 0.23137255, 0.23137255, 1)
-border_width_left = 1
-border_width_right = 1
-border_width_bottom = 4
-border_color = Color(0.5716431, 0.67032766, 0.74050456, 1)
+bg_color = Color(0.6666667, 0.6666667, 0.6666667, 1)
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
-expand_margin_left = 4.0
-expand_margin_right = 4.0
-expand_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fi6k"]
-bg_color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+bg_color = Color(0.23137255, 0.23137255, 0.23137255, 0.78431374)
 border_width_left = 2
 border_width_top = 8
 border_width_right = 2
-border_color = Color(0.5716431, 0.67032766, 0.74050456, 1)
+border_color = Color(0.8, 0.5176471, 0, 0.78431374)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 expand_margin_left = 4.0
@@ -63,9 +56,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = -40.0
-offset_right = 100.0
+offset_left = -186.0
+offset_top = -112.0
+offset_right = 187.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_6fi6k")
@@ -84,6 +77,7 @@ custom_minimum_size = Vector2(350, 50)
 layout_mode = 2
 size_flags_vertical = 8
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="UIFeedback" type="AudioStreamPlayer" parent="."]
