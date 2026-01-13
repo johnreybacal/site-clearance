@@ -35,3 +35,12 @@ var total_heat: float
 var total_money: float
 # Big Spender
 var total_spent: float
+
+var bgm: AudioStreamPlayer
+
+func _ready() -> void:
+    bgm = AudioStreamPlayer.new()
+    bgm.stream = preload("res://assets/bgm/chill-drum-loop.mp3")
+    bgm.volume_db = -10
+    add_child(bgm)
+    bgm.play()

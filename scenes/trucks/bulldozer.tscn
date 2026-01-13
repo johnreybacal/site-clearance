@@ -7,10 +7,11 @@
 [sub_resource type="Resource" id="Resource_mgboc"]
 script = ExtResource("2_u1gb1")
 title = "Blade Guard"
-description = "Increases defense"
+description = "Increases attack and defense"
 move_type = 1
 target_type = 2
 heat_cost = 4.0
+damage_buff_turns = 1
 defense_buff_turns = 3
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
@@ -19,6 +20,7 @@ script = ExtResource("2_u1gb1")
 title = "Push"
 description = "Damages and stuns an enemy"
 damage = 5.0
+heat_cost = 5.0
 stun_debuff_turns = 1
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
