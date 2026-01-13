@@ -1,10 +1,10 @@
 [gd_resource type="GradientTexture2D" load_steps=2 format=3 uid="uid://c3byo6xahqd55"]
 
 [sub_resource type="Gradient" id="Gradient_iywne"]
-offsets = PackedFloat32Array(0.10739857, 0.59188545, 1)
-colors = PackedColorArray(0.9288215, 0.78834933, 0.2358951, 1, 0.9541841, 0.6953986, 0.41285205, 1, 0.9529412, 0.69411767, 0.4117647, 0)
+offsets = PackedFloat32Array(0, 0.30212766, 0.48510638, 1)
+colors = PackedColorArray(0.9288215, 0.78834933, 0.2358951, 1, 0.9541841, 0.6953986, 0.41285205, 1, 0.9540629, 0.69527364, 0.41274595, 0.902439, 0.9529412, 0.69411767, 0.4117647, 0)
 
 [resource]
 gradient = SubResource("Gradient_iywne")
 fill = 1
-fill_to = Vector2(-0.5, 0.5)
+fill_to = Vector2(0.25, 1)

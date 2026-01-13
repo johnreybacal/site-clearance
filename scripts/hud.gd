@@ -94,7 +94,7 @@ func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameMa
         node.queue_free()
 
     var counter = 0
-    var max_display = 10
+    var max_display = 5
     var is_before_current = true
     for item in queue:
         var is_current_fighter = false

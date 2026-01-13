@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dtrefy2u0aq53" path="res://scenes/enemies/ankylosaur.tscn" id="4_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://d0at7r8r01h45" path="res://scenes/trucks/cement_mixer.tscn" id="4_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://3qwn2vedy3y1" path="res://scenes/trucks/driller.tscn" id="5_gee14"]
-[ext_resource type="TileSet" uid="uid://bpdf6haxuyibs" path="res://tile_sets/grass.tres" id="5_iywne"]
+[ext_resource type="TileSet" uid="uid://bpdf6haxuyibs" path="res://resources/tilesets/grass.tres" id="5_iywne"]
 [ext_resource type="PackedScene" uid="uid://b7cbmf50rbg40" path="res://scenes/trucks/dump.tscn" id="6_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://bk5vrshvhnk00" path="res://scenes/enemies/raptor.tscn" id="8_kvpfn"]
 [ext_resource type="PackedScene" uid="uid://xbwrp7gvi42b" path="res://scenes/enemies/dragon.tscn" id="9_dinhu"]
@@ -40,5 +40,6 @@ sunlight_gradient = ExtResource("1_p57ef")
 [node name="Background" type="TileMapLayer" parent="."]
 z_index = -1
 texture_filter = 1
+position = Vector2(0, -15)
 scale = Vector2(2, 2)
 tile_set = ExtResource("5_iywne")

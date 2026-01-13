@@ -31,6 +31,9 @@ var is_proceeding = false
 const PROCEED_INTERVAL = 2
 var proceed_interval = PROCEED_INTERVAL
 var proceeds: int = 0
+const BARREN_INTERVAL = .1
+var barren_interval = BARREN_INTERVAL
+
 const BG_X_INITIAL = -13
 var bg_x = BG_X_INITIAL
 const BG_Y_INITIAL = -7
@@ -75,6 +78,8 @@ func _ready() -> void:
     update_queue()
 
     draw_bg(true)
+    draw_barren()
+
     sunlight_foreground.texture = sunlight_gradient
 
     hud.on_move_selected.connect(on_move_selected)
@@ -91,7 +96,14 @@ func _process(delta: float) -> void:
         for truck in trucks:
             truck.current_shake = 1
         bg_tile_map.position += Vector2.LEFT * delta * 150
+
         proceed_interval -= delta
+        barren_interval -= delta
+
+        if barren_interval <= 0:
+            barren_interval = BARREN_INTERVAL
+            draw_barren()
+            # draw_barren_darker()
         if proceed_interval <= 0:
             add_enemies()
             proceed_interval = PROCEED_INTERVAL
@@ -307,6 +319,7 @@ func enemy_decide():
 #region Proceed
 
 func proceed():
+    proceeds += 1
     current_fighter = null
     turn_queue.clear()
     turn_fighters.clear()
@@ -325,6 +338,8 @@ func draw_bg(initial = false):
     var max_bg_x = bg_x + 11
     if initial:
         max_bg_x = abs(BG_X_INITIAL)
+
+    bg_tile_map.local_to_map(Vector2.ZERO)
         
     for x in range(bg_x, max_bg_x):
         for y in range(bg_y, bg_y + abs(BG_Y_INITIAL) * 2):
@@ -332,7 +347,30 @@ func draw_bg(initial = false):
             bg_tile_map.set_cell(coords, source_id, atlas_coords.pick_random())
         bg_x = x
     bg_y = BG_Y_INITIAL
+    
 
+func draw_barren():
+    var source_id = bg_tile_set.get_source_id(1)
+    var distance = Vector2(position.x, bg_tile_map.position.y).distance_to(bg_tile_map.position)
+    var target_x = bg_tile_map.local_to_map(Vector2(distance + (25 * (proceeds - 2)), 0)).x - (10 * proceeds)
+    for y in range(bg_y, bg_y + abs(BG_Y_INITIAL) * 2):
+        var t_x = target_x - round(abs(y) / randf_range(1.5, 4.5))
+        for x in range(BG_X_INITIAL + (5 * proceeds), t_x):
+            var coords = Vector2i(x, y)
+            var atlas_coords = bg_tile_map.get_cell_atlas_coords(coords)
+            bg_tile_map.set_cell(coords, source_id, atlas_coords)
+    
+# func draw_barren_darker():
+#     var source_id = bg_tile_set.get_source_id(2)
+#     var distance = Vector2(position.x, bg_tile_map.position.y).distance_to(bg_tile_map.position)
+#     var target_x = bg_tile_map.local_to_map(Vector2(distance + (25 * (proceeds - 2)), 0)).x - (10 * proceeds)
+#     target_x -= 5
+#     for y in range(bg_y, bg_y + abs(BG_Y_INITIAL) * 2):
+#         var t_x = target_x - round(abs(y) / randf_range(1.5, 4.5))
+#         for x in range(BG_X_INITIAL + (5 * proceeds), t_x):
+#             var coords = Vector2i(x, y)
+#             var atlas_coords = bg_tile_map.get_cell_atlas_coords(coords)
+#             bg_tile_map.set_cell(coords, source_id, atlas_coords)
 
 #endregion
 
