@@ -48,6 +48,7 @@ var defense_buff_turns: int
 
 
 var FighterDataScene = preload("res://scenes/fighter_data.tscn")
+var smoke_scene = preload("res://scenes/smoke.tscn")
 
 func _ready():
     hp = max_hp
@@ -124,6 +125,10 @@ func take_damage(damage: float, self_inflicted: bool = false):
     hp -= damage
     fighter_data.queue_text("-" + str(damage))
     fighter_data.update_hp(hp, max_hp)
+    var smoke: Node2D = smoke_scene.instantiate()
+    if self is Enemy:
+        smoke.scale = Vector2(-1, 1)
+    add_child(smoke)
     if not self_inflicted:
         is_attacked = true
     if hp <= 0:
