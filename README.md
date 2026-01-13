@@ -1,5 +1,12 @@
 # Site Clearance
 
+Entry for godot wild jap #89
+ - theme: REPURPOSED
+ - optional wildcards:
+   - new achievement: uuuuuugggghhhh
+   - world on cue: shadowy ground?
+   - new year, new me: trucks roster
+
 All trucks has
 
 - Heat system  
