@@ -155,8 +155,6 @@ func project_upcoming_move_index():
 
 func move_to_center():
     is_ready = false
-    if not is_going_to_center:
-        initial_position = position
     is_going_to_center = true
 
 func return_to_initial_position():
@@ -170,7 +168,10 @@ func perform_move(move: Move, targets: Array[Fighter]):
         print(title + " is stunned, turn missed")
         return_to_initial_position()
         return
-    print(title + " used " + move.title)
+
+    var move_stats = "DMG: " + str(move.damage)
+    print(title + " used " + move.title + "::" + move_stats)
+    
     if len(targets) > 0:
         print("  on ", ", ".join(targets.map(func(t: Fighter): return t.title)))
     if self is Truck:
