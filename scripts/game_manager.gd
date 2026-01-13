@@ -42,6 +42,8 @@ var bg_y = BG_Y_INITIAL
 @export var sunlight_gradient: GradientTexture2D
 var sun_position = 0
 
+@export var floating_text_scene: PackedScene
+
 var num_trucks = 3
 var num_enemies = 4
 
@@ -294,6 +296,16 @@ func on_move_selected(move: Move):
 
 
 func on_move_confirmed(move: Move, targets: Array[Fighter]):
+    var text = current_fighter.title
+    if current_fighter.stun_debuff_turns > 0:
+        text += " is stunned"
+    else:
+        text += " used " + move.title
+    var floating_text = floating_text_scene.instantiate()
+    var floating_text_label = floating_text.get_child(1).get_child(0) as Label
+    floating_text_label.text = text
+    floating_text.position = Vector2(0, -50)
+    add_child(floating_text)
     current_fighter.perform_move(move, targets)
     if move.slow_debuff_turns > 0:
         update_queue()

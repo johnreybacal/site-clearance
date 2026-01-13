@@ -195,7 +195,6 @@ func return_to_initial_position():
 func perform_move(move: Move, targets: Array[Fighter]):
     current_shake = 5
     if stun_debuff_turns > 0:
-        fighter_data.queue_text("STUNNED")
         print(title + " is stunned, turn missed")
         return_to_initial_position()
         return

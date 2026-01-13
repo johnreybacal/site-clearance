@@ -27,6 +27,7 @@ z_index = 5
 script = ExtResource("1_2y7h8")
 max_heat_level = 8
 title = "Driller"
+max_hp = 9.0
 speed = 44.0
 moves = Array[ExtResource("2_mggmb")]([SubResource("Resource_btkop"), SubResource("Resource_2blhf")])
 

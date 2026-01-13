@@ -15,11 +15,11 @@ func _ready():
     var move_ro = preload("res://resources/moves/trucks/run_over.tres")
     moves.push_front(move_ro)
     moves.push_front(move_cd)
-    fighter_data.update_heat(heat_level, max_heat_level)
 
 func cool_down(amount: float):
+    if heat_level > 0:
+        fighter_data.queue_text("-" + str(amount) + " HEAT", Color.SKY_BLUE)
     heat_level -= amount
     if heat_level < 0:
        heat_level = 0
     fighter_data.update_heat(heat_level, max_heat_level)
-    fighter_data.queue_text("-" + str(amount), Color.SKY_BLUE)

@@ -27,6 +27,7 @@ metadata/_custom_type_script = "uid://qjboko3yokku"
 z_index = 5
 script = ExtResource("1_wd782")
 title = "Cement Mixer"
+max_hp = 11.0
 speed = 40.0
 moves = Array[ExtResource("2_f270p")]([SubResource("Resource_wd782"), SubResource("Resource_f270p")])
 

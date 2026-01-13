@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://dlmk48hga0q7"]
+
+[ext_resource type="Script" uid="uid://dnud481iuhnme" path="res://scripts/truck.gd" id="1_c8o6l"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_usanj"]
+[ext_resource type="Texture2D" uid="uid://bno0204tmvxdm" path="res://assets/sprites/trucks/water.png" id="3_hcxgf"]
+
+[sub_resource type="Resource" id="Resource_cn3c5"]
+script = ExtResource("2_usanj")
+title = "Shower"
+description = "Cools down all allies"
+move_type = 1
+target_type = 1
+is_area_target = true
+heat_cost = 2.0
+cool_down_amount = 5.0
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[sub_resource type="Resource" id="Resource_ajcat"]
+script = ExtResource("2_usanj")
+title = "Flash Flood"
+description = "Damages and slows all enemies"
+is_area_target = true
+damage = 1.0
+heat_cost = 5.0
+slow_debuff_turns = 2
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[node name="Water Tank" type="Node2D"]
+z_index = 5
+script = ExtResource("1_c8o6l")
+max_heat_level = 15
+title = "Water Tank"
+max_hp = 12.0
+speed = 28.0
+moves = Array[ExtResource("2_usanj")]([SubResource("Resource_cn3c5"), SubResource("Resource_ajcat")])
+
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
+texture_filter = 1
+texture = ExtResource("3_hcxgf")

@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://bpo8q4kh7dsuc"]
+
+[ext_resource type="Script" uid="uid://dnud481iuhnme" path="res://scripts/truck.gd" id="1_n0u0w"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_u1gb1"]
+[ext_resource type="Texture2D" uid="uid://bwenpwxldx2u6" path="res://assets/sprites/trucks/bulldozer.png" id="3_367ef"]
+
+[sub_resource type="Resource" id="Resource_mgboc"]
+script = ExtResource("2_u1gb1")
+title = "Blade Guard"
+description = "Increases defense"
+move_type = 1
+target_type = 2
+heat_cost = 4.0
+defense_buff_turns = 3
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[sub_resource type="Resource" id="Resource_xrtnu"]
+script = ExtResource("2_u1gb1")
+title = "Push"
+description = "Damages and stuns an enemy"
+damage = 5.0
+stun_debuff_turns = 1
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[node name="Bulldozer" type="Node2D"]
+z_index = 5
+script = ExtResource("1_n0u0w")
+max_heat_level = 12
+title = "Bulldozer"
+speed = 38.0
+moves = Array[ExtResource("2_u1gb1")]([SubResource("Resource_mgboc"), SubResource("Resource_xrtnu")])
+
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
+texture_filter = 1
+texture = ExtResource("3_367ef")

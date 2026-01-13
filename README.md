@@ -88,6 +88,8 @@ Road roller (combat)
 - <a href="https://www.flaticon.com/free-icons/driller" title="driller icons">Driller icons created by puppie - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/dump-truck" title="dump truck icons">Dump truck icons created by Freepik - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/fire" title="fire icons">Fire icons created by juicy_fish - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/tank-truck" title="tank truck icons">Tank truck icons created by Freepik - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/bulldozer" title="bulldozer icons">Bulldozer icons created by Freepik - Flaticon</a>
 - https://swishos.itch.io/swishs-sprite-pack-24x24
 - https://ninjikin.itch.io/grass
 - https://pixelartvillage.com/

@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://bnc2rd2xtf7t5"]
+
+[ext_resource type="Script" uid="uid://dnud481iuhnme" path="res://scripts/truck.gd" id="1_omur7"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_jqwxe"]
+[ext_resource type="Texture2D" uid="uid://r152bxfdw3kh" path="res://assets/sprites/trucks/forklift.png" id="3_begmv"]
+
+[sub_resource type="Resource" id="Resource_500kk"]
+script = ExtResource("2_jqwxe")
+title = "Heel Strike"
+description = "Damages and slows an enemy"
+damage = 4.0
+heat_cost = 4.0
+slow_debuff_turns = 2
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[sub_resource type="Resource" id="Resource_dy6n1"]
+script = ExtResource("2_jqwxe")
+title = "Parts Delivery"
+description = "Heal an ally unit"
+move_type = 1
+target_type = 1
+heat_cost = 5.0
+heal_amount = 5.0
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[node name="ForkLift" type="Node2D"]
+z_index = 5
+script = ExtResource("1_omur7")
+max_heat_level = 8
+title = "Fork Lift"
+speed = 66.0
+moves = Array[ExtResource("2_jqwxe")]([SubResource("Resource_500kk"), SubResource("Resource_dy6n1")])
+
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
+texture_filter = 1
+texture = ExtResource("3_begmv")
