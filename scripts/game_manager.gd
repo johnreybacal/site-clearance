@@ -247,6 +247,7 @@ func on_fighter_ready():
     current_fighter.on_ready.disconnect(on_fighter_ready)
     if current_fighter is Truck:
         if current_fighter.stun_debuff_turns > 0:
+            await get_tree().create_timer(1.0).timeout
             on_move_confirmed(current_fighter.moves[0], [current_fighter])
         else:
             hud.fighters = fighters
