@@ -315,17 +315,6 @@ func on_move_confirmed(move: Move, targets: Array[Fighter]):
         is_ticking = true
     hud.hide_moves()
 
-func enemy_decide():
-    var move = current_fighter.moves.pick_random()
-    var targets: Array[Fighter] = []
-    if move.move_type == Move.MoveType.Attack:
-        var trucks = get_trucks()
-        if move.is_area_target:
-            targets = trucks
-        else:
-            targets = [trucks.pick_random()]
-    on_move_confirmed.call_deferred(move, targets)
-
 #endregion
 
 #region Proceed
