@@ -17,6 +17,7 @@ metadata/_custom_type_script = "uid://qjboko3yokku"
 z_index = 5
 script = ExtResource("1_md0e3")
 title = "Ankylosaur"
+max_hp = 11.0
 speed = 20.0
 moves = Array[ExtResource("2_5uy6h")]([SubResource("Resource_r12de")])
 

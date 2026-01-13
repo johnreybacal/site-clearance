@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://dsm2x8je577ad"]
+
+[ext_resource type="Script" uid="uid://mu6pa8fl4ivp" path="res://scripts/enemy.gd" id="1_wifw7"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_u73df"]
+[ext_resource type="Texture2D" uid="uid://0cr6ndcprenn" path="res://assets/sprites/enemies/swish_wyrm_jungle.png" id="3_a270f"]
+
+[sub_resource type="Resource" id="Resource_qmbte"]
+script = ExtResource("2_u73df")
+title = "Sludge"
+description = "Slows an enemy"
+damage = 2.0
+slow_debuff_turns = 2
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[sub_resource type="Resource" id="Resource_se3lf"]
+script = ExtResource("2_u73df")
+title = "Burrow"
+description = "Raises defense and offense"
+move_type = 1
+target_type = 2
+damage_buff_turns = 2
+defense_buff_turns = 2
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[node name="Wyrm" type="Node2D"]
+z_index = 5
+script = ExtResource("1_wifw7")
+title = "Wyrm"
+speed = 36.0
+moves = Array[ExtResource("2_u73df")]([SubResource("Resource_qmbte"), SubResource("Resource_se3lf")])
+
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("3_a270f")

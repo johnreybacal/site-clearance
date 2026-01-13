@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://drhgda2ivg6tw"]
+
+[ext_resource type="Script" uid="uid://mu6pa8fl4ivp" path="res://scripts/enemy.gd" id="1_binpd"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_3f2wa"]
+[ext_resource type="Texture2D" uid="uid://br6y3fetouylb" path="res://assets/sprites/enemies/swish_crocman.png" id="3_cn1pi"]
+
+[sub_resource type="Resource" id="Resource_1hukp"]
+script = ExtResource("2_3f2wa")
+title = "Stun"
+description = "Stun an enemy"
+damage = 2.0
+stun_debuff_turns = 1
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[sub_resource type="Resource" id="Resource_m6ffg"]
+script = ExtResource("2_3f2wa")
+title = "Ground Smash"
+description = "Damages all enemies"
+is_area_target = true
+damage = 3.0
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[node name="Crocman" type="Node2D"]
+z_index = 5
+script = ExtResource("1_binpd")
+title = "Crocman"
+max_hp = 14.0
+speed = 24.0
+moves = Array[ExtResource("2_3f2wa")]([SubResource("Resource_1hukp"), SubResource("Resource_m6ffg")])
+
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("3_cn1pi")

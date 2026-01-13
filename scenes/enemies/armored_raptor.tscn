@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://bym0684nsy6kw"]
+
+[ext_resource type="Script" uid="uid://mu6pa8fl4ivp" path="res://scripts/enemy.gd" id="1_l68yo"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_02ft2"]
+[ext_resource type="Texture2D" uid="uid://c3bo6wskayerg" path="res://assets/sprites/enemies/swish_armoured_raptor.png" id="3_y43yf"]
+
+[sub_resource type="Resource" id="Resource_0ellb"]
+script = ExtResource("2_02ft2")
+title = "Roar"
+description = "Raises attack"
+move_type = 1
+target_type = 2
+damage_buff_turns = 2
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[sub_resource type="Resource" id="Resource_5welu"]
+script = ExtResource("2_02ft2")
+title = "Tail whip"
+description = "Damage all enemies"
+is_area_target = true
+damage = 3.0
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[node name="Armored Raptor" type="Node2D"]
+z_index = 5
+script = ExtResource("1_l68yo")
+title = "Armored Raptor"
+max_hp = 12.0
+speed = 50.0
+moves = Array[ExtResource("2_02ft2")]([SubResource("Resource_0ellb"), SubResource("Resource_5welu")])
+
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("3_y43yf")

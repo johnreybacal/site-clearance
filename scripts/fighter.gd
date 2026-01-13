@@ -225,22 +225,23 @@ func perform_move(move: Move, targets: Array[Fighter]):
                 damage *= 1.5
             target.take_damage(damage)
         
+        #  + 1 if target == self else 0: to counteract reduce effect
         # Debuff
         if move.slow_debuff_turns > 0:
             target.fighter_data.queue_text("SLOWED")
-            target.slow_debuff_turns += move.slow_debuff_turns
+            target.slow_debuff_turns += move.slow_debuff_turns + (1 if target == self else 0)
             
         if move.stun_debuff_turns > 0:
             target.fighter_data.queue_text("STUNNED")
-            target.stun_debuff_turns += move.stun_debuff_turns
+            target.stun_debuff_turns += move.stun_debuff_turns + (1 if target == self else 0)
 
         # Buff
         if move.damage_buff_turns > 0:
             target.fighter_data.queue_text("DMG+")
-            target.damage_buff_turns += move.damage_buff_turns
+            target.damage_buff_turns += move.damage_buff_turns + (1 if target == self else 0)
         if move.defense_buff_turns > 0:
             target.fighter_data.queue_text("DEF+")
-            target.defense_buff_turns += move.defense_buff_turns
+            target.defense_buff_turns += move.defense_buff_turns + (1 if target == self else 0)
 
         if move.heal_amount > 0:
             target.heal(move.heal_amount)

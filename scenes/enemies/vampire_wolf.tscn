@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://egw2xd88m6b"]
+
+[ext_resource type="Script" uid="uid://mu6pa8fl4ivp" path="res://scripts/enemy.gd" id="1_7y27y"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_n8v3l"]
+[ext_resource type="Texture2D" uid="uid://cgacj7dib2qdj" path="res://assets/sprites/enemies/swish_vampwolfrage.png" id="3_p4jxk"]
+
+[sub_resource type="Resource" id="Resource_endqr"]
+script = ExtResource("2_n8v3l")
+title = "Regenerate"
+description = "Heal self"
+move_type = 1
+target_type = 2
+heal_amount = 6.0
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[sub_resource type="Resource" id="Resource_j8d0k"]
+script = ExtResource("2_n8v3l")
+title = "Reckless attack"
+description = "Damages enemy and self"
+damage = 5.0
+self_damage = 3.0
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[node name="VampireWolf" type="Node2D"]
+z_index = 5
+script = ExtResource("1_7y27y")
+title = "Vampire Wolf"
+max_hp = 12.0
+speed = 29.0
+moves = Array[ExtResource("2_n8v3l")]([SubResource("Resource_endqr"), SubResource("Resource_j8d0k")])
+
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("3_p4jxk")

@@ -1,7 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://bk5vrshvhnk00"]
+[gd_scene load_steps=6 format=3 uid="uid://bk5vrshvhnk00"]
 
 [ext_resource type="Script" uid="uid://mu6pa8fl4ivp" path="res://scripts/enemy.gd" id="1_gkkn6"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_h0deo"]
 [ext_resource type="Texture2D" uid="uid://dkqky3exdbi7o" path="res://assets/sprites/enemies/swish_raptor.png" id="5_tw42o"]
+
+[sub_resource type="Resource" id="Resource_860nk"]
+script = ExtResource("2_h0deo")
+title = "Roar"
+description = "Raises attack"
+move_type = 1
+target_type = 2
+damage_buff_turns = 2
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[sub_resource type="Resource" id="Resource_gkkn6"]
+script = ExtResource("2_h0deo")
+title = "Tail whip"
+description = "Damage all enemies"
+is_area_target = true
+damage = 3.0
+metadata/_custom_type_script = "uid://qjboko3yokku"
 
 [node name="Raptor" type="Node2D"]
 z_index = 5
@@ -9,6 +27,7 @@ script = ExtResource("1_gkkn6")
 title = "Raptor"
 max_hp = 6.0
 speed = 50.0
+moves = Array[ExtResource("2_h0deo")]([SubResource("Resource_860nk"), SubResource("Resource_gkkn6")])
 
 [node name="TextureContainer" type="Node2D" parent="."]
 

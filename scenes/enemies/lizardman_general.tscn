@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://ccem3234u5ur0"]
+
+[ext_resource type="Script" uid="uid://mu6pa8fl4ivp" path="res://scripts/enemy.gd" id="1_o8b7y"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_5p8a4"]
+[ext_resource type="Texture2D" uid="uid://bwmy88nmdxd5h" path="res://assets/sprites/enemies/swish_lizardman_general.png" id="3_f2d24"]
+
+[sub_resource type="Resource" id="Resource_udr7w"]
+script = ExtResource("2_5p8a4")
+title = "Warcry"
+description = "Raise attack of allies"
+move_type = 1
+target_type = 1
+is_area_target = true
+damage_buff_turns = 2
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[sub_resource type="Resource" id="Resource_rly7c"]
+script = ExtResource("2_5p8a4")
+title = "Crippling Blow"
+description = "Damages and slows an enemy"
+damage = 5.0
+slow_debuff_turns = 2
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[node name="LizardmanGeneral" type="Node2D"]
+z_index = 5
+script = ExtResource("1_o8b7y")
+title = "Lizardman General"
+speed = 50.0
+moves = Array[ExtResource("2_5p8a4")]([SubResource("Resource_udr7w"), SubResource("Resource_rly7c")])
+
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("3_f2d24")

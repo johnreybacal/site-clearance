@@ -8,5 +8,5 @@ title = "Rest"
 description = "Heals self"
 move_type = 1
 target_type = 2
-heal_amount = 5.0
+heal_amount = 3.5
 metadata/_custom_type_script = "uid://qjboko3yokku"

@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://dbtgtij3t1e38"]
+
+[ext_resource type="Script" uid="uid://mu6pa8fl4ivp" path="res://scripts/enemy.gd" id="1_0fqib"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_xrcvn"]
+[ext_resource type="Texture2D" uid="uid://d0iw2p0jqvuqy" path="res://assets/sprites/enemies/swish_lizardman_shaman.png" id="3_mlnd4"]
+
+[sub_resource type="Resource" id="Resource_17s1j"]
+script = ExtResource("2_xrcvn")
+title = "Power aura"
+description = "Empowers all ally"
+move_type = 1
+target_type = 1
+is_area_target = true
+damage_buff_turns = 2
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[sub_resource type="Resource" id="Resource_dnfpr"]
+script = ExtResource("2_xrcvn")
+title = "Slow aura"
+description = "Slows all enemies"
+move_type = 1
+is_area_target = true
+slow_debuff_turns = 2
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[node name="LizardmenShaman" type="Node2D"]
+z_index = 5
+script = ExtResource("1_0fqib")
+title = "Lizardmen Shaman"
+max_hp = 8.0
+speed = 45.0
+moves = Array[ExtResource("2_xrcvn")]([SubResource("Resource_17s1j"), SubResource("Resource_dnfpr")])
+
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("3_mlnd4")

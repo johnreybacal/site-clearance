@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://dfpcs5v7gv48p"]
+
+[ext_resource type="Script" uid="uid://mu6pa8fl4ivp" path="res://scripts/enemy.gd" id="1_6fl51"]
+[ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_2nl26"]
+[ext_resource type="Texture2D" uid="uid://bskrsaorkb2yo" path="res://assets/sprites/enemies/swish_skele_abomination.png" id="3_j7y4s"]
+
+[sub_resource type="Resource" id="Resource_2j57r"]
+script = ExtResource("2_2nl26")
+title = "Glare"
+description = "Slows all enemies"
+is_area_target = true
+slow_debuff_turns = 2
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[sub_resource type="Resource" id="Resource_m7sem"]
+script = ExtResource("2_2nl26")
+title = "Intense Glare"
+description = "Stuns all enemies"
+is_area_target = true
+stun_debuff_turns = 1
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
+[node name="SkeletonAbomination" type="Node2D"]
+z_index = 5
+script = ExtResource("1_6fl51")
+title = "Skeleton Abomination"
+max_hp = 9.0
+speed = 41.0
+moves = Array[ExtResource("2_2nl26")]([SubResource("Resource_2j57r"), SubResource("Resource_m7sem")])
+
+[node name="TextureContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="TextureContainer"]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("3_j7y4s")
