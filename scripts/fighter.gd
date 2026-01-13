@@ -177,6 +177,9 @@ func perform_move(move: Move, targets: Array[Fighter]):
     
     if len(targets) > 0:
         print("  on ", ", ".join(targets.map(func(t: Fighter): return t.title)))
+    if self is Truck:
+        self.heat_level += move.heat_cost
+        fighter_data.update_heat(self.heat_level, self.max_heat_level)
 
     if move.self_damage > 0:
         take_damage(move.self_damage, true)
