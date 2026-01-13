@@ -131,7 +131,7 @@ func _process(delta: float) -> void:
         else:
             current_shake = 1
     else:
-        position = position.move_toward(initial_position, delta * 750)
+        position = position.move_toward(initial_position, delta * 1000)
         if position != initial_position:
             current_shake = 1
 
