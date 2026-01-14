@@ -11,10 +11,21 @@ func _init() -> void:
 
 func _ready():
     super._ready()
-    var move_at = preload("res://resources/moves/enemies/attack.tres")
-    var move_re = preload("res://resources/moves/enemies/rest.tres")
+    var move_at = preload("res://resources/moves/enemies/attack.tres").duplicate()
+    var move_re = preload("res://resources/moves/enemies/rest.tres").duplicate()
     moves.push_front(move_at) # 1
     moves.push_front(move_re) # 0
+
+    max_hp += Global.enemy_stat_modifier.hp
+    speed += (Global.enemy_stat_modifier.speed * 3)
+    for move in moves:
+        if move.damage > 0:
+            move.damage += Global.enemy_stat_modifier.damage
+        if move.self_damage > 0:
+            move.self_damage += (Global.enemy_stat_modifier.damage * .5)
+
+    hp = max_hp
+    fighter_data.update_hp(hp, max_hp)
 
 func decide():
     var choice = randi_range(1 if hp >= max_hp - 3 else 0, len(moves) - 1)

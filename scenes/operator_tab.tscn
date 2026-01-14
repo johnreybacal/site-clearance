@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvqdqqo3cqqir"]
+
+[ext_resource type="Theme" uid="uid://w03an4spcyps" path="res://resources/theme.tres" id="1_gpsq4"]
+[ext_resource type="Script" uid="uid://dqljshfb1qvhv" path="res://scripts/operator_tab.gd" id="2_ty4kk"]
+
+[node name="OperatorTab" type="MarginContainer"]
+theme = ExtResource("1_gpsq4")
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+script = ExtResource("2_ty4kk")
+metadata/_tab_index = 0
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 2
+
+[node name="HpLabel" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HP"
+
+[node name="HpButton" type="Button" parent="GridContainer"]
+layout_mode = 2
+text = "upgrade"
+
+[node name="DamageLabel" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HP"
+
+[node name="DamageButton" type="Button" parent="GridContainer"]
+layout_mode = 2
+text = "upgrade"
+
+[node name="SpeedLabel" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HP"
+
+[node name="SpeedButton" type="Button" parent="GridContainer"]
+layout_mode = 2
+text = "upgrade"
+
+[connection signal="pressed" from="GridContainer/HpButton" to="." method="_on_hp_button_pressed"]
+[connection signal="pressed" from="GridContainer/DamageButton" to="." method="_on_damage_button_pressed"]
+[connection signal="pressed" from="GridContainer/SpeedButton" to="." method="_on_speed_button_pressed"]

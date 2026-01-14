@@ -6,15 +6,30 @@ class_name Truck
 @export var max_heat_level = 10
 var heat_level = 0
 
+@export var default_moves: Array[Move]
+
+var operator: Global.Operator
+
 func _init() -> void:
     fighter_sfx_stream = preload("res://assets/sfx/truck.mp3")
 
 func _ready():
     super._ready()
-    var move_cd = preload("res://resources/moves/trucks/cool_down.tres")
-    var move_ro = preload("res://resources/moves/trucks/run_over.tres")
+    var move_cd = preload("res://resources/moves/trucks/cool_down.tres").duplicate()
+    var move_ro = preload("res://resources/moves/trucks/run_over.tres").duplicate()
     moves.push_front(move_ro)
     moves.push_front(move_cd)
+
+    max_hp += operator.stats.hp
+    speed += (operator.stats.speed * 3)
+    for move in moves:
+        if move.damage > 0:
+            move.damage += operator.stats.damage
+        if move.self_damage > 0:
+            move.self_damage += (operator.stats.damage * .5)
+
+    hp = max_hp
+    fighter_data.update_hp(hp, max_hp)
 
 func cool_down(amount: float):
     if heat_level > 0:

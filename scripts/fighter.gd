@@ -14,7 +14,7 @@ var hp: float
 var move_index: int = 0
 var upcoming_move_indices: Array[int]
 
-signal on_ready()
+signal on_ready(fighter: Fighter)
 signal on_died(fighter: Fighter)
 
 var current_shake: float = 0
@@ -35,7 +35,7 @@ var is_attacked = false
 const ATTACKED_INTEVAL = 1
 var attacked_interval = ATTACKED_INTEVAL
 
-var is_dying = false
+var is_leaving = false
 
 var highlight_duration = 0
 
@@ -56,9 +56,7 @@ var hit_sfx: AudioStreamPlayer
 var fighter_sfx: AudioStreamPlayer
 
 func _ready():
-    hp = max_hp
     # speed = randf_range(speed - 1, speed + 1)
-
     texture_container = get_node("TextureContainer")
     sprite = get_node("TextureContainer/Sprite2D") as Sprite2D
     sprite.z_index = 2
@@ -89,7 +87,6 @@ func _ready():
     add_child(fighter_data)
     fighter_data.skew_container.position = Vector2(-50 if self is Truck else 50, 0)
     fighter_data.skew_container.skew = deg_to_rad(-25 if self is Truck else 25)
-    fighter_data.update_hp(hp, max_hp)
 
     initial_position = position
 
@@ -101,7 +98,7 @@ func _process(delta: float) -> void:
     else:
         texture_container.scale = texture_container.scale.move_toward(Vector2.ONE, delta * 2.5)
 
-    if is_dying:
+    if is_leaving:
         current_shake = 1
         position += Vector2.LEFT if self is Truck else Vector2.RIGHT
         texture_container.scale.x = move_toward(texture_container.scale.x, -1, delta * 10)
@@ -126,7 +123,7 @@ func _process(delta: float) -> void:
         position = position.move_toward(Vector2.ZERO, delta * 750)
         if position == Vector2.ZERO:
             if not is_ready:
-                on_ready.emit()
+                on_ready.emit(self)
                 is_ready = true
         else:
             current_shake = 1
@@ -152,7 +149,7 @@ func take_damage(damage: float, self_inflicted: bool = false):
     if hp <= 0:
         on_died.emit(self)
         fighter_data.hide_data()
-        is_dying = true
+        is_leaving = true
         play_fighter_sfx()
     else:
         current_shake = 10
@@ -206,6 +203,7 @@ func perform_move(move: Move, targets: Array[Fighter]):
         print("  on ", ", ".join(targets.map(func(t: Fighter): return t.title)))
     if self is Truck:
         self.heat_level += move.heat_cost
+        Global.add_total_heat(move.heat_cost)
         fighter_data.update_heat(self.heat_level, self.max_heat_level)
 
     if move.self_damage > 0:

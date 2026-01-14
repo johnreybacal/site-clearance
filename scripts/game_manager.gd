@@ -40,12 +40,11 @@ const BG_Y_INITIAL = -7
 var bg_y = BG_Y_INITIAL
 @export var sunlight_foreground: Sprite2D
 @export var sunlight_gradient: GradientTexture2D
+@export var end_transition_foreground: Sprite2D
 var sun_position = 0
+var is_ending = false
 
 @export var floating_text_scene: PackedScene
-
-var num_trucks = 3
-var num_enemies = 4
 
 var trucks_spawned: Array[String] = []
 
@@ -63,15 +62,18 @@ var enemies_position = [
 
 func _ready() -> void:
     var truck_count = 0
+    var num_trucks = len(Global.operators)
     while truck_count < num_trucks:
         var truck: Truck = truck_scenes.pick_random().instantiate()
         
-        if truck.title in trucks_spawned:
+        if truck.title in trucks_spawned or truck.title in Global.last_trucks_used:
             truck.queue_free()
             continue
 
         truck.position = trucks_position[num_trucks - 1][truck_count]
+        truck.operator = Global.operators[truck_count]
         add_fighter(truck)
+        Global.last_trucks_used.append(truck.title)
         trucks_spawned.append(truck.title)
         truck_count += 1
 
@@ -91,6 +93,17 @@ func _ready() -> void:
     hud.on_target_hovered.connect(on_target_hovered)
 
 func _process(delta: float) -> void:
+    if len(text_queue) > 0:
+        text_interval -= delta
+        if text_interval <= 0:
+            var item = text_queue.pop_back()
+            display_text(item.text, item.color)
+            text_interval = TEXT_INTERVAL if len(text_queue) > 0 else 0.0
+    if is_ending:
+        end_transition_foreground.modulate.a = move_toward(end_transition_foreground.modulate.a, 1, delta / 3)
+        if end_transition_foreground.modulate.a == 1:
+            get_tree().change_scene_to_file(Global.MENU_SCENE)
+        return
     if sunlight_foreground.texture.fill_from.x != sun_position:
         sunlight_foreground.texture.fill_from.x = move_toward(sunlight_foreground.texture.fill_from.x, sun_position, delta / 3)
     if is_proceeding:
@@ -107,9 +120,11 @@ func _process(delta: float) -> void:
             draw_barren()
             # draw_barren_darker()
         if proceed_interval <= 0:
+            current_fighter = null
             add_enemies()
             proceed_interval = PROCEED_INTERVAL
             is_proceeding = false
+            is_ticking = true
             update_queue()
         return
     if is_ticking:
@@ -195,6 +210,9 @@ func on_tick():
 #region Fighter Management
 
 func add_enemies():
+    var num_enemies: int = 1
+    if Global.enemies_defeated > 5:
+        num_enemies = randi_range(1, Global.max_enemies)
     for i in range(num_enemies):
         var enemy: Enemy = enemy_scenes.pick_random().instantiate()
         enemy.position = enemies_position[num_enemies - 1][i]
@@ -212,12 +230,16 @@ func add_fighter(fighter: Fighter):
 func remove_fighter(fighter: Fighter):
     fighters = fighters.filter(func(f: Fighter): return f != fighter)
     if fighter is Truck:
+        Global.increment_trucks_lost()
         var trucks = get_trucks() as Array[Truck]
         var counter = 0
         for truck in trucks:
             truck.initial_position = trucks_position[len(trucks) - 1][counter]
             counter += 1
     else:
+        Global.earn_money(fighter.max_hp)
+        queue_text("+ $" + str(fighter.max_hp), Color.GREEN)
+        Global.increment_enemies_defeated()
         var enemies = get_enemies() as Array[Enemy]
         var counter = 0
         for enemy in enemies:
@@ -234,27 +256,30 @@ func remove_fighter(fighter: Fighter):
     else:
         var trucks = get_trucks()
         if len(trucks) == 0:
+            Global.earn_money(fighter.max_hp)
+            queue_text("+ $" + str(current_fighter.max_hp / 2), Color.GREEN)
             turn_queue.clear()
             turn_fighters.clear()
             hud.update_turn_display([])
+            is_ending = true
 
 
 func on_fighter_turn():
     current_fighter.move_to_center()
     current_fighter.on_ready.connect(on_fighter_ready)
 
-func on_fighter_ready():
-    current_fighter.on_ready.disconnect(on_fighter_ready)
-    if current_fighter is Truck:
-        if current_fighter.stun_debuff_turns > 0:
+func on_fighter_ready(fighter: Fighter):
+    fighter.on_ready.disconnect(on_fighter_ready)
+    if fighter is Truck:
+        if fighter.stun_debuff_turns > 0:
             await get_tree().create_timer(1.0).timeout
-            on_move_confirmed(current_fighter.moves[0], [current_fighter])
+            on_move_confirmed(fighter.moves[0], [fighter])
         else:
             hud.fighters = fighters
-            hud.show_moves(current_fighter)
-    elif current_fighter is Enemy:
+            hud.show_moves(fighter)
+    elif fighter is Enemy:
         await get_tree().create_timer(1.0).timeout
-        current_fighter.decide()
+        fighter.decide()
 
 
 #endregion
@@ -299,16 +324,13 @@ func on_move_selected(move: Move):
                 hud.show_targets(move, targets)
 
 func on_move_confirmed(move: Move, targets: Array[Fighter]):
+    hud.hide_moves()
     var text = current_fighter.title
     if current_fighter.stun_debuff_turns > 0:
         text += " is stunned"
     else:
         text += " used " + move.title
-    var floating_text = floating_text_scene.instantiate()
-    var floating_text_label = floating_text.get_child(1).get_child(0) as Label
-    floating_text_label.text = text
-    floating_text.position = Vector2(0, -50)
-    add_child(floating_text)
+    queue_text(text)
     current_fighter.perform_move(move, targets)
     if move.slow_debuff_turns > 0:
         update_queue()
@@ -316,7 +338,6 @@ func on_move_confirmed(move: Move, targets: Array[Fighter]):
         is_next_turn = true
     else:
         is_ticking = true
-    hud.hide_moves()
 
 #endregion
 
@@ -324,11 +345,10 @@ func on_move_confirmed(move: Move, targets: Array[Fighter]):
 
 func proceed():
     proceeds += 1
-    current_fighter = null
+    is_proceeding = true
     turn_queue.clear()
     turn_fighters.clear()
     hud.update_turn_display([])
-    is_proceeding = true
     move_index = 0
     prev_move_index = 0
     for fighter in fighters:
@@ -386,5 +406,35 @@ func get_trucks():
 func get_enemies():
     return fighters.filter(func(f: Fighter): return f is Enemy)
 
+
+#endregion
+
+
+#region Floating Text
+
+class TextQueue:
+    var text: String
+    var color: Color
+
+var text_queue: Array[TextQueue] = []
+const TEXT_INTERVAL = 0.5
+var text_interval = 0
+
+func queue_text(value: String, color: Color = "#FFFFFF"):
+    var item = TextQueue.new()
+    item.text = value
+    item.color = color
+    text_queue.push_front(item)
+
+func display_text(value: String, color: Color = "#FFFFFF"):
+    var text: Node2D = floating_text_scene.instantiate()
+    text.position = Vector2(0, -50)
+    text.modulate = color
+    
+    var label = text.get_child(1).get_child(0) as Label
+    label.text = value
+    label.add_theme_font_size_override("font_size", 20)
+
+    add_child(text)
 
 #endregion
