@@ -214,6 +214,9 @@ func perform_move(move: Move, targets: Array[Fighter]):
     if move.target_type == Move.TargetType.Self:
         targets = [self]
 
+    if move.move_type == Move.MoveType.Effect:
+        play_fighter_sfx()
+
     for target in targets:
         target.highlight_duration = 0
         

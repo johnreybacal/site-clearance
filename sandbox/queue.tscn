@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbxkprt21hupp"]
+
+[ext_resource type="Script" uid="uid://bb24f1g1v1thf" path="res://sandbox/queue.gd" id="1_taw0f"]
+
+[sub_resource type="Gradient" id="Gradient_t34gy"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.41981313, 0.41981313, 0.4198131, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_j7rmw"]
+gradient = SubResource("Gradient_t34gy")
+width = 512
+
+[sub_resource type="Gradient" id="Gradient_snm73"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lcmd0"]
+gradient = SubResource("Gradient_snm73")
+width = 512
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_taw0f")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+offset_left = 146.0
+offset_top = 168.0
+offset_right = 658.0
+offset_bottom = 232.0
+value = 10.0
+texture_under = SubResource("GradientTexture2D_j7rmw")
+texture_progress = SubResource("GradientTexture2D_lcmd0")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
