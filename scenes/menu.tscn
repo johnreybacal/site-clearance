@@ -1,0 +1,219 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcyr24puj1lw0"]
+
+[ext_resource type="Theme" uid="uid://w03an4spcyps" path="res://resources/theme.tres" id="1_yqeox"]
+[ext_resource type="Script" uid="uid://rmw0wgvixo5w" path="res://scenes/menu.gd" id="2_con2f"]
+[ext_resource type="TileSet" uid="uid://bpdf6haxuyibs" path="res://resources/tilesets/grass.tres" id="2_vjb58"]
+[ext_resource type="Texture2D" uid="uid://c3byo6xahqd55" path="res://resources/sunlight_gradient.tres" id="4_mhnvy"]
+
+[node name="Menu" type="Control" node_paths=PackedStringArray("bg_tile_map")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_yqeox")
+script = ExtResource("2_con2f")
+bg_tile_map = NodePath("TileMapLayer")
+bg_tile_set = ExtResource("2_vjb58")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -344.0
+offset_top = 21.0
+offset_right = -14.0
+offset_bottom = 84.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 52
+text = "site clearance"
+horizontal_alignment = 1
+
+[node name="UpgradePanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -343.0
+offset_top = -103.0
+offset_right = -14.0
+offset_bottom = 97.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="TabContainer" type="TabContainer" parent="UpgradePanel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -153.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/side_margin = 0
+theme_override_constants/outline_size = 4
+current_tab = 0
+
+[node name="Operator 1" type="MarginContainer" parent="UpgradePanel/TabContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+metadata/_tab_index = 0
+
+[node name="GridContainer" type="GridContainer" parent="UpgradePanel/TabContainer/Operator 1"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="UpgradePanel/TabContainer/Operator 1/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HP"
+
+[node name="Button" type="Button" parent="UpgradePanel/TabContainer/Operator 1/GridContainer"]
+layout_mode = 2
+text = "upgrade"
+
+[node name="Label2" type="Label" parent="UpgradePanel/TabContainer/Operator 1/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Speed"
+
+[node name="Button2" type="Button" parent="UpgradePanel/TabContainer/Operator 1/GridContainer"]
+layout_mode = 2
+text = "upgrade"
+
+[node name="Label3" type="Label" parent="UpgradePanel/TabContainer/Operator 1/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Damage"
+
+[node name="Button3" type="Button" parent="UpgradePanel/TabContainer/Operator 1/GridContainer"]
+layout_mode = 2
+text = "upgrade"
+
+[node name="Operator 2" type="MarginContainer" parent="UpgradePanel/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+metadata/_tab_index = 1
+
+[node name="GridContainer" type="GridContainer" parent="UpgradePanel/TabContainer/Operator 2"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="UpgradePanel/TabContainer/Operator 2/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HP"
+
+[node name="Button" type="Button" parent="UpgradePanel/TabContainer/Operator 2/GridContainer"]
+layout_mode = 2
+text = "upgrade"
+
+[node name="Label2" type="Label" parent="UpgradePanel/TabContainer/Operator 2/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Speed"
+
+[node name="Button2" type="Button" parent="UpgradePanel/TabContainer/Operator 2/GridContainer"]
+layout_mode = 2
+text = "upgrade"
+
+[node name="Label3" type="Label" parent="UpgradePanel/TabContainer/Operator 2/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Damage"
+
+[node name="Button3" type="Button" parent="UpgradePanel/TabContainer/Operator 2/GridContainer"]
+layout_mode = 2
+text = "upgrade"
+
+[node name="Label" type="Label" parent="UpgradePanel"]
+layout_mode = 1
+offset_left = 11.0
+offset_top = 9.0
+offset_right = 98.0
+offset_bottom = 38.0
+theme_override_font_sizes/font_size = 24
+text = "$123"
+
+[node name="Button" type="Button" parent="UpgradePanel"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -171.0
+offset_top = 8.0
+offset_right = -9.0
+offset_bottom = 39.0
+grow_horizontal = 0
+text = "recruit operator (100)"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -341.0
+offset_top = -86.0
+offset_right = -14.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 52
+text = "Start shift"
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+z_index = -1
+texture_filter = 1
+position = Vector2(400, 200)
+scale = Vector2(2, 2)
+tile_set = ExtResource("2_vjb58")
+
+[node name="SunlightForeground" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.39215687)
+z_index = 10
+position = Vector2(400, 200)
+scale = Vector2(12.484376, 6.25)
+texture = ExtResource("4_mhnvy")
+
+[node name="FoldableContainer" type="FoldableContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = -51.0
+offset_right = 129.0
+offset_bottom = -15.0
+grow_vertical = 0
+folded = true
+title = "Achievements"
+title_position = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FoldableContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="FoldableContainer/VBoxContainer"]
+layout_mode = 2
+text = "ACHIEVEMENT 1"
+
+[node name="Label2" type="Label" parent="FoldableContainer/VBoxContainer"]
+layout_mode = 2
+text = "ACHIEVEMENT 1"
+
+[node name="Label" type="Label" parent="FoldableContainer/VBoxContainer"]
+layout_mode = 2
+text = "ACHIEVEMENT 1"
