@@ -298,7 +298,6 @@ func on_move_selected(move: Move):
             else:
                 hud.show_targets(move, targets)
 
-
 func on_move_confirmed(move: Move, targets: Array[Fighter]):
     var text = current_fighter.title
     if current_fighter.stun_debuff_turns > 0:

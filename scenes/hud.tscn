@@ -4,10 +4,7 @@
 [ext_resource type="Theme" uid="uid://w03an4spcyps" path="res://resources/theme.tres" id="1_oo0fn"]
 [ext_resource type="AudioStream" uid="uid://2iv2buj0vs0c" path="res://assets/sfx/ui_feedback.mp3" id="3_5ysmq"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ysmq"]
-bg_color = Color(0.6666667, 0.6666667, 0.6666667, 1)
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5ysmq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fi6k"]
 bg_color = Color(0.23137255, 0.23137255, 0.23137255, 0.78431374)
@@ -40,9 +37,9 @@ anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -120.0
 offset_right = 120.0
-offset_bottom = 29.0
+offset_bottom = 41.0
 grow_horizontal = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_5ysmq")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_5ysmq")
 
 [node name="TurnDisplay" type="HBoxContainer" parent="TopPanel"]
 custom_minimum_size = Vector2(0, 25)
