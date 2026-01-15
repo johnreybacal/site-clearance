@@ -35,7 +35,7 @@ var last_used: Array[String]
 
 # Increase with each proceeds
 var enemy_stat_modifier = StatModifier.new()
-var max_enemies = 1
+var max_enemies = 4
 
 
 # Achievements
@@ -60,8 +60,8 @@ var MENU_SCENE = "res://scenes/menu.tscn"
 func _ready() -> void:
     if len(operators) == 0:
         recruit_operator()
-        # recruit_operator()
-        # recruit_operator()
+        recruit_operator()
+        recruit_operator()
     bgm = AudioStreamPlayer.new()
     bgm.stream = preload("res://assets/bgm/chill-drum-loop.mp3")
     bgm.volume_db = -10

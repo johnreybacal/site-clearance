@@ -126,8 +126,15 @@ func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameMa
         # label.modulate = Color.WHITE
         # label.text = str(item.move_index)
         # turn.add_child(label)
-
-        turn_display.add_child(turn)
+        if is_current_fighter:
+            var panel = PanelContainer.new()
+            var box = StyleBoxFlat.new()
+            box.bg_color = "#ffffffcc"
+            panel.add_theme_stylebox_override("panel", box)
+            panel.add_child(turn)
+            turn_display.add_child(panel)
+        else:
+            turn_display.add_child(turn)
         counter += 1
         if counter > max_display:
             break
