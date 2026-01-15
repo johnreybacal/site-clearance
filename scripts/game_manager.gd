@@ -264,6 +264,7 @@ func remove_fighter(fighter: Fighter):
 
     if fighter is Enemy:
         var enemies = get_enemies()
+        draw_barren()
         if len(enemies) == 0:
             hud.update_turn_display([])
             proceed()
@@ -389,14 +390,15 @@ func draw_bg(initial = false):
 
 func draw_barren():
     var source_id = bg_tile_set.get_source_id(1)
+    var atlas_coords = [Vector2i(7, 11), Vector2i(5, 8), Vector2i(3, 8), Vector2i(5, 7)]
     var distance = Vector2(position.x, bg_tile_map.position.y).distance_to(bg_tile_map.position)
     var target_x = bg_tile_map.local_to_map(Vector2(distance + (25 * (proceeds - 2)), 0)).x - (10 * proceeds)
     for y in range(bg_y, bg_y + abs(BG_Y_INITIAL) * 2):
         var t_x = target_x - round(abs(y) / randf_range(1.5, 4.5))
         for x in range(BG_X_INITIAL + (5 * proceeds), t_x):
             var coords = Vector2i(x, y)
-            var atlas_coords = bg_tile_map.get_cell_atlas_coords(coords)
-            bg_tile_map.set_cell(coords, source_id, atlas_coords)
+            
+            bg_tile_map.set_cell(coords, source_id, atlas_coords.pick_random())
     
 # func draw_barren_darker():
 #     var source_id = bg_tile_set.get_source_id(2)
