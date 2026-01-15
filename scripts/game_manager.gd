@@ -17,7 +17,7 @@ class FighterQueue:
 @export var tree_scene: PackedScene
 @export var floating_text_scene: PackedScene
 
-var MAX_TICK = 12
+var MAX_TICK = 50
 var tick = 0
 var is_ticking = true
 const TICK_INTERVAL = 1.25
@@ -405,16 +405,16 @@ func draw_barren():
             var coords = Vector2i(x, y)
             
             bg_tile_map.set_cell(coords, source_id, atlas_coords.pick_random())
-    
+
 
 func draw_trees(x = -400, to_x = 400):
     var index = 0
     while x < to_x:
-        x += randi_range(25, 125)
-        var y = randi_range(-125, -175) if index % 2 == 0 else randi_range(150, 215)
+        x += randi_range(15, 100)
+        var y = randi_range(-135, -200) if index % 2 == 0 else randi_range(150, 250)
         var tree: TreeClass = tree_scene.instantiate()
         bg_container.add_child(tree)
-        tree.global_position = Vector2(x, y)
+        tree.global_position = Vector2(int(x), int(y))
         tree.z_index = 6 if y > 0 else 4
         trees.append(tree)
         index += 1
