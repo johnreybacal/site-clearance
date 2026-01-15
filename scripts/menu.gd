@@ -54,12 +54,12 @@ func draw_bg():
 
 func redraw_money():
     print(Global.money)
-    money_label.text = "$" + str(Global.money)
+    money_label.text = "$" + str(round(Global.money))
 
 func redraw_recruit_operator():
     if len(Global.operators) < 3:
         var cost = Global.get_operator_cost()
-        recruit_button.text = "RECRUIT OPERATOR [$" + str(cost) + "]"
+        recruit_button.text = "RECRUIT OPERATOR [$" + str(round(cost)) + "]"
         if cost > Global.money:
             recruit_button.disabled = true
     else:

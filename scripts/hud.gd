@@ -122,10 +122,10 @@ func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameMa
             turn.self_modulate = "#808080a8"
 
 
-        var label = Label.new()
-        label.modulate = Color.WHITE
-        label.text = str(item.move_index)
-        turn.add_child(label)
+        # var label = Label.new()
+        # label.modulate = Color.WHITE
+        # label.text = str(item.move_index)
+        # turn.add_child(label)
 
         turn_display.add_child(turn)
         counter += 1

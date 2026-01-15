@@ -5,6 +5,7 @@ class_name FighterData
 @onready var hp: TextureProgressBar = $SkewContainer/HP
 @onready var heat: TextureProgressBar = $SkewContainer/Heat
 @onready var status: HBoxContainer = $Status
+@onready var fighter_name: Label = $Name
 
 var is_truck: bool
 

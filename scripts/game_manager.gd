@@ -254,7 +254,7 @@ func remove_fighter(fighter: Fighter):
             counter += 1
     else:
         Global.earn_money(fighter.max_hp)
-        queue_text("+ $" + str(fighter.max_hp), Color.GREEN)
+        queue_text("+ $" + str(round(fighter.max_hp)), Color.GREEN)
         Global.increment_enemies_defeated()
         var enemies = get_enemies() as Array[Enemy]
         var counter = 0
@@ -277,7 +277,7 @@ func remove_fighter(fighter: Fighter):
         var trucks = get_trucks()
         if len(trucks) == 0:
             Global.earn_money(fighter.max_hp)
-            queue_text("+ $" + str(current_fighter.max_hp / 2), Color.GREEN)
+            queue_text("+ $" + str(round(current_fighter.max_hp / 2)), Color.GREEN)
             turn_queue.clear()
             turn_fighters.clear()
             hud.update_turn_display([])

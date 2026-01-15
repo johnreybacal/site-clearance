@@ -103,7 +103,11 @@ func _process(delta: float) -> void:
         highlight_duration -= delta
         current_shake = .5
         texture_container.scale = texture_container.scale.move_toward(Vector2(1.25, 1.25), delta * 5)
+        if fighter_data:
+            fighter_data.fighter_name.visible = true
     else:
+        if fighter_data:
+            fighter_data.fighter_name.visible = false
         texture_container.scale = texture_container.scale.move_toward(Vector2.ONE, delta * 2.5)
 
     if is_leaving:
@@ -144,6 +148,11 @@ func on_entry():
     fighter_data = FighterDataScene.instantiate()
     fighter_data.is_truck = self is Truck
     add_child(fighter_data)
+    fighter_data.fighter_name.text = title
+    if self is Truck:
+        var truck = self as Truck
+        fighter_data.fighter_name.text += " [" + truck.operator.name + "]"
+    # fighter_data.fighter_name.rotation = deg_to_rad(15 if self is Truck else -15)
     fighter_data.skew_container.position = Vector2(-50 if self is Truck else 50, 0)
     fighter_data.skew_container.skew = deg_to_rad(-25 if self is Truck else 25)
 
@@ -159,7 +168,7 @@ func take_damage(damage: float, self_inflicted: bool = false):
     if defense_buff_turns > 0:
         damage *= .5
     hp -= damage
-    fighter_data.queue_text("-" + str(damage) + " HP", Color.ORANGE_RED)
+    fighter_data.queue_text("-" + str(round(damage)) + " HP", Color.ORANGE_RED)
     fighter_data.update_hp(hp, max_hp)
     var smoke: Node2D = smoke_scene.instantiate()
     if self is Enemy:
@@ -184,7 +193,7 @@ func heal(amount: float):
     hp += amount
     if hp > max_hp:
         hp = max_hp
-    fighter_data.queue_text("+" + str(amount) + " HP", Color.GREEN)
+    fighter_data.queue_text("+" + str(round(amount)) + " HP", Color.GREEN)
     fighter_data.update_hp(hp, max_hp)
 
 func get_speed_penalty():

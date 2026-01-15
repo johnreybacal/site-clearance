@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://dvo6emstij1dc"]
+[gd_scene load_steps=13 format=3 uid="uid://dvo6emstij1dc"]
 
 [ext_resource type="Script" uid="uid://hq2m7dh6ffi0" path="res://scripts/fighter_data.gd" id="1_pj6e5"]
+[ext_resource type="FontFile" uid="uid://cyydyarja1nla" path="res://assets/fonts/chinese rocks rg.otf" id="2_glisr"]
 
 [sub_resource type="Gradient" id="Gradient_g2k61"]
 offsets = PackedFloat32Array(0)
@@ -86,10 +87,21 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -64.0
-offset_top = 34.0
+offset_top = 35.0
 offset_right = 64.0
-offset_bottom = 50.0
+offset_bottom = 51.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
+
+[node name="Name" type="Label" parent="."]
+texture_filter = 1
+offset_left = -100.0
+offset_top = -50.0
+offset_right = 100.0
+offset_bottom = -27.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_glisr")
+text = "operator name"
+horizontal_alignment = 1
