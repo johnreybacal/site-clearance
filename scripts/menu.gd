@@ -14,6 +14,7 @@ var bg_y = BG_Y_INITIAL
 @onready var money_label: Label = $UpgradePanel/MoneyLabel
 @onready var recruit_button: Button = $UpgradePanel/RecruitButton
 
+@onready var start_transition_foreground: Sprite2D = $StartTransitionForeground
 @onready var sunlight_foreground: Sprite2D = $SunlightForeground
 
 func _ready() -> void:
@@ -32,6 +33,9 @@ func _process(delta: float) -> void:
     var sun_position = clampf(800 / get_local_mouse_position().x, 0, 1)
     if sunlight_foreground.texture.fill_to.x != sun_position:
         sunlight_foreground.texture.fill_to.x = move_toward(sunlight_foreground.texture.fill_to.x, sun_position, delta / 3)
+
+    if start_transition_foreground.modulate.a != 0:
+        start_transition_foreground.modulate.a = move_toward(start_transition_foreground.modulate.a, 0, delta * 2)
 
 func draw_bg():
     var source_id = bg_tile_set.get_source_id(0)

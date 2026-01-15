@@ -1,10 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://bcyr24puj1lw0"]
+[gd_scene load_steps=8 format=3 uid="uid://bcyr24puj1lw0"]
 
 [ext_resource type="Theme" uid="uid://w03an4spcyps" path="res://resources/theme.tres" id="1_yqeox"]
 [ext_resource type="Script" uid="uid://rmw0wgvixo5w" path="res://scripts/menu.gd" id="2_con2f"]
 [ext_resource type="TileSet" uid="uid://bpdf6haxuyibs" path="res://resources/tilesets/grass.tres" id="2_vjb58"]
 [ext_resource type="PackedScene" uid="uid://cvqdqqo3cqqir" path="res://scenes/operator_tab.tscn" id="4_4ytvr"]
 [ext_resource type="Texture2D" uid="uid://c3byo6xahqd55" path="res://resources/sunlight_gradient.tres" id="4_mhnvy"]
+
+[sub_resource type="Gradient" id="Gradient_bt5mj"]
+colors = PackedColorArray(0, 0, 0, 0, 0.08881762, 0.09742405, 0.19010487, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4ytvr"]
+gradient = SubResource("Gradient_bt5mj")
+fill = 1
+fill_from = Vector2(-1.5, 0)
+fill_to = Vector2(2, 1)
 
 [node name="Menu" type="Control" node_paths=PackedStringArray("bg_tile_map")]
 layout_mode = 3
@@ -102,6 +111,12 @@ texture_filter = 1
 position = Vector2(400, 200)
 scale = Vector2(2, 2)
 tile_set = ExtResource("2_vjb58")
+
+[node name="StartTransitionForeground" type="Sprite2D" parent="."]
+z_index = 15
+position = Vector2(400, 200)
+scale = Vector2(12.5, 6.25)
+texture = SubResource("GradientTexture2D_4ytvr")
 
 [node name="SunlightForeground" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.39215687)
