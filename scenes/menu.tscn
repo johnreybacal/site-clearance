@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bcyr24puj1lw0"]
 
 [ext_resource type="Theme" uid="uid://w03an4spcyps" path="res://resources/theme.tres" id="1_yqeox"]
-[ext_resource type="Script" uid="uid://rmw0wgvixo5w" path="res://scenes/menu.gd" id="2_con2f"]
+[ext_resource type="Script" uid="uid://rmw0wgvixo5w" path="res://scripts/menu.gd" id="2_con2f"]
 [ext_resource type="TileSet" uid="uid://bpdf6haxuyibs" path="res://resources/tilesets/grass.tres" id="2_vjb58"]
 [ext_resource type="PackedScene" uid="uid://cvqdqqo3cqqir" path="res://scenes/operator_tab.tscn" id="4_4ytvr"]
 [ext_resource type="Texture2D" uid="uid://c3byo6xahqd55" path="res://resources/sunlight_gradient.tres" id="4_mhnvy"]
