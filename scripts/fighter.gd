@@ -42,6 +42,9 @@ var highlight_duration = 0
 # Debuff
 var slow_debuff_turns: int
 var stun_debuff_turns: int
+
+var is_recently_slowed: bool
+
 # Buff
 var damage_buff_turns: int
 var defense_buff_turns: int
@@ -164,19 +167,22 @@ func heal(amount: float):
     fighter_data.queue_text("+" + str(amount) + " HP", Color.GREEN)
     fighter_data.update_hp(hp, max_hp)
 
+func get_speed_penalty():
+    var s = speed * .25 if slow_debuff_turns > 0 else speed
+    return speed - s
 
 func update_move_index():
-    var s = speed * .25 if slow_debuff_turns > 0 else speed
-    move_index += round(MAX_SPEED - s)
+    var s = speed - get_speed_penalty()
+    move_index += int(round(MAX_SPEED - s))
     # print(title, " speed: ", s)
 
 func project_upcoming_move_index():
-    var s = speed * .25 if slow_debuff_turns > 0 else speed
+    var s = speed - get_speed_penalty()
     var move_index_projection: int = move_index
     # print(title, " upcoming speed: ", s)
     upcoming_move_indices.clear()
-    for i in range(1):
-        move_index_projection += round(MAX_SPEED - s)
+    for i in range(2):
+        move_index_projection += int(round(MAX_SPEED - s))
         upcoming_move_indices.append(move_index_projection)
 
 func move_to_center():
@@ -229,6 +235,7 @@ func perform_move(move: Move, targets: Array[Fighter]):
         # Debuff
         if move.slow_debuff_turns > 0:
             target.fighter_data.queue_text("SLOWED")
+            target.is_recently_slowed = target.slow_debuff_turns == 0
             target.slow_debuff_turns += move.slow_debuff_turns + (1 if target == self else 0)
             
         if move.stun_debuff_turns > 0:

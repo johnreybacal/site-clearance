@@ -157,14 +157,20 @@ func new_queue_item(f: Fighter, i: int):
 func update_queue():
     for fighter in fighters:
         if fighter.slow_debuff_turns > 0:
-            # Update queue when slowed (upcoming only)
             # Remove all queue items
-            turn_queue = turn_queue.filter(func(f: FighterQueue): return f.fighter != fighter)
-            # Retain next move
+            turn_queue = turn_queue.filter(func(f: FighterQueue): return f.fighter.get_instance_id() != fighter.get_instance_id())
+            if len(turn_queue) == 0:
+                print("update_queue >> fighter.slow_debuff_turns")
+            if fighter.is_recently_slowed:
+                # Apply speed penalty on current move_index
+                fighter.move_index += int(fighter.get_speed_penalty())
+                fighter.is_recently_slowed = false
             turn_queue.append(new_queue_item(fighter, fighter.move_index))
         if fighter.move_index == move_index:
+            # Update move index
             fighter.update_move_index()
             turn_queue.append(new_queue_item(fighter, fighter.move_index))
+        # Update projected move index
         fighter.project_upcoming_move_index()
         turn_queue.append_array(fighter.upcoming_move_indices.map(func(i: int): return new_queue_item(fighter, i)))
 
@@ -175,12 +181,13 @@ func update_queue():
             unique_queue.append(item)
     
     turn_queue = unique_queue.filter(func(i: FighterQueue): return i.move_index >= prev_move_index)
+    if len(turn_queue) == 0:
+        print("update_queue >> unique_queue")
     turn_queue.sort_custom(func(a: FighterQueue, b: FighterQueue): return a.move_index < b.move_index)
 
     # if from_effect:
     #     for turn in turn_queue:
     #         print(turn.fighter.title, " :: ", turn.move_index)
-    hud.update_turn_display(turn_queue)
 
 
 func on_tick():
@@ -202,8 +209,12 @@ func on_tick():
     sun_position = tick as float / MAX_TICK
 
     current_fighter_index = 0
+    current_fighter = turn_fighters[current_fighter_index]
     is_next_turn = true
     is_ticking = false
+
+    if len(turn_queue) > 0:
+        hud.update_turn_display(turn_queue, new_queue_item(current_fighter, move_index))
 
 #endregion
 
@@ -245,13 +256,16 @@ func remove_fighter(fighter: Fighter):
         for enemy in enemies:
             enemy.initial_position = enemies_position[len(enemies) - 1][counter]
             counter += 1
-    turn_queue = turn_queue.filter(func(f: FighterQueue): return f.fighter != fighter)
-    turn_fighters = turn_fighters.filter(func(f: Fighter): return f != fighter)
+    turn_queue = turn_queue.filter(func(f: FighterQueue): return f.fighter.get_instance_id() != fighter.get_instance_id())
+    if len(turn_queue) == 0:
+        print("remove_fighter")
+    turn_fighters = turn_fighters.filter(func(f: Fighter): return f.get_instance_id() != fighter.get_instance_id())
     hud.update_turn_display(turn_queue, new_queue_item(current_fighter, move_index))
 
     if fighter is Enemy:
         var enemies = get_enemies()
         if len(enemies) == 0:
+            hud.update_turn_display([])
             proceed()
     else:
         var trucks = get_trucks()

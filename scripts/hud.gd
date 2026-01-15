@@ -97,6 +97,9 @@ func show_targets(move: Move, targets: Array[Fighter]):
 
 
 func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameManager.FighterQueue = null):
+    print(len(queue))
+    if current:
+        print(current.fighter.title, " :: ", current.move_index)
     for node in turn_display.get_children():
         node.queue_free()
 
@@ -109,16 +112,18 @@ func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameMa
             is_current_fighter = item.fighter.get_instance_id() == current.fighter.get_instance_id() and item.move_index == current.move_index
             if is_current_fighter:
                 is_before_current = false
-            elif is_before_current:
-                continue
-        
+            # elif is_before_current:
+            #     continue
         var turn = TurnDisplayItem.new()
         turn.texture = (item.fighter.get_node("TextureContainer/Sprite2D") as Sprite2D).texture
         turn.fighter_id = item.fighter.get_instance_id()
         turn.move_index = item.move_index
-        turn.modulate.a = 1.0 if is_current_fighter else 0.66
+        if not is_current_fighter:
+            turn.self_modulate = "#808080a8"
+
 
         var label = Label.new()
+        label.modulate = Color.WHITE
         label.text = str(item.move_index)
         turn.add_child(label)
 
