@@ -441,14 +441,12 @@ func queue_text(value: String, color: Color = "#FFFFFF"):
     text_queue.push_front(item)
 
 func display_text(value: String, color: Color = "#FFFFFF"):
-    var text: Node2D = floating_text_scene.instantiate()
-    text.position = Vector2(0, -50)
-    text.modulate = color
-    
-    var label = text.get_child(1).get_child(0) as Label
-    label.text = value
-    label.add_theme_font_size_override("font_size", 20)
+    var floating_text: FloatingText = floating_text_scene.instantiate()
+    floating_text.position = Vector2(0, -50)
+    floating_text.color = color
+    floating_text.font_size = 20
+    floating_text.text = value
 
-    add_child(text)
+    add_child(floating_text)
 
 #endregion

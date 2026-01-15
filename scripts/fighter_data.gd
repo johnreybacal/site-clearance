@@ -16,7 +16,7 @@ var defense_buff_texture = preload("res://assets/sprites/status/defense.png")
 var slow_debuff_texture = preload("res://assets/sprites/status/slow.png")
 var stun_debuff_texture = preload("res://assets/sprites/status/stun.png")
 var overheat_texture = preload("res://assets/sprites/status/overheat.png")
-var floating_text = preload("res://scenes/floating_text.tscn")
+var floating_text_scene = preload("res://scenes/floating_text.tscn")
 
 var overheat_status: Node
 
@@ -109,7 +109,7 @@ func queue_text(value: String, color: Color = "#FFFFFF"):
     text_queue.push_front(item)
 
 func display_text(value: String, color: Color = "#FFFFFF"):
-    var text: Node2D = floating_text.instantiate()
-    text.modulate = color
-    (text.get_child(1).get_child(0) as Label).text = value
-    add_child(text)
+    var floating_text: FloatingText = floating_text_scene.instantiate()
+    floating_text.color = color
+    floating_text.text = value
+    add_child(floating_text)
