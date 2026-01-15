@@ -11,7 +11,7 @@ description = "Increases attack and defense"
 move_type = 1
 target_type = 2
 heat_cost = 4.0
-damage_buff_turns = 1
+damage_buff_turns = 2
 defense_buff_turns = 3
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
@@ -27,8 +27,9 @@ metadata/_custom_type_script = "uid://qjboko3yokku"
 [node name="Bulldozer" type="Node2D"]
 z_index = 5
 script = ExtResource("1_n0u0w")
-max_heat_level = 12
+max_heat_level = 8
 title = "Bulldozer"
+max_hp = 12.0
 speed = 38.0
 moves = Array[ExtResource("2_u1gb1")]([SubResource("Resource_mgboc"), SubResource("Resource_xrtnu")])
 

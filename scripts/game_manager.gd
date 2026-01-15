@@ -15,7 +15,7 @@ var MAX_TICK = 12
 var tick = 0
 var is_ticking = true
 const TICK_INTERVAL = 1.25
-var tick_interval = TICK_INTERVAL
+var tick_interval = 2.25
 
 var prev_move_index: int = 0
 var move_index: int = 0

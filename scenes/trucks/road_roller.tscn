@@ -21,7 +21,7 @@ title = "Rodororada"
 description = "High damage to enemy and self"
 damage = 15.0
 self_damage = 5.0
-heat_cost = 7.5
+heat_cost = 5.0
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
 [node name="RoadRoller" type="Node2D"]
@@ -29,6 +29,7 @@ z_index = 5
 script = ExtResource("1_qw0i2")
 max_heat_level = 9
 title = "Road Roller"
+max_hp = 12.0
 speed = 23.0
 moves = Array[ExtResource("2_np5tu")]([SubResource("Resource_kv47w"), SubResource("Resource_3ne8d")])
 

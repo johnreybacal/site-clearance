@@ -26,7 +26,9 @@ metadata/_custom_type_script = "uid://qjboko3yokku"
 [node name="Excavator" type="Node2D"]
 z_index = 5
 script = ExtResource("1_a4wfb")
+max_heat_level = 9
 title = "Excavator"
+max_hp = 11.0
 speed = 30.0
 moves = Array[ExtResource("2_fy0fe")]([SubResource("Resource_a4wfb"), SubResource("Resource_5pcn0")])
 

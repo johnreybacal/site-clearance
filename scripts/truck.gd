@@ -6,8 +6,6 @@ class_name Truck
 @export var max_heat_level = 10
 var heat_level = 0
 
-@export var default_moves: Array[Move]
-
 var operator: Global.Operator
 
 func _init() -> void:
@@ -21,12 +19,13 @@ func _ready():
     moves.push_front(move_cd)
 
     max_hp += operator.stats.hp
+    heal_bonus = operator.stats.hp * .25
     speed += (operator.stats.speed * 3)
     for move in moves:
         if move.damage > 0:
-            move.damage += operator.stats.damage
+            move.damage += operator.stats.damage * .25 if move.is_area_target else operator.stats.damage
         if move.self_damage > 0:
-            move.self_damage += (operator.stats.damage * .5)
+            move.self_damage += (operator.stats.damage * .25)
 
 func cool_down(amount: float):
     if heat_level > 0:

@@ -80,7 +80,8 @@ func increment_enemies_defeated():
     enemies_defeated += 1
     # Increase difficulty
     var stat = stat_keys.pick_random()
-    enemy_stat_modifier[stat] += .5
+    var increases = [.5, .75, 1]
+    enemy_stat_modifier[stat] += increases.pick_random()
 
 func increment_trucks_lost():
     trucks_lost += 1

@@ -7,12 +7,13 @@
 [sub_resource type="Resource" id="Resource_cn3c5"]
 script = ExtResource("2_usanj")
 title = "Shower"
-description = "Cools down all allies"
+description = "Heals and cools down all allies"
 move_type = 1
 target_type = 1
 is_area_target = true
-heat_cost = 2.0
-cool_down_amount = 5.0
+heat_cost = 4.0
+heal_amount = 2.0
+cool_down_amount = 7.0
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
 [sub_resource type="Resource" id="Resource_ajcat"]
@@ -30,7 +31,7 @@ z_index = 5
 script = ExtResource("1_c8o6l")
 max_heat_level = 15
 title = "Water Tank"
-max_hp = 12.0
+max_hp = 14.0
 speed = 28.0
 moves = Array[ExtResource("2_usanj")]([SubResource("Resource_cn3c5"), SubResource("Resource_ajcat")])
 

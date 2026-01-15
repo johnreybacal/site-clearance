@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://xbwrp7gvi42b"]
+[gd_scene load_steps=6 format=3 uid="uid://xbwrp7gvi42b"]
 
 [ext_resource type="Script" uid="uid://mu6pa8fl4ivp" path="res://scripts/enemy.gd" id="1_gr06a"]
 [ext_resource type="Script" uid="uid://qjboko3yokku" path="res://scripts/move.gd" id="2_2jhgq"]
@@ -12,13 +12,22 @@ is_area_target = true
 damage = 3.0
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
+[sub_resource type="Resource" id="Resource_mm4vl"]
+script = ExtResource("2_2jhgq")
+title = "Wing attack"
+description = "Damages and slows all enemies"
+is_area_target = true
+damage = 1.0
+slow_debuff_turns = 2
+metadata/_custom_type_script = "uid://qjboko3yokku"
+
 [node name="Dragon" type="Node2D"]
 z_index = 5
 script = ExtResource("1_gr06a")
 title = "Dragon"
 max_hp = 14.0
 speed = 38.0
-moves = Array[ExtResource("2_2jhgq")]([SubResource("Resource_ptdwj")])
+moves = Array[ExtResource("2_2jhgq")]([SubResource("Resource_ptdwj"), SubResource("Resource_mm4vl")])
 
 [node name="TextureContainer" type="Node2D" parent="."]
 

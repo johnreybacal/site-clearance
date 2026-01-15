@@ -8,6 +8,7 @@ const MAX_SPEED = 100
 @export var max_hp: float = 10
 @export var speed: float = 75
 var hp: float
+var heal_bonus: float
 
 @export var moves: Array[Move]
 
@@ -179,6 +180,7 @@ func take_damage(damage: float, self_inflicted: bool = false):
     hit_sfx.play()
 
 func heal(amount: float):
+    amount += heal_bonus
     hp += amount
     if hp > max_hp:
         hp = max_hp

@@ -16,11 +16,12 @@ metadata/_custom_type_script = "uid://qjboko3yokku"
 [sub_resource type="Resource" id="Resource_f270p"]
 script = ExtResource("2_f270p")
 title = "Concrete Barrier"
-description = "Increase allied unit defense"
+description = "Increase defense of all allies"
 move_type = 1
 target_type = 1
+is_area_target = true
 heat_cost = 4.0
-defense_buff_turns = 3
+defense_buff_turns = 1
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
 [node name="CementMixer" type="Node2D"]

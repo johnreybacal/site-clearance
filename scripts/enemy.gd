@@ -17,10 +17,11 @@ func _ready():
     moves.push_front(move_re) # 0
 
     max_hp += Global.enemy_stat_modifier.hp
+    heal_bonus = Global.enemy_stat_modifier.hp * .25
     speed += (Global.enemy_stat_modifier.speed * 3)
     for move in moves:
         if move.damage > 0:
-            move.damage += Global.enemy_stat_modifier.damage
+            move.damage += Global.enemy_stat_modifier.damage * .25 if move.is_area_target else Global.enemy_stat_modifier.damage
         if move.self_damage > 0:
             move.self_damage += (Global.enemy_stat_modifier.damage * .5)
 
