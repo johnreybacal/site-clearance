@@ -8,8 +8,14 @@ class FighterQueue:
 @export var hud: HUD
 @export var truck_scenes: Array[PackedScene]
 @export var enemy_scenes: Array[PackedScene]
+@export var bg_container: Node2D
 @export var bg_tile_map: TileMapLayer
 @export var bg_tile_set: TileSet
+@export var sunlight_foreground: Sprite2D
+@export var sunlight_gradient: GradientTexture2D
+@export var end_transition_foreground: Sprite2D
+@export var tree_scene: PackedScene
+@export var floating_text_scene: PackedScene
 
 var MAX_TICK = 12
 var tick = 0
@@ -38,13 +44,9 @@ const BG_X_INITIAL = -13
 var bg_x = BG_X_INITIAL
 const BG_Y_INITIAL = -7
 var bg_y = BG_Y_INITIAL
-@export var sunlight_foreground: Sprite2D
-@export var sunlight_gradient: GradientTexture2D
-@export var end_transition_foreground: Sprite2D
 var sun_position = 0
 var is_ending = false
-
-@export var floating_text_scene: PackedScene
+var trees: Array[TreeClass] = []
 
 var trucks_spawned: Array[String] = []
 
@@ -83,6 +85,7 @@ func _ready() -> void:
 
     draw_bg(true)
     draw_barren()
+    draw_trees()
 
     sunlight_foreground.texture = sunlight_gradient
 
@@ -110,7 +113,7 @@ func _process(delta: float) -> void:
         var trucks = get_trucks()
         for truck in trucks:
             truck.current_shake = 1
-        bg_tile_map.position += Vector2.LEFT * delta * 150
+        bg_container.position += Vector2.LEFT * delta * 150
 
         proceed_interval -= delta
         barren_interval -= delta
@@ -118,6 +121,7 @@ func _process(delta: float) -> void:
         if barren_interval <= 0:
             barren_interval = BARREN_INTERVAL
             draw_barren()
+            redraw_trees()
             # draw_barren_darker()
         if proceed_interval <= 0:
             current_fighter = null
@@ -370,6 +374,7 @@ func proceed():
     for fighter in fighters:
         fighter.move_index = 0
     draw_bg()
+    draw_trees(400, 700)
 
 func draw_bg(initial = false):
     var source_id = bg_tile_set.get_source_id(0)
@@ -392,7 +397,7 @@ func draw_bg(initial = false):
 func draw_barren():
     var source_id = bg_tile_set.get_source_id(1)
     var atlas_coords = [Vector2i(7, 11), Vector2i(5, 8), Vector2i(3, 8), Vector2i(5, 7)]
-    var distance = Vector2(position.x, bg_tile_map.position.y).distance_to(bg_tile_map.position)
+    var distance = Vector2(position.x, bg_container.position.y).distance_to(bg_container.position)
     var target_x = bg_tile_map.local_to_map(Vector2(distance + (25 * (proceeds - 2)), 0)).x - (10 * proceeds)
     for y in range(bg_y, bg_y + abs(BG_Y_INITIAL) * 2):
         var t_x = target_x - round(abs(y) / randf_range(1.5, 4.5))
@@ -401,17 +406,42 @@ func draw_barren():
             
             bg_tile_map.set_cell(coords, source_id, atlas_coords.pick_random())
     
-# func draw_barren_darker():
-#     var source_id = bg_tile_set.get_source_id(2)
-#     var distance = Vector2(position.x, bg_tile_map.position.y).distance_to(bg_tile_map.position)
-#     var target_x = bg_tile_map.local_to_map(Vector2(distance + (25 * (proceeds - 2)), 0)).x - (10 * proceeds)
-#     target_x -= 5
-#     for y in range(bg_y, bg_y + abs(BG_Y_INITIAL) * 2):
-#         var t_x = target_x - round(abs(y) / randf_range(1.5, 4.5))
-#         for x in range(BG_X_INITIAL + (5 * proceeds), t_x):
-#             var coords = Vector2i(x, y)
-#             var atlas_coords = bg_tile_map.get_cell_atlas_coords(coords)
-#             bg_tile_map.set_cell(coords, source_id, atlas_coords)
+
+func draw_trees(x = -400, to_x = 400):
+    var index = 0
+    while x < to_x:
+        x += randi_range(25, 125)
+        var y = randi_range(-125, -175) if index % 2 == 0 else randi_range(150, 215)
+        var tree: TreeClass = tree_scene.instantiate()
+        bg_container.add_child(tree)
+        tree.global_position = Vector2(x, y)
+        tree.z_index = 6 if y > 0 else 4
+        trees.append(tree)
+        index += 1
+
+    redraw_trees.call_deferred()
+
+func redraw_trees():
+    var indices_to_remove: Array[int] = []
+    var index = -1
+    for tree in trees:
+        index += 1
+        if tree.global_position.x < -500:
+            indices_to_remove.append(index)
+        if tree.global_position.x > 125:
+            tree.update_leaf_state(TreeClass.LeafState.GREEN)
+        elif tree.global_position.x > -125:
+            tree.update_leaf_state(TreeClass.LeafState.GREEN_YELLOW)
+        elif tree.global_position.x > -225:
+            tree.update_leaf_state(TreeClass.LeafState.YELLOW)
+        else:
+            tree.update_leaf_state(TreeClass.LeafState.YELLOW)
+            tree.fall()
+
+    for i in range(len(indices_to_remove) - 1, 0, -1):
+        trees[i].queue_free()
+        trees.remove_at(i)
+        
 
 #endregion
 

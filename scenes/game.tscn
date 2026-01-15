@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b172hsvrevany"]
+[gd_scene load_steps=27 format=3 uid="uid://b172hsvrevany"]
 
 [ext_resource type="Texture2D" uid="uid://c3byo6xahqd55" path="res://resources/sunlight_gradient.tres" id="1_p57ef"]
 [ext_resource type="PackedScene" uid="uid://bo5gubxdgbov4" path="res://scenes/hud.tscn" id="1_uwrxv"]
@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://dfpcs5v7gv48p" path="res://scenes/enemies/skeleton_abomination.tscn" id="14_1kice"]
 [ext_resource type="PackedScene" uid="uid://egw2xd88m6b" path="res://scenes/enemies/vampire_wolf.tscn" id="15_5newe"]
 [ext_resource type="PackedScene" uid="uid://dwnvhv47a7fv8" path="res://scenes/floating_text.tscn" id="19_264po"]
+[ext_resource type="PackedScene" uid="uid://cfx5my58my5qh" path="res://scenes/tree.tscn" id="24_e1j6l"]
 
 [sub_resource type="Gradient" id="Gradient_bt5mj"]
 colors = PackedColorArray(0, 0, 0, 0, 0.08881762, 0.09742405, 0.19010487, 1)
@@ -53,19 +54,23 @@ z_index = 10
 
 [node name="HUD" parent="CanvasLayer" instance=ExtResource("1_uwrxv")]
 
-[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("hud", "bg_tile_map", "sunlight_foreground", "end_transition_foreground")]
+[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("hud", "bg_container", "bg_tile_map", "sunlight_foreground", "end_transition_foreground")]
 script = ExtResource("2_yqjtg")
 hud = NodePath("../CanvasLayer/HUD")
 truck_scenes = Array[PackedScene]([ExtResource("3_37s47"), ExtResource("4_u5sy4"), ExtResource("5_gee14"), ExtResource("6_0tnpc"), ExtResource("3_lnu2h"), ExtResource("8_bt5mj"), ExtResource("9_bt5mj"), ExtResource("7_1kice")])
 enemy_scenes = Array[PackedScene]([ExtResource("4_lbhrr"), ExtResource("8_ssvqc"), ExtResource("10_trtic"), ExtResource("9_dinhu"), ExtResource("11_264po"), ExtResource("11_ir15t"), ExtResource("8_kvpfn"), ExtResource("14_1kice"), ExtResource("15_5newe"), ExtResource("12_ca42v")])
-bg_tile_map = NodePath("../Background")
+bg_container = NodePath("../Background")
+bg_tile_map = NodePath("../Background/TileMapLayer")
 bg_tile_set = ExtResource("5_iywne")
 sunlight_foreground = NodePath("../SunlightForeground")
 sunlight_gradient = ExtResource("1_p57ef")
 end_transition_foreground = NodePath("../EndTransitionForeground")
+tree_scene = ExtResource("24_e1j6l")
 floating_text_scene = ExtResource("19_264po")
 
-[node name="Background" type="TileMapLayer" parent="."]
+[node name="Background" type="Node2D" parent="."]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="Background"]
 z_index = -1
 texture_filter = 1
 position = Vector2(0, -15)

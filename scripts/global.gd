@@ -8,7 +8,7 @@ var operator_name_options = [
     "Omar", "Kiara", "Koa", "Elena", "Arjun"
 ]
 
-var money: float = 0
+var money: float = 25
 
 # Max 25 each
 # Each upgrade increases cost
@@ -60,6 +60,8 @@ var MENU_SCENE = "res://scenes/menu.tscn"
 func _ready() -> void:
     if len(operators) == 0:
         recruit_operator()
+        # recruit_operator()
+        # recruit_operator()
     bgm = AudioStreamPlayer.new()
     bgm.stream = preload("res://assets/bgm/chill-drum-loop.mp3")
     bgm.volume_db = -10
