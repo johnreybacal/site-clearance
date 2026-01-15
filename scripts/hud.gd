@@ -105,13 +105,13 @@ func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameMa
 
     var counter = 0
     var max_display = 6
-    var is_before_current = true
+    # var is_before_current = true
     for item in queue:
         var is_current_fighter = false
         if current:
             is_current_fighter = item.fighter.get_instance_id() == current.fighter.get_instance_id() and item.move_index == current.move_index
-            if is_current_fighter:
-                is_before_current = false
+            # if is_current_fighter:
+            #     is_before_current = false
             # elif is_before_current:
             #     continue
         var turn = TurnDisplayItem.new()

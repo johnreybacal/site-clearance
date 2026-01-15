@@ -24,9 +24,6 @@ func _ready():
         if move.self_damage > 0:
             move.self_damage += (Global.enemy_stat_modifier.damage * .5)
 
-    hp = max_hp
-    fighter_data.update_hp(hp, max_hp)
-
 func decide():
     var choice = randi_range(1 if hp >= max_hp - 3 else 0, len(moves) - 1)
     on_move_selected.emit(moves[choice])

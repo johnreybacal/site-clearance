@@ -35,6 +35,7 @@ var is_attacked = false
 const ATTACKED_INTEVAL = 1
 var attacked_interval = ATTACKED_INTEVAL
 
+var is_entering = true
 var is_leaving = false
 
 var highlight_duration = 0
@@ -59,6 +60,10 @@ var hit_sfx: AudioStreamPlayer
 var fighter_sfx: AudioStreamPlayer
 
 func _ready():
+    initial_position = position
+    position = Vector2(initial_position.x + (-150 if self is Truck else 150), initial_position.y)
+    is_entering = true
+
     # speed = randf_range(speed - 1, speed + 1)
     texture_container = get_node("TextureContainer")
     sprite = get_node("TextureContainer/Sprite2D") as Sprite2D
@@ -85,15 +90,14 @@ func _ready():
     fighter_sfx.volume_db = -10
     add_child(fighter_sfx)
 
-    fighter_data = FighterDataScene.instantiate()
-    fighter_data.is_truck = self is Truck
-    add_child(fighter_data)
-    fighter_data.skew_container.position = Vector2(-50 if self is Truck else 50, 0)
-    fighter_data.skew_container.skew = deg_to_rad(-25 if self is Truck else 25)
-
-    initial_position = position
 
 func _process(delta: float) -> void:
+    if is_entering:
+        position = position.move_toward(initial_position, delta * 250)
+        current_shake = 1
+        if position == initial_position:
+            is_entering = false
+            on_entry()
     if highlight_duration > 0:
         highlight_duration -= delta
         current_shake = .5
@@ -130,10 +134,24 @@ func _process(delta: float) -> void:
                 is_ready = true
         else:
             current_shake = 1
-    else:
+    elif not is_entering:
         position = position.move_toward(initial_position, delta * 1000)
         if position != initial_position:
             current_shake = 1
+
+func on_entry():
+    fighter_data = FighterDataScene.instantiate()
+    fighter_data.is_truck = self is Truck
+    add_child(fighter_data)
+    fighter_data.skew_container.position = Vector2(-50 if self is Truck else 50, 0)
+    fighter_data.skew_container.skew = deg_to_rad(-25 if self is Truck else 25)
+
+    hp = max_hp
+    fighter_data.update_hp(hp, max_hp)
+    
+    if self is Truck:
+        var truck = self as Truck
+        fighter_data.update_heat(truck.heat_level, truck.max_heat_level)
 
 
 func take_damage(damage: float, self_inflicted: bool = false):
@@ -173,7 +191,7 @@ func get_speed_penalty():
 
 func update_move_index():
     var s = speed - get_speed_penalty()
-    move_index += int(round(MAX_SPEED - s))
+    move_index += int(floor(MAX_SPEED - s))
     # print(title, " speed: ", s)
 
 func project_upcoming_move_index():
@@ -182,7 +200,7 @@ func project_upcoming_move_index():
     # print(title, " upcoming speed: ", s)
     upcoming_move_indices.clear()
     for i in range(2):
-        move_index_projection += int(round(MAX_SPEED - s))
+        move_index_projection += int(floor(MAX_SPEED - s))
         upcoming_move_indices.append(move_index_projection)
 
 func move_to_center():

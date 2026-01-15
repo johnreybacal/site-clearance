@@ -14,7 +14,7 @@ class FighterQueue:
 var MAX_TICK = 12
 var tick = 0
 var is_ticking = true
-const TICK_INTERVAL = 1
+const TICK_INTERVAL = 1.25
 var tick_interval = TICK_INTERVAL
 
 var prev_move_index: int = 0
@@ -204,7 +204,8 @@ func on_tick():
 
     var trucks = get_trucks() as Array[Truck]
     for truck in trucks:
-        truck.cool_down(1)
+        if truck.heat_level > 0:
+            truck.cool_down(1)
 
     sun_position = tick as float / MAX_TICK
 

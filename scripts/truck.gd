@@ -28,9 +28,6 @@ func _ready():
         if move.self_damage > 0:
             move.self_damage += (operator.stats.damage * .5)
 
-    hp = max_hp
-    fighter_data.update_hp(hp, max_hp)
-
 func cool_down(amount: float):
     if heat_level > 0:
         fighter_data.queue_text("-" + str(amount) + " HEAT", Color.SKY_BLUE)
