@@ -4,7 +4,7 @@ class_name HUD
 @onready var bottom_panel: PanelContainer = $BottomPanel
 @onready var turn_decision: HFlowContainer = $BottomPanel/VBoxContainer/TurnDecision
 @onready var description: Label = $BottomPanel/VBoxContainer/Label
-
+@onready var top_panel: PanelContainer = $TopPanel
 @onready var turn_display: HBoxContainer = $TopPanel/TurnDisplay
 
 @onready var ui_feedback: AudioStreamPlayer = $UIFeedback
@@ -21,6 +21,7 @@ const TARGET_ID_META = "target_id"
 var fighters: Array[Fighter] = []
 
 func _ready():
+    top_panel.visible = false
     bottom_panel.visible = false
 
 func _process(_delta: float):
@@ -97,6 +98,7 @@ func show_targets(move: Move, targets: Array[Fighter]):
 
 
 func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameManager.FighterQueue = null):
+    top_panel.visible = len(queue) > 0
     print(len(queue))
     if current:
         print(current.fighter.title, " :: ", current.move_index)
@@ -126,15 +128,15 @@ func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameMa
         # label.modulate = Color.WHITE
         # label.text = str(item.move_index)
         # turn.add_child(label)
-        if is_current_fighter:
-            var panel = PanelContainer.new()
-            var box = StyleBoxFlat.new()
-            box.bg_color = "#ffffffcc"
-            panel.add_theme_stylebox_override("panel", box)
-            panel.add_child(turn)
-            turn_display.add_child(panel)
-        else:
-            turn_display.add_child(turn)
+        # if is_current_fighter:
+        #     var panel = PanelContainer.new()
+        #     var box = StyleBoxFlat.new()
+        #     box.bg_color = "#ffffff99"
+        #     panel.add_theme_stylebox_override("panel", box)
+        #     panel.add_child(turn)
+        #     turn_display.add_child(panel)
+        # else:
+        turn_display.add_child(turn)
         counter += 1
         if counter > max_display:
             break

@@ -70,8 +70,14 @@ floating_text_scene = ExtResource("19_264po")
 
 [node name="Background" type="Node2D" parent="."]
 
+[node name="TopTrees" type="Node2D" parent="Background"]
+z_index = 4
+
+[node name="BottomTrees" type="Node2D" parent="Background"]
+z_index = 6
+
 [node name="TileMapLayer" type="TileMapLayer" parent="Background"]
-z_index = -1
+z_index = -250
 texture_filter = 1
 position = Vector2(0, -15)
 scale = Vector2(2, 2)

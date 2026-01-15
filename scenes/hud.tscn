@@ -1,10 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bo5gubxdgbov4"]
+[gd_scene load_steps=5 format=3 uid="uid://bo5gubxdgbov4"]
 
 [ext_resource type="Script" uid="uid://cld8sidgyvfvi" path="res://scripts/hud.gd" id="1_ahhtf"]
 [ext_resource type="Theme" uid="uid://w03an4spcyps" path="res://resources/theme.tres" id="1_oo0fn"]
 [ext_resource type="AudioStream" uid="uid://2iv2buj0vs0c" path="res://assets/sfx/ui_feedback.mp3" id="3_5ysmq"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5ysmq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fi6k"]
 bg_color = Color(0.23137255, 0.23137255, 0.23137255, 0.78431374)
@@ -40,7 +38,6 @@ offset_top = 10.0
 offset_right = 120.0
 offset_bottom = 45.0
 grow_horizontal = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_5ysmq")
 
 [node name="TurnDisplay" type="HBoxContainer" parent="TopPanel"]
 custom_minimum_size = Vector2(0, 25)

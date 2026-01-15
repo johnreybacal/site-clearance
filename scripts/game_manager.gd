@@ -407,15 +407,16 @@ func draw_barren():
             bg_tile_map.set_cell(coords, source_id, atlas_coords.pick_random())
 
 
-func draw_trees(x = -400, to_x = 400):
+func draw_trees(x = -425, to_x = 425):
     var index = 0
     while x < to_x:
-        x += randi_range(15, 100)
+        x += randi_range(-25, 100)
         var y = randi_range(-135, -200) if index % 2 == 0 else randi_range(150, 250)
         var tree: TreeClass = tree_scene.instantiate()
-        bg_container.add_child(tree)
+        # Trees container
+        bg_container.get_child(0 if y < 0 else 1).add_child(tree)
         tree.global_position = Vector2(int(x), int(y))
-        tree.z_index = 6 if y > 0 else 4
+        tree.z_index = int(tree.position.y)
         trees.append(tree)
         index += 1
 
@@ -428,11 +429,11 @@ func redraw_trees():
         index += 1
         if tree.global_position.x < -500:
             indices_to_remove.append(index)
-        if tree.global_position.x > 125:
+        if tree.global_position.x > 175:
             tree.update_leaf_state(TreeClass.LeafState.GREEN)
-        elif tree.global_position.x > -125:
+        elif tree.global_position.x > -50:
             tree.update_leaf_state(TreeClass.LeafState.GREEN_YELLOW)
-        elif tree.global_position.x > -225:
+        elif tree.global_position.x > -200:
             tree.update_leaf_state(TreeClass.LeafState.YELLOW)
         else:
             tree.update_leaf_state(TreeClass.LeafState.YELLOW)
