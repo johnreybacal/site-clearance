@@ -121,7 +121,7 @@ func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameMa
             turn.self_modulate = "#808080a8"
 
         turn.position = Vector2(counter * 40, 0)
-        turn.transition_speed = (len(queue) - counter) * 15
+        turn.transition_speed = (len(queue) + 2 - counter) * 15
         if item.fighter is Truck:
             turn.scale = Vector2(.5, .5)
             # turn.target_scale_x = .5

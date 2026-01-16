@@ -49,6 +49,8 @@ var total_heat: float
 var total_money: float
 # Big Spender
 var total_spent: float
+# Anti environmentalist
+var trees_fallen: int
 
 var bgm: AudioStreamPlayer
 
@@ -57,39 +59,110 @@ signal money_updated()
 var GAME_SCENE = "res://scenes/game.tscn"
 var MENU_SCENE = "res://scenes/menu.tscn"
 
+var achievement_notification_scene = preload("res://scenes/achievement_notification.tscn")
+
+class Achievement:
+    var title: String
+    var description: String
+
+var achievement_queue: Array[Achievement] = []
+var achievements: Array[Achievement] = []
+const ACHIEVEMENT_INTERVAL = 3.5
+var achievement_interval = 0
+signal on_new_achievement()
+
 func _ready() -> void:
     if len(operators) == 0:
         recruit_operator()
-        recruit_operator()
-        recruit_operator()
+        # recruit_operator()
+        # recruit_operator()
     bgm = AudioStreamPlayer.new()
     bgm.stream = preload("res://assets/bgm/chill-drum-loop.mp3")
-    bgm.volume_db = -10
+    bgm.volume_db = -15
     add_child(bgm)
     bgm.play()
+
+func _process(delta: float) -> void:
+    if len(achievement_queue) > 0:
+        achievement_interval -= delta
+        if achievement_interval <= 0:
+            var item = achievement_queue.pop_back()
+            add_achievement(item)
+            achievement_interval = ACHIEVEMENT_INTERVAL if len(achievement_queue) > 0 else 0.0
 
 func earn_money(amount: float):
     money += amount
     total_money += amount
     money_updated.emit()
 
+    if total_money > 25:
+        queue_achievement("Earner I", "Earn 50 dollars")
+    if total_money > 250:
+        queue_achievement("Earner II", "Earn 250 dollars")
+    if total_money > 500:
+        queue_achievement("Earner II", "Earn 500 dollars")
+    if total_money > 1000:
+        queue_achievement("Earner IV", "Earn 1000 dollars")
+
 func spend_money(amount: float):
     money -= amount
     total_spent += amount
     money_updated.emit()
 
+    if total_spent > 50:
+        queue_achievement("Spender I", "Spend 50 dollars")
+    if enemies_defeated > 250:
+        queue_achievement("Spender II", "Spend 250 dollars")
+    if enemies_defeated > 500:
+        queue_achievement("Spender II", "Spend 500 dollars")
+    if enemies_defeated > 1000:
+        queue_achievement("Spender IV", "Spend 1000 dollars")
+
 func increment_enemies_defeated():
     enemies_defeated += 1
     # Increase difficulty
     var stat = stat_keys.pick_random()
-    var increases = [.5, .75, 1]
+    var increases = [.5, .75, 1, 1.25, 1.5]
     enemy_stat_modifier[stat] += increases.pick_random()
+        
+    if enemies_defeated == 1:
+        queue_achievement("My first kill", "Defeat 1 monster")
+    if enemies_defeated == 5:
+        queue_achievement("It gets harder from here", "Defeat 5 monsters")
+    if enemies_defeated == 25:
+        queue_achievement("Professional exterminator", "Defeat 25 monsters")
+    if enemies_defeated == 100:
+        queue_achievement("Bane of monsters", "Defeat 100 monsters")
 
 func increment_trucks_lost():
     trucks_lost += 1
 
+    if trucks_lost == 1:
+        queue_achievement("Don't worry, we'll fix it", "Lose 1 truck")
+    if trucks_lost == 10:
+        queue_achievement("We got more", "Lose 10 trucks")
+    if trucks_lost == 25:
+        queue_achievement("Is this obsolete?", "Lose 25 trucks")
+
+func increment_trees_fallen():
+    trees_fallen += 1
+
+    if trees_fallen > 100:
+        queue_achievement("Not cool •ˋ◠ˊ•", "Cause 100 trees to fall")
+    if trees_fallen > 300:
+        queue_achievement("So not cool •ˋ◠ˊ•", "Cause 500 trees to fall")
+    if trees_fallen > 1000:
+        queue_achievement("•ˋ◠ˊ•", "Cause 1000 trees to fall")
+
 func add_total_heat(amount: float):
     total_heat += amount
+
+    if total_heat > 100:
+        queue_achievement("It's very hot in here", "Accumulate a total of 100 heat level")
+    if total_heat > 250:
+        queue_achievement("Sure is nice outside", "Accumulate a total of 250 heat level")
+    if total_heat > 500:
+        queue_achievement("Doesn't this thing have AC?", "Accumulate a total of 500 heat level")
 
 func recruit_operator():
     var cost = get_operator_cost()
@@ -102,6 +175,11 @@ func recruit_operator():
         operator_name_options.remove_at(name_index)
         operators.append(op)
 
+    if len(operators) == 2:
+        queue_achievement("Prepare for trouble", "Hire a second operator")
+    if len(operators) == 3:
+        queue_achievement("The three musketeers", "Hire a third operator")
+
     max_enemies = len(operators) + 1
 
 func get_operator_cost():
@@ -112,7 +190,27 @@ func upgrade_operator(op: Operator, stat: String):
     spend_money(cost)
     if op.stats[stat] < 10:
         op.stats[stat] += 1
+    else:
+        queue_achievement("Specialist", "Max out a stat")
 
 func get_upgrade_cost(op: Operator, stat: String):
     var accumulated_stats = op.stats.hp + op.stats.damage + op.stats.speed
     return 10 + (op.stats[stat] * 2.5) + (accumulated_stats * .25)
+
+
+func queue_achievement(title: String, description: String):
+    var is_already_achieved = achievements.any(func(a: Achievement): return a.title == title) or achievement_queue.any(func(a: Achievement): return a.title == title)
+    if is_already_achieved:
+        return
+    var achievement = Achievement.new()
+    achievement.title = title
+    achievement.description = description
+    achievement_queue.push_front(achievement)
+
+func add_achievement(achievement: Achievement):
+    var achievement_notif: AchievementNotification = achievement_notification_scene.instantiate()
+    achievement_notif.title_text = achievement.title
+    achievement_notif.description_text = achievement.description
+    add_child(achievement_notif)
+    achievements.append(achievement)
+    on_new_achievement.emit()

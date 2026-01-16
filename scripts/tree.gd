@@ -27,6 +27,7 @@ func fall():
     await get_tree().create_timer(randf()).timeout
     animation_player.play("fall")
     has_fallen = true
+    Global.increment_trees_fallen()
 
 func update_leaf_state(state: LeafState):
     sprite_2d.frame_coords.y = state

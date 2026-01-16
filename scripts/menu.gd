@@ -10,9 +10,13 @@ var bg_x = BG_X_INITIAL
 const BG_Y_INITIAL = -7
 var bg_y = BG_Y_INITIAL
 
-@onready var tab_container: TabContainer = $UpgradePanel/TabContainer
-@onready var money_label: Label = $UpgradePanel/MoneyLabel
-@onready var recruit_button: Button = $UpgradePanel/RecruitButton
+@onready var monsters_defeated_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/MonstersDefeatedValue
+@onready var trucks_lost_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/TrucksLostValue
+@onready var achievements_container: GridContainer = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Achievements/ScrollContainer/GridContainer
+
+@onready var operators_tab_container: TabContainer = $MarginContainer/HBoxContainer/VBoxContainer/UpgradePanel/TabContainer
+@onready var money_label: Label = $MarginContainer/HBoxContainer/VBoxContainer/UpgradePanel/MoneyLabel
+@onready var recruit_button: Button = $MarginContainer/HBoxContainer/VBoxContainer/UpgradePanel/RecruitButton
 
 @onready var start_transition_foreground: Sprite2D = $StartTransitionForeground
 @onready var sunlight_foreground: Sprite2D = $SunlightForeground
@@ -28,6 +32,13 @@ func _ready() -> void:
     Global.money_updated.connect(redraw_money)
 
     recruit_button.text = "RECRUIT OPERATOR [$" + str(Global.get_operator_cost()) + "]"
+    monsters_defeated_value.text = str(Global.enemies_defeated)
+    trucks_lost_value.text = str(Global.trucks_lost)
+    for achievement in Global.achievements:
+        var label = Label.new()
+        label.text = achievement.title + " - " + achievement.description
+    redraw_achievements()
+    Global.on_new_achievement.connect(redraw_achievements)
 
 func _process(delta: float) -> void:
     var sun_position = clampf(800 / get_local_mouse_position().x, 0, 1)
@@ -69,8 +80,19 @@ func draw_operator_tab(op: Global.Operator):
     var tab: OperatorTab = operator_tab.instantiate()
     tab.name = op.name
     tab.operator = op
-    tab_container.add_child(tab)
+    operators_tab_container.add_child(tab)
 
+func redraw_achievements():
+    for node in achievements_container.get_children():
+        node.queue_free()
+    for achievement in Global.achievements:
+        var label = Label.new()
+        label.text = achievement.title
+        achievements_container.add_child(label)
+        label = Label.new()
+        label.text = achievement.description
+        label.size_flags_horizontal = Control.SIZE_EXPAND
+        achievements_container.add_child(label)
 
 func _on_recruit_button_pressed() -> void:
     Global.recruit_operator()

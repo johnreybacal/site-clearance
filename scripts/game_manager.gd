@@ -79,6 +79,14 @@ func _ready() -> void:
         trucks_spawned.append(truck.title)
         truck_count += 1
 
+    # if greater than 5 (or 6)
+    if len(Global.last_trucks_used) > 5:
+        # remove the first three from the queue
+        # so that the last three won't be reused next game
+        Global.last_trucks_used.pop_front()
+        Global.last_trucks_used.pop_front()
+        Global.last_trucks_used.pop_front()
+
     add_enemies()
 
     update_queue()
@@ -416,7 +424,7 @@ func draw_trees(x = -425, to_x = 425):
         # Trees container
         bg_container.get_child(0 if y < 0 else 1).add_child(tree)
         tree.global_position = Vector2(int(x), int(y))
-        tree.z_index = int(tree.position.y)
+        tree.z_index = int(tree.position.y - 10)
         trees.append(tree)
         index += 1
 

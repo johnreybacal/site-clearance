@@ -50,7 +50,7 @@ fill_from = Vector2(0.5, 1)
 fill_to = Vector2(0.5, 0)
 
 [node name="FighterData" type="Node2D"]
-z_index = 7
+z_index = 10
 script = ExtResource("1_pj6e5")
 
 [node name="SkewContainer" type="Node2D" parent="."]

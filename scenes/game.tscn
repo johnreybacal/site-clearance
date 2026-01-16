@@ -38,12 +38,12 @@ fill_to = Vector2(2, 1)
 
 [node name="SunlightForeground" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.39215687)
-z_index = 10
+z_index = 250
 scale = Vector2(12.5, 6.25)
 
 [node name="EndTransitionForeground" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0)
-z_index = 15
+z_index = 250
 scale = Vector2(12.5, 6.25)
 texture = SubResource("GradientTexture2D_e1j6l")
 

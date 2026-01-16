@@ -90,6 +90,7 @@ Road roller (combat)
 - <a href="https://www.flaticon.com/free-icons/fire" title="fire icons">Fire icons created by juicy_fish - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/tank-truck" title="tank truck icons">Tank truck icons created by Freepik - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/bulldozer" title="bulldozer icons">Bulldozer icons created by Freepik - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/medal" title="medal icons">Medal icons created by Handicon - Flaticon</a>
 - https://swishos.itch.io/swishs-sprite-pack-24x24
 - https://ninjikin.itch.io/grass
 - https://pixelartvillage.com/
@@ -102,3 +103,4 @@ Road roller (combat)
 - Sound Effect by <a href="https://pixabay.com/users/universfield-28281460/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=153263">Universfield</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=153263">Pixabay</a>
 - Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6887">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6887">Pixabay</a>
 - Sound Effect by <a href="https://pixabay.com/users/u_xjrmmgxfru-47169417/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=266306">u_xjrmmgxfru</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=266306">Pixabay</a>
+- Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=46385">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=46385">Pixabay</a>
