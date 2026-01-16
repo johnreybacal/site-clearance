@@ -11,8 +11,7 @@ var operator: Global.Operator
 func _init() -> void:
     fighter_sfx_stream = preload("res://assets/sfx/truck.mp3")
 
-func _ready():
-    super._ready()
+func init_stats():
     var move_cd = preload("res://resources/moves/trucks/cool_down.tres").duplicate()
     var move_ro = preload("res://resources/moves/trucks/run_over.tres").duplicate()
     moves.push_front(move_ro)

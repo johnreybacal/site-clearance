@@ -2,7 +2,6 @@ extends Sprite2D
 class_name TurnDisplayItem
 
 var move_index: int
-var fighter_id: int
 var transition_speed = 1
 var target_position_y
 func _ready() -> void:

@@ -108,14 +108,13 @@ func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameMa
     for item in queue:
         var is_current_fighter = false
         if current:
-            is_current_fighter = item.fighter.get_instance_id() == current.fighter.get_instance_id() and item.move_index == current.move_index
+            is_current_fighter = item.fighter == current.fighter and item.move_index == current.move_index
             if is_current_fighter:
                 is_before_current = false
             elif is_before_current:
                 continue
         var turn = TurnDisplayItem.new()
         turn.texture = (item.fighter.get_node("TextureContainer/Sprite2D") as Sprite2D).texture
-        turn.fighter_id = item.fighter.get_instance_id()
         turn.move_index = item.move_index
         if not is_current_fighter:
             turn.self_modulate = "#808080a8"

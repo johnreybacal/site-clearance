@@ -202,17 +202,24 @@ func get_speed_penalty():
 
 func update_move_index():
     var s = speed - get_speed_penalty()
-    move_index += int(floor(MAX_SPEED - s))
+    move_index += floor(MAX_SPEED - s)
     # print(title, " speed: ", s)
 
 func project_upcoming_move_index():
-    var s = speed - get_speed_penalty()
+    var speed_penalty = get_speed_penalty()
     var move_index_projection: int = move_index
-    # print(title, " upcoming speed: ", s)
+    
     upcoming_move_indices.clear()
-    for i in range(2):
-        move_index_projection += int(floor(MAX_SPEED - s))
+
+    # Only apply speed penalty on projected slow turns
+    var slow_turns = slow_debuff_turns
+    for i in range(5):
+        move_index_projection += floor(MAX_SPEED - speed)
+        if slow_turns > 0:
+            move_index_projection += floor(speed_penalty)
         upcoming_move_indices.append(move_index_projection)
+
+        slow_turns -= 1
 
 func move_to_center():
     is_ready = false

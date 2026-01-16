@@ -12,6 +12,7 @@ var operator: Global.Operator
 
 func _ready() -> void:
     redraw()
+    Global.money_updated.connect(redraw)
 
 func redraw():
     for stat in Global.stat_keys:
