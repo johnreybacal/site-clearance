@@ -27,23 +27,6 @@ grow_vertical = 2
 theme = ExtResource("1_oo0fn")
 script = ExtResource("1_ahhtf")
 
-[node name="TopPanel" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(240, 25)
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -120.0
-offset_top = 10.0
-offset_right = 120.0
-offset_bottom = 45.0
-grow_horizontal = 2
-
-[node name="TurnDisplay" type="HBoxContainer" parent="TopPanel"]
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-size_flags_horizontal = 4
-
 [node name="BottomPanel" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(300, 100)
 layout_mode = 1
@@ -80,3 +63,6 @@ last_wrap_alignment = 2
 [node name="UIFeedback" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_5ysmq")
 volume_db = -15.0
+
+[node name="QueueMarker" type="Marker2D" parent="."]
+position = Vector2(20, 20)
