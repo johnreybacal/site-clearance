@@ -12,10 +12,14 @@ var bg_y = BG_Y_INITIAL
 
 @onready var foldable_container: FoldableContainer = $MarginContainer/HBoxContainer/FoldableContainer
 @onready var monsters_defeated_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/MonstersDefeatedValue
+@onready var kaiju_defeated_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/KaijuDefeatedValue
 @onready var trucks_lost_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/TrucksLostValue
 @onready var money_earned_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/MoneyEarnedValue
 @onready var money_spent_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/MoneySpentValue
 @onready var heat_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/HeatValue
+@onready var damage_dealt_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/DamageDealtValue
+@onready var damage_received_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/DamageReceivedValue
+@onready var trees_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/TreesValue
 
 @onready var achievements_container: GridContainer = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Achievements/ScrollContainer/GridContainer
 
@@ -28,7 +32,6 @@ var bg_y = BG_Y_INITIAL
 
 func _ready() -> void:
     draw_bg()
-    print("op", Global.operators)
     for op in Global.operators:
         draw_operator_tab(op)
 
@@ -39,9 +42,13 @@ func _ready() -> void:
 
     recruit_button.text = "RECRUIT OPERATOR [$" + str(Global.get_operator_cost()) + "]"
     monsters_defeated_value.text = str(Global.enemies_defeated)
+    kaiju_defeated_value.text = str(Global.kaijus_defeated)
     trucks_lost_value.text = str(Global.trucks_lost)
     heat_value.text = str(round(Global.total_heat))
     money_earned_value.text = "$" + str(round(Global.total_money))
+    damage_dealt_value.text = str(round(Global.damage_dealt))
+    damage_received_value.text = str(round(Global.damage_received))
+    trees_value.text = str(Global.trees_fallen)
     redraw_money_spent()
     for achievement in Global.achievements:
         var label = Label.new()
@@ -74,7 +81,6 @@ func draw_bg():
     bg_y = BG_Y_INITIAL
 
 func redraw_money():
-    print(Global.money)
     money_label.text = "$" + str(round(Global.money))
 
 func redraw_recruit_operator():

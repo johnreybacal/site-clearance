@@ -6,11 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://cvqdqqo3cqqir" path="res://scenes/operator_tab.tscn" id="4_4ytvr"]
 [ext_resource type="Texture2D" uid="uid://c3byo6xahqd55" path="res://resources/sunlight_gradient.tres" id="4_mhnvy"]
 
-[sub_resource type="Gradient" id="Gradient_bt5mj"]
+[sub_resource type="Gradient" id="Gradient_4ytvr"]
 colors = PackedColorArray(0, 0, 0, 0, 0.08881762, 0.09742405, 0.19010487, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_4ytvr"]
-gradient = SubResource("Gradient_bt5mj")
+gradient = SubResource("Gradient_4ytvr")
 fill = 1
 fill_from = Vector2(-1.5, 0)
 fill_to = Vector2(2, 1)
@@ -106,6 +106,17 @@ size_flags_horizontal = 0
 text = "Value"
 horizontal_alignment = 2
 
+[node name="KaijuDefeatedLabel" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Kaiju level Monsters defeated:"
+
+[node name="KaijuDefeatedValue" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Value"
+horizontal_alignment = 2
+
 [node name="TrucksLostLabel" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 2
@@ -142,12 +153,45 @@ horizontal_alignment = 2
 [node name="HeatLabel" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 2
-text = "total Heat accumulated:"
+text = "Accumulated heat:"
 
 [node name="HeatValue" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Value"
+horizontal_alignment = 2
+
+[node name="DamageDealtLabel" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Damage dealt:"
+
+[node name="DamageDealtValue" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Value"
+horizontal_alignment = 2
+
+[node name="DamageReceivedLabel" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Damage received:"
+
+[node name="DamageReceivedValue" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Value"
+horizontal_alignment = 2
+
+[node name="TreesLabel" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Trees knocked down: "
+
+[node name="TreesValue" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = " •ˋ◠ˊ•"
 horizontal_alignment = 2
 
 [node name="Achievements" type="MarginContainer" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer"]

@@ -53,6 +53,10 @@ var total_money: float
 var total_spent: float
 # Anti environmentalist
 var trees_fallen: int
+# Damage dealt
+var damage_dealt: float
+# Damage received
+var damage_received: float
 
 var bgm: AudioStreamPlayer
 
@@ -104,7 +108,7 @@ func earn_money(amount: float):
     if total_money > 250:
         queue_achievement("Earner II", "Earn 250 dollars")
     if total_money > 500:
-        queue_achievement("Earner II", "Earn 500 dollars")
+        queue_achievement("Earner III", "Earn 500 dollars")
     if total_money > 1000:
         queue_achievement("Earner IV", "Earn 1000 dollars")
 
@@ -118,7 +122,7 @@ func spend_money(amount: float):
     if total_spent > 250:
         queue_achievement("Spender II", "Spend 250 dollars")
     if total_spent > 500:
-        queue_achievement("Spender II", "Spend 500 dollars")
+        queue_achievement("Spender III", "Spend 500 dollars")
     if total_spent > 1000:
         queue_achievement("Spender IV", "Spend 1000 dollars")
 
@@ -181,12 +185,12 @@ func increment_trucks_lost():
 func increment_trees_fallen():
     trees_fallen += 1
 
-    if trees_fallen > 100:
-        queue_achievement("Not cool •ˋ◠ˊ•", "Cause 100 trees to fall")
-    if trees_fallen > 300:
-        queue_achievement("So not cool •ˋ◠ˊ•", "Cause 500 trees to fall")
-    if trees_fallen > 1000:
-        queue_achievement("•ˋ◠ˊ•", "Cause 1000 trees to fall")
+    if trees_fallen > 250:
+        queue_achievement("Not cool •ˋ◠ˊ•", "Cause 250 trees to fall")
+    if trees_fallen > 750:
+        queue_achievement("So not cool •ˋ◠ˊ•", "Cause 750 trees to fall")
+    if trees_fallen > 1500:
+        queue_achievement("•ˋ◠ˊ•", "Cause 1500 trees to fall")
 
 func add_total_heat(amount: float):
     total_heat += amount
@@ -197,6 +201,26 @@ func add_total_heat(amount: float):
         queue_achievement("Sure is nice outside", "Accumulate a total of 250 heat level")
     if total_heat > 500:
         queue_achievement("Doesn't this thing have AC?", "Accumulate a total of 500 heat level")
+
+func add_damage_received(amount: float):
+    damage_received += amount
+
+    if damage_received > 100:
+        queue_achievement("A little dent", "Take a total of 100 damage")
+    if damage_received > 250:
+        queue_achievement("It still works", "Take a total of 250 damage")
+    if damage_received > 500:
+        queue_achievement("Unbreakable", "Take a total of 500 damage")
+
+func add_damage_dealt(amount: float):
+    damage_dealt += amount
+
+    if damage_dealt > 100:
+        queue_achievement("Road Rage", "Deal a total of 100 damage")
+    if damage_dealt > 250:
+        queue_achievement("Mad Max", "Deal a total of 250 damage")
+    if damage_dealt > 500:
+        queue_achievement("Keep distance from machine", "Deal a total of 500 damage")
 
 func recruit_operator():
     var cost = get_operator_cost()

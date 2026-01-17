@@ -180,7 +180,11 @@ func take_damage(damage: float, self_inflicted: bool = false):
     fighter_data.update_hp(hp, max_hp)
     var smoke: Node2D = smoke_scene.instantiate()
     if self is Enemy:
-        smoke.scale = Vector2(-1, 1)
+        smoke.scale = texture_container.scale
+        smoke.scale.x *= -1
+        Global.add_damage_dealt(damage)
+    else:
+        Global.add_damage_received(damage)
     add_child(smoke)
     
     if not self_inflicted:
@@ -211,7 +215,6 @@ func get_speed_penalty():
 func update_move_index():
     var s = speed - get_speed_penalty()
     move_index += floor(MAX_SPEED - s)
-    # print(title, " speed: ", s)
 
 func project_upcoming_move_index():
     var speed_penalty = get_speed_penalty()
