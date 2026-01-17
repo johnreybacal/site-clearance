@@ -10,7 +10,7 @@ var operator_name_options = [
 
 var money: float = 25
 
-# Max 25 each
+# Max 15 each
 # Each upgrade increases cost
 # 10 + (upgrade * 5) + (accumulated upgrades * 1.5)
 # speed is multiplied by 3 for significant increase
@@ -89,13 +89,15 @@ func _process(delta: float) -> void:
             var item = achievement_queue.pop_back()
             add_achievement(item)
             achievement_interval = ACHIEVEMENT_INTERVAL
+    elif achievement_interval > 0:
+        achievement_interval -= delta
 
 func earn_money(amount: float):
     money += amount
     total_money += amount
     money_updated.emit()
 
-    if total_money > 25:
+    if total_money > 50:
         queue_achievement("Earner I", "Earn 50 dollars")
     if total_money > 250:
         queue_achievement("Earner II", "Earn 250 dollars")
@@ -122,8 +124,15 @@ func increment_enemies_defeated():
     enemies_defeated += 1
     # Increase difficulty
     var stat = stat_keys.pick_random()
-    var increases = [.5, .75, 1, 1.25, 1.5]
+    var increases = [.5, .75, 1, 1.25]
+    # Decrease max increase stat as enemies appear
+    for i in range(len(operators)):
+        increases.pop_back()
+
+    # Cap enemy stat to double of player's
     enemy_stat_modifier[stat] += increases.pick_random()
+    if enemy_stat_modifier[stat] > 30:
+        enemy_stat_modifier[stat] = 30
         
     if enemies_defeated == 1:
         queue_achievement("My first kill", "Defeat 1 monster")
@@ -188,12 +197,12 @@ func get_operator_cost():
 func upgrade_operator(op: Operator, stat: String):
     var cost = get_upgrade_cost(op, stat)
     spend_money(cost)
-    if op.stats[stat] < 10:
+    if op.stats[stat] < 15:
         op.stats[stat] += 1
     
-    if op.stats[stat] == 10:
+    if op.stats[stat] == 15:
         queue_achievement(stat.to_upper() + " Specialist", "Max out " + stat.to_upper())
-    if op.stats.hp + op.stats.speed + op.stats.damage == 30:
+    if op.stats.hp + op.stats.speed + op.stats.damage == 45:
         queue_achievement("Smooth operator", "Max out all stats")
 
 

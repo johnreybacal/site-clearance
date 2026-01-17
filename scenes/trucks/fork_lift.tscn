@@ -29,7 +29,7 @@ script = ExtResource("1_omur7")
 max_heat_level = 8
 title = "Fork Lift"
 max_hp = 8.0
-speed = 66.0
+speed = 60.0
 moves = Array[ExtResource("2_jqwxe")]([SubResource("Resource_500kk"), SubResource("Resource_dy6n1")])
 
 [node name="TextureContainer" type="Node2D" parent="."]

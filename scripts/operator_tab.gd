@@ -26,8 +26,8 @@ func redraw():
             redraw_stat(speed_label, speed_button, stat, cost)
 
 func redraw_stat(label: Label, button: Button, stat: String, cost: float):
-    label.text = stat.to_upper() + ": " + str(int(operator.stats[stat])) + " / 10"
-    if operator.stats[stat] < 10:
+    label.text = stat.to_upper() + ": " + str(int(operator.stats[stat])) + " / 15"
+    if operator.stats[stat] < 15:
         button.text = "UPGRADE [$" + str(cost) + "]"
         if cost > Global.money:
             button.disabled = true

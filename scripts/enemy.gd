@@ -15,7 +15,7 @@ func init_stats():
     
     max_hp += Global.enemy_stat_modifier.hp
     heal_bonus = Global.enemy_stat_modifier.hp * .25
-    speed += clamp(Global.enemy_stat_modifier.speed, 0, 30)
+    speed += Global.enemy_stat_modifier.speed
     for move in moves:
         if move.damage > 0:
             move.damage += Global.enemy_stat_modifier.damage * .25 if move.is_area_target else Global.enemy_stat_modifier.damage
