@@ -121,6 +121,7 @@ func _process(delta: float) -> void:
     if is_ending:
         end_transition_foreground.modulate.a = move_toward(end_transition_foreground.modulate.a, 1, delta / 3)
         if end_transition_foreground.modulate.a == 1:
+            Global.save_data()
             get_tree().change_scene_to_file(Global.MENU_SCENE)
         return
     if not is_proceeding and proceeds == max_proceeds:

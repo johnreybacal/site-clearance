@@ -120,4 +120,5 @@ func _on_recruit_button_pressed() -> void:
 
 
 func _on_start_button_pressed() -> void:
+    Global.save_data()
     get_tree().change_scene_to_file(Global.GAME_SCENE)

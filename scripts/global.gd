@@ -23,15 +23,10 @@ class Operator:
     var name: String
     var stats: StatModifier
 
-# cost: 100
-var num_operators: int = 1
 # Max: 3
 var operators: Array[Operator]
 
 var last_trucks_used: Array[String]
-
-# Keep track of last used trucks for uniqueness
-var last_used: Array[String]
 
 # Increase with each proceeds
 var enemy_stat_modifier = StatModifier.new()
@@ -78,6 +73,7 @@ var achievement_interval = 0
 signal on_new_achievement()
 
 func _ready() -> void:
+    load_data()
     if len(operators) == 0:
         recruit_operator()
         # recruit_operator()
@@ -97,6 +93,112 @@ func _process(delta: float) -> void:
             achievement_interval = ACHIEVEMENT_INTERVAL
     elif achievement_interval > 0:
         achievement_interval -= delta
+
+func load_data():
+    if not FileAccess.file_exists("user://savegame.save_data"):
+        return # Error! We don't have a save_data to load.
+
+    var save_file = FileAccess.open("user://savegame.save_data", FileAccess.READ)
+    while save_file.get_position() < save_file.get_length():
+        var json_string = save_file.get_line()
+
+        # Creates the helper class to interact with JSON.
+        var json = JSON.new()
+
+        # Check if there is any error while parsing the JSON string, skip in case of failure.
+        var parse_result = json.parse(json_string)
+        if not parse_result == OK:
+            print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+            continue
+
+        # Get the data from the JSON object.
+        var data = json.data
+
+        print(data)
+
+        money = data["money"]
+
+        for operator in data["operators"]:
+            var op = Operator.new()
+            op.stats = StatModifier.new()
+            op.name = operator["name"]
+            op.stats.hp = operator["stats"]["hp"]
+            op.stats.damage = operator["stats"]["damage"]
+            op.stats.speed = operator["stats"]["speed"]
+            operators.append(op)
+
+        for truck in data["last_trucks_used"]:
+            last_trucks_used.append(truck)
+
+        enemy_stat_modifier.hp = data["enemy_stat_modifier"]["hp"]
+        enemy_stat_modifier.damage = data["enemy_stat_modifier"]["damage"]
+        enemy_stat_modifier.speed = data["enemy_stat_modifier"]["speed"]
+
+        for achievement in data["achievements"]:
+            var a = Achievement.new()
+            a.title = achievement["title"]
+            a.description = achievement["description"]
+            achievements.append(a)
+
+        max_enemies = data["max_enemies"]
+        enemies_defeated = data["enemies_defeated"]
+        kaijus_defeated = data["kaijus_defeated"]
+        trucks_lost = data["trucks_lost"]
+        total_heat = data["total_heat"]
+        total_money = data["total_money"]
+        total_spent = data["total_spent"]
+        trees_fallen = data["trees_fallen"]
+        damage_dealt = data["damage_dealt"]
+        damage_received = data["damage_received"]
+
+
+func save_data():
+    var save_file = FileAccess.open("user://savegame.save_data", FileAccess.WRITE)
+
+    var operator_list: Array[Dictionary] = []
+    for operator in operators:
+        operator_list.append({
+            "name": operator.name,
+            "stats": {
+                "hp": operator.stats.hp,
+                "damage": operator.stats.damage,
+                "speed": operator.stats.speed,
+            }
+        })
+
+    var achievement_list: Array[Dictionary] = []
+    for achievement in achievements:
+        achievement_list.append({
+            "title": achievement.title,
+            "description": achievement.description,
+        })
+
+    var save_dict = {
+        "money": money,
+        "operators": operator_list,
+        "last_trucks_used": last_trucks_used,
+        "enemy_stat_modifier": {
+            "hp": enemy_stat_modifier.hp,
+            "damage": enemy_stat_modifier.damage,
+            "speed": enemy_stat_modifier.speed,
+        },
+        "max_enemies": max_enemies,
+        "enemies_defeated": enemies_defeated,
+        "kaijus_defeated": kaijus_defeated,
+        "trucks_lost": trucks_lost,
+        "total_heat": total_heat,
+        "total_money": total_money,
+        "total_spent": total_spent,
+        "trees_fallen": trees_fallen,
+        "damage_dealt": damage_dealt,
+        "damage_received": damage_received,
+        "achievements": achievement_list
+    }
+
+    var json_string = JSON.stringify(save_dict)
+
+    save_file.store_line(json_string)
+
 
 func earn_money(amount: float):
     money += amount
