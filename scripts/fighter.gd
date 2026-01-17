@@ -27,6 +27,7 @@ var sprite: Sprite2D
 var shadow: Sprite2D
 var shadow_position: Vector2
 var fighter_data: FighterData
+var default_scale = Vector2.ONE
 
 var initial_position: Vector2
 var is_going_to_center: bool = false
@@ -79,6 +80,13 @@ func _ready():
     shadow.z_index = 1
     texture_container.add_child(shadow)
 
+    if self is Enemy:
+        var enemy = self as Enemy
+        if enemy.is_kaiju:
+            title += " [Kaiju]"
+            texture_container.scale = Vector2(1.5, 1.5)
+            default_scale = Vector2(1.5, 1.5)
+
     hit_sfx = AudioStreamPlayer.new()
     hit_sfx.name = "HitSfx"
     hit_sfx.stream = hit_sfx_stream
@@ -102,18 +110,18 @@ func _process(delta: float) -> void:
     if highlight_duration > 0:
         highlight_duration -= delta
         current_shake = .5
-        texture_container.scale = texture_container.scale.move_toward(Vector2(1.25, 1.25), delta * 5)
+        texture_container.scale = texture_container.scale.move_toward(default_scale + Vector2(.25, .25), delta * 5)
         if fighter_data:
             fighter_data.fighter_name.visible = true
     else:
         if fighter_data:
             fighter_data.fighter_name.visible = false
-        texture_container.scale = texture_container.scale.move_toward(Vector2.ONE, delta * 2.5)
+        texture_container.scale = texture_container.scale.move_toward(default_scale, delta * 2.5)
 
     if is_leaving:
         current_shake = 1
         position += Vector2.LEFT if self is Truck else Vector2.RIGHT
-        texture_container.scale.x = move_toward(texture_container.scale.x, -1, delta * 10)
+        texture_container.scale.x = move_toward(texture_container.scale.x, default_scale.x * -1, delta * 10)
         modulate.a = move_toward(modulate.a, 0, delta)
         if modulate.a == 0:
             queue_free()

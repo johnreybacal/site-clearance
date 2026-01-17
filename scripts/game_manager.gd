@@ -17,7 +17,6 @@ class FighterQueue:
 @export var tree_scene: PackedScene
 @export var floating_text_scene: PackedScene
 
-var MAX_TICK = 50
 var tick = 0
 var is_ticking = true
 const TICK_INTERVAL = 1.25
@@ -33,6 +32,7 @@ var current_fighter_index: int
 var current_fighter: Fighter
 var is_next_turn: bool = false
 
+var max_proceeds: int = 3
 var is_proceeding = false
 const PROCEED_INTERVAL = 2
 var proceed_interval = PROCEED_INTERVAL
@@ -65,6 +65,7 @@ var enemies_position = [
 func _ready() -> void:
     var truck_count = 0
     var num_trucks = len(Global.operators)
+    max_proceeds = 2
     while truck_count < num_trucks:
         var truck: Truck = truck_scenes.pick_random().instantiate()
         
@@ -78,6 +79,12 @@ func _ready() -> void:
         Global.last_trucks_used.append(truck.title)
         trucks_spawned.append(truck.title)
         truck_count += 1
+        max_proceeds += truck_count
+
+    # max proceeds = 2
+    # + 1 = 3
+    # + 1 + 2 = 5
+    # + 1 + 2 = 3 = 8
 
     # if greater than 5 (or 6)
     if len(Global.last_trucks_used) > 5:
@@ -116,10 +123,12 @@ func _process(delta: float) -> void:
         if end_transition_foreground.modulate.a == 1:
             get_tree().change_scene_to_file(Global.MENU_SCENE)
         return
+    if not is_proceeding and proceeds == max_proceeds:
+        return
     if sunlight_foreground.texture.fill_from.x != sun_position:
         sunlight_foreground.texture.fill_from.x = move_toward(sunlight_foreground.texture.fill_from.x, sun_position, delta / 3)
     if is_proceeding:
-        var trucks = get_trucks()
+        var trucks: Array[Fighter] = get_trucks()
         for truck in trucks:
             truck.current_shake = 1
         bg_container.position += Vector2.LEFT * delta * 150
@@ -136,19 +145,28 @@ func _process(delta: float) -> void:
             current_fighter = null
             turn_queue.clear()
             turn_fighters.clear()
-            add_enemies()
             proceed_interval = PROCEED_INTERVAL
             is_proceeding = false
             is_ticking = true
-            update_queue()
+            if proceeds < max_proceeds:
+                add_enemies()
+                update_queue()
+            else:
+                queue_text("Site cleared")
+                var money = max_proceeds * randi_range(7, 15)
+                Global.earn_money(money)
+                queue_text("+ $" + str(round(money)), Color.GREEN)
+                await get_tree().create_timer(1.0).timeout
+                for truck in trucks:
+                    truck.is_leaving = true
+                    truck.play_fighter_sfx()
+                is_ending = true
         return
     if is_ticking:
         tick_interval -= delta
         if tick_interval <= 0:
             tick_interval = TICK_INTERVAL
             tick += 1
-            if tick == MAX_TICK:
-                print("day over")
             on_tick()
     if is_next_turn:
         if len(turn_fighters) == 0:
@@ -213,8 +231,6 @@ func on_tick():
         if truck.heat_level > 0:
             truck.cool_down(1)
 
-    sun_position = tick as float / MAX_TICK
-
     current_fighter_index = 0
     current_fighter = turn_fighters[current_fighter_index]
     is_next_turn = true
@@ -235,7 +251,11 @@ func add_enemies():
         var enemy: Enemy = enemy_scenes.pick_random().instantiate()
         enemy.init_stats()
         enemy.position = enemies_position[num_enemies - 1][i]
-        enemy.max_hp = round(randf_range(enemy.max_hp - 2, enemy.max_hp + proceeds))
+        if proceeds == max_proceeds - 1:
+            enemy.max_hp *= 2
+            enemy.is_kaiju = true
+        else:
+            enemy.max_hp = round(randf_range(enemy.max_hp - 2, enemy.max_hp + proceeds))
         enemy.on_move_selected.connect(on_move_selected)
         enemy.on_move_confirmed.connect(on_move_confirmed)
         add_fighter(enemy)
@@ -257,12 +277,15 @@ func remove_fighter(fighter: Fighter):
         for truck in trucks:
             truck.initial_position = trucks_position[len(trucks) - 1][counter]
             counter += 1
-    else:
+    elif fighter is Enemy:
         # Gradual money increase with difficulty
         var money = fighter.max_hp + Global.enemy_stat_modifier.speed + Global.enemy_stat_modifier.damage
         Global.earn_money(money)
         queue_text("+ $" + str(round(money)), Color.GREEN)
-        Global.increment_enemies_defeated()
+        if fighter.is_kaiju:
+            Global.increment_kaiju_defeated()
+        else:
+            Global.increment_enemies_defeated()
         var enemies = get_enemies() as Array[Enemy]
         var counter = 0
         for enemy in enemies:
@@ -394,6 +417,8 @@ func proceed():
         fighter.move_index = 0
     draw_bg()
     draw_trees(400, 700)
+    
+    sun_position = float(proceeds) / max_proceeds
 
 func draw_bg(initial = false):
     var source_id = bg_tile_set.get_source_id(0)

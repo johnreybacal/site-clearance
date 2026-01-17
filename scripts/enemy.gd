@@ -4,6 +4,8 @@ class_name Enemy
 signal on_move_selected(move: Move)
 signal on_move_confirmed(move: Move, targets: Array[Fighter])
 
+var is_kaiju = false
+
 func _init() -> void:
     fighter_sfx_stream = preload("res://assets/sfx/enemy.mp3")
 

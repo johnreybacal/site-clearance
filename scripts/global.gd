@@ -8,7 +8,7 @@ var operator_name_options = [
     "Omar", "Kiara", "Koa", "Elena", "Arjun"
 ]
 
-var money: float = 25
+var money: float = 2500
 
 # Max 15 each
 # Each upgrade increases cost
@@ -41,6 +41,8 @@ var max_enemies = 4
 # Achievements
 # Exterminator
 var enemies_defeated: int
+# Kaiju
+var kaijus_defeated: int
 # Scrapyard
 var trucks_lost: int
 # It's very hot in here
@@ -142,6 +144,29 @@ func increment_enemies_defeated():
         queue_achievement("Professional exterminator", "Defeat 25 monsters")
     if enemies_defeated == 100:
         queue_achievement("Bane of monsters", "Defeat 100 monsters")
+
+func increment_kaiju_defeated():
+    kaijus_defeated += 1
+    # Increase difficulty
+    var stat = stat_keys.pick_random()
+    var increases = [.5, .75, 1, 1.25]
+    # Decrease max increase stat as enemies appear
+    for i in range(len(operators)):
+        increases.pop_back()
+
+    # Cap enemy stat to double of player's
+    enemy_stat_modifier[stat] += increases.pick_random()
+    if enemy_stat_modifier[stat] > 30:
+        enemy_stat_modifier[stat] = 30
+        
+    if kaijus_defeated == 1:
+        queue_achievement("Kaiju killer", "Defeat 1 kaiju level monster")
+    if kaijus_defeated == 5:
+        queue_achievement("Kaiju slayer", "Defeat 5 kaiju level monsters")
+    if kaijus_defeated == 10:
+        queue_achievement("Kaiju exterminator", "Defeat 10 kaiju level monsters")
+    if kaijus_defeated == 25:
+        queue_achievement("Kaiju kaiju", "Defeat 25 kaiju level monsters")
 
 func increment_trucks_lost():
     trucks_lost += 1
