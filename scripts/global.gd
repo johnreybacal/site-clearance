@@ -8,7 +8,7 @@ var operator_name_options = [
     "Omar", "Kiara", "Koa", "Elena", "Arjun"
 ]
 
-var money: float = 2500
+var money: float = 25
 
 # Max 15 each
 # Each upgrade increases cost
