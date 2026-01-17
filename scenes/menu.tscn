@@ -74,12 +74,10 @@ theme_override_constants/separation = 10
 [node name="FoldableContainer" type="FoldableContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-folded = true
 title = "Stats"
 title_position = 1
 
 [node name="TabContainer" type="TabContainer" parent="MarginContainer/HBoxContainer/FoldableContainer"]
-visible = false
 layout_mode = 2
 current_tab = 0
 
@@ -106,6 +104,7 @@ text = "Monsters defeated:"
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Value"
+horizontal_alignment = 2
 
 [node name="TrucksLostLabel" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
 layout_mode = 2
@@ -116,6 +115,40 @@ text = "Trucks lost:"
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Value"
+horizontal_alignment = 2
+
+[node name="MoneyEarnedLabel" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Money earned:"
+
+[node name="MoneyEarnedValue" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Value"
+horizontal_alignment = 2
+
+[node name="MoneySpentLabel" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Money Spent:"
+
+[node name="MoneySpentValue" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Value"
+horizontal_alignment = 2
+
+[node name="HeatLabel" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "total Heat accumulated:"
+
+[node name="HeatValue" type="Label" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Value"
+horizontal_alignment = 2
 
 [node name="Achievements" type="MarginContainer" parent="MarginContainer/HBoxContainer/FoldableContainer/TabContainer"]
 visible = false

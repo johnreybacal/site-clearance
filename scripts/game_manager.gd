@@ -197,14 +197,14 @@ func update_queue():
 
 
 func on_tick():
-    var indices = fighters.map(func(f: Fighter): return f.move_index)
+    var indices = fighters.filter(is_active_fighter).map(func(f: Fighter): return f.move_index)
     prev_move_index = move_index
     move_index = indices.min()
 
     print("tick: ", tick)
 
     turn_fighters.assign(turn_queue.filter(
-        func(f: FighterQueue): return f.move_index == move_index
+        func(f: FighterQueue): return f.move_index == move_index and is_active_fighter(f.fighter)
         ).map(func(f: FighterQueue): return f.fighter))
     update_queue()
 
@@ -230,7 +230,7 @@ func on_tick():
 func add_enemies():
     var num_enemies: int = 1
     if Global.enemies_defeated > 5:
-        num_enemies = randi_range(1, Global.max_enemies)
+        num_enemies = clampi(randi_range(Global.max_enemies - 2, Global.max_enemies), 1, Global.max_enemies)
     for i in range(num_enemies):
         var enemy: Enemy = enemy_scenes.pick_random().instantiate()
         enemy.init_stats()
@@ -357,6 +357,8 @@ func on_move_confirmed(move: Move, targets: Array[Fighter]):
     current_fighter.perform_move(move, targets)
     if move.slow_debuff_turns > 0:
         for fighter in targets:
+            if fighter.is_leaving:
+                continue
             if fighter.slow_debuff_turns > 0:
                 # Remove all queue items
                 turn_queue = turn_queue.filter(func(f: FighterQueue): return f.fighter != fighter)
@@ -471,6 +473,8 @@ func get_trucks():
 func get_enemies():
     return fighters.filter(func(f: Fighter): return f is Enemy)
 
+func is_active_fighter(f: Fighter):
+    return not f.is_leaving
 
 #endregion
 

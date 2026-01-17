@@ -88,7 +88,7 @@ func _process(delta: float) -> void:
         if achievement_interval <= 0:
             var item = achievement_queue.pop_back()
             add_achievement(item)
-            achievement_interval = ACHIEVEMENT_INTERVAL if len(achievement_queue) > 0 else 0.0
+            achievement_interval = ACHIEVEMENT_INTERVAL
 
 func earn_money(amount: float):
     money += amount
@@ -111,11 +111,11 @@ func spend_money(amount: float):
 
     if total_spent > 50:
         queue_achievement("Spender I", "Spend 50 dollars")
-    if enemies_defeated > 250:
+    if total_spent > 250:
         queue_achievement("Spender II", "Spend 250 dollars")
-    if enemies_defeated > 500:
+    if total_spent > 500:
         queue_achievement("Spender II", "Spend 500 dollars")
-    if enemies_defeated > 1000:
+    if total_spent > 1000:
         queue_achievement("Spender IV", "Spend 1000 dollars")
 
 func increment_enemies_defeated():
@@ -190,8 +190,12 @@ func upgrade_operator(op: Operator, stat: String):
     spend_money(cost)
     if op.stats[stat] < 10:
         op.stats[stat] += 1
-    else:
-        queue_achievement("Specialist", "Max out a stat")
+    
+    if op.stats[stat] == 10:
+        queue_achievement(stat.to_upper() + " Specialist", "Max out " + stat.to_upper())
+    if op.stats.hp + op.stats.speed + op.stats.damage == 30:
+        queue_achievement("Smooth operator", "Max out all stats")
+
 
 func get_upgrade_cost(op: Operator, stat: String):
     var accumulated_stats = op.stats.hp + op.stats.damage + op.stats.speed

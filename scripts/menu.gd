@@ -10,8 +10,13 @@ var bg_x = BG_X_INITIAL
 const BG_Y_INITIAL = -7
 var bg_y = BG_Y_INITIAL
 
+@onready var foldable_container: FoldableContainer = $MarginContainer/HBoxContainer/FoldableContainer
 @onready var monsters_defeated_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/MonstersDefeatedValue
 @onready var trucks_lost_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/TrucksLostValue
+@onready var money_earned_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/MoneyEarnedValue
+@onready var money_spent_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/MoneySpentValue
+@onready var heat_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/HeatValue
+
 @onready var achievements_container: GridContainer = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Achievements/ScrollContainer/GridContainer
 
 @onready var operators_tab_container: TabContainer = $MarginContainer/HBoxContainer/VBoxContainer/UpgradePanel/TabContainer
@@ -30,15 +35,20 @@ func _ready() -> void:
     redraw_recruit_operator()
     redraw_money()
     Global.money_updated.connect(redraw_money)
+    Global.money_updated.connect(redraw_money_spent)
 
     recruit_button.text = "RECRUIT OPERATOR [$" + str(Global.get_operator_cost()) + "]"
     monsters_defeated_value.text = str(Global.enemies_defeated)
     trucks_lost_value.text = str(Global.trucks_lost)
+    heat_value.text = str(round(Global.total_heat))
+    money_earned_value.text = "$" + str(round(Global.total_money))
+    redraw_money_spent()
     for achievement in Global.achievements:
         var label = Label.new()
         label.text = achievement.title + " - " + achievement.description
     redraw_achievements()
     Global.on_new_achievement.connect(redraw_achievements)
+    foldable_container.folded = true
 
 func _process(delta: float) -> void:
     var sun_position = clampf(800 / get_local_mouse_position().x, 0, 1)
@@ -93,6 +103,9 @@ func redraw_achievements():
         label.text = achievement.description
         label.size_flags_horizontal = Control.SIZE_EXPAND
         achievements_container.add_child(label)
+
+func redraw_money_spent():
+    money_spent_value.text = "$" + str(round(Global.total_spent))
 
 func _on_recruit_button_pressed() -> void:
     Global.recruit_operator()

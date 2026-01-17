@@ -96,9 +96,6 @@ func show_targets(move: Move, targets: Array[Fighter]):
 
 
 func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameManager.FighterQueue = null):
-    print(len(queue))
-    if current:
-        print(current.fighter.title, " :: ", current.move_index)
     for node in queue_marker.get_children():
         node.queue_free()
 
@@ -106,8 +103,10 @@ func update_turn_display(queue: Array[GameManager.FighterQueue], current: GameMa
     var max_display = 6
     var is_before_current = true
     for item in queue:
+        if item.fighter.is_leaving:
+            continue
         var is_current_fighter = false
-        if current:
+        if current and not current.fighter.is_leaving:
             is_current_fighter = item.fighter == current.fighter and item.move_index == current.move_index
             if is_current_fighter:
                 is_before_current = false
