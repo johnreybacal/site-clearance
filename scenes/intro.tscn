@@ -1,0 +1,102 @@
+[gd_scene load_steps=8 format=3 uid="uid://bcw2x4fmn578g"]
+
+[ext_resource type="Script" uid="uid://36herqiwys51" path="res://scripts/intro.gd" id="1_ioskq"]
+[ext_resource type="FontFile" uid="uid://cyydyarja1nla" path="res://assets/fonts/chinese rocks rg.otf" id="2_yjqpq"]
+[ext_resource type="TileSet" uid="uid://bpdf6haxuyibs" path="res://resources/tilesets/grass.tres" id="3_i2l1n"]
+[ext_resource type="Texture2D" uid="uid://c3byo6xahqd55" path="res://resources/sunlight_gradient.tres" id="4_wfs7u"]
+[ext_resource type="AudioStream" uid="uid://cje158jsyil2q" path="res://assets/sfx/hit.mp3" id="5_wfs7u"]
+
+[sub_resource type="Gradient" id="Gradient_bt5mj"]
+offsets = PackedFloat32Array(0, 0.16064256, 0.6345382, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.07804748, 0.10034675, 0.09663021, 0.47385967, 0.12656347, 0.16272447, 0.15669763, 0.76842105, 0.16470589, 0.21176471, 0.20392157, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_es01l"]
+gradient = SubResource("Gradient_bt5mj")
+fill = 1
+fill_to = Vector2(1, 1)
+
+[node name="Intro" type="Node2D" node_paths=PackedStringArray("bg_tile_map")]
+script = ExtResource("1_ioskq")
+bg_tile_map = NodePath("TileMapLayer")
+bg_tile_set = ExtResource("3_i2l1n")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="IntroLabel" type="Label" parent="."]
+z_index = 20
+texture_filter = 1
+offset_left = -378.0
+offset_top = -178.0
+offset_right = 100.0
+offset_bottom = 197.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 1
+theme_override_constants/paragraph_spacing = 0
+theme_override_fonts/font = ExtResource("2_yjqpq")
+theme_override_font_sizes/font_size = 20
+text = "Diesel. Hydraulic. Steel. Iron.
+
+Long ago, the heavy machines built our world.
+Then, everything changed when the Advanced Robots arrived.
+They were faster, making our machines obsolete.
+
+But then the monsters came.
+The robots was too fragile to fight back.
+
+Now, we’ve dragged the old machines out of the scrap yards.
+We’ve repurposed them for combat.
+We have a lot of ground to clear.
+
+This is Site Clearance."
+
+[node name="ContinueLabel" type="Label" parent="."]
+z_index = 20
+texture_filter = 1
+offset_left = 148.0
+offset_top = 146.0
+offset_right = 373.0
+offset_bottom = 170.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 1
+theme_override_constants/paragraph_spacing = 0
+theme_override_fonts/font = ExtResource("2_yjqpq")
+theme_override_font_sizes/font_size = 20
+text = "press any button to proceed"
+horizontal_alignment = 2
+
+[node name="ExceptContinueLabel" type="Label" parent="ContinueLabel"]
+modulate = Color(1, 1, 1, 0.6509804)
+z_index = 20
+texture_filter = 1
+layout_mode = 0
+offset_top = 25.0
+offset_right = 225.0
+offset_bottom = 49.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 1
+theme_override_constants/paragraph_spacing = 0
+theme_override_fonts/font = ExtResource("2_yjqpq")
+theme_override_font_sizes/font_size = 13
+text = "Except the power button"
+horizontal_alignment = 2
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+z_index = -1
+texture_filter = 1
+scale = Vector2(2, 2)
+tile_set = ExtResource("3_i2l1n")
+
+[node name="SunlightForeground" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.49019608)
+z_index = 10
+scale = Vector2(12.484376, 6.25)
+texture = ExtResource("4_wfs7u")
+
+[node name="StartTransitionForeground" type="Sprite2D" parent="."]
+z_index = 9
+scale = Vector2(12.5, 6.25)
+texture = SubResource("GradientTexture2D_es01l")
+
+[node name="TypeSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_wfs7u")
+volume_db = -30.0
