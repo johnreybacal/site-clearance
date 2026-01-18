@@ -8,11 +8,11 @@ They were faster,[PAUSE] making our machines obsolete.[PAUSE]
 
 Then,[PAUSE] everything changed again when the Monsters came.[PAUSE]
 Only the robots,[PAUSE] builders of the new world,[PAUSE] could stop them.[PAUSE]
-But when the world needed them most,[PAUSE] they[PAUSE], actually,[PAUSE] couldn't stop them.[PAUSE]
+But when the world needed them most,[PAUSE] they fall.[PAUSE]
 
 Now,[PAUSE] we've repurposed the old machines for combat.[PAUSE]
 And although it can take a beating,[PAUSE] it needs a lot of upgrades.[PAUSE]
-But I believe that we can save the world."
+But I believe that it can save the world."
 
 # 4
 # 5: Blue
@@ -93,11 +93,11 @@ func _process(delta: float) -> void:
                 continue_label.visible = true
                 Global.bgm.play()
                 return
-            elif sequence_index == 4:
+            elif sequence_index == 5:
                 target_color = Color.SKY_BLUE
-            elif sequence_index == 8:
+            elif sequence_index == 11:
                 target_color = Color.RED
-            elif sequence_index == 16:
+            elif sequence_index == 18:
                 target_color = Color.DARK_SLATE_GRAY
 
             sequence_len = len(intro_sequence[sequence_index])
