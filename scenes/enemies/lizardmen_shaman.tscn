@@ -28,7 +28,7 @@ z_index = 5
 script = ExtResource("1_0fqib")
 title = "Lizardmen Shaman"
 max_hp = 8.0
-speed = 45.0
+speed = 36.0
 moves = Array[ExtResource("2_xrcvn")]([SubResource("Resource_17s1j"), SubResource("Resource_dnfpr")])
 
 [node name="TextureContainer" type="Node2D" parent="."]

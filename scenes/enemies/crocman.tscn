@@ -25,7 +25,7 @@ z_index = 5
 script = ExtResource("1_binpd")
 title = "Crocman"
 max_hp = 14.0
-speed = 24.0
+speed = 28.0
 moves = Array[ExtResource("2_3f2wa")]([SubResource("Resource_1hukp"), SubResource("Resource_m6ffg")])
 
 [node name="TextureContainer" type="Node2D" parent="."]

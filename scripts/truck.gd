@@ -17,9 +17,9 @@ func init_stats():
     moves.push_front(move_ro)
     moves.push_front(move_cd)
 
-    max_hp += operator.stats.hp
+    max_hp += operator.stats.hp * 1.5
     heal_bonus = operator.stats.hp * .25
-    speed += (operator.stats.speed * 3)
+    speed += (operator.stats.speed * 2)
     for move in moves:
         if move.damage > 0:
             move.damage += operator.stats.damage * .25 if move.is_area_target else operator.stats.damage

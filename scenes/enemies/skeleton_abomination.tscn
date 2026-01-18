@@ -25,7 +25,7 @@ z_index = 5
 script = ExtResource("1_6fl51")
 title = "Skeleton Abomination"
 max_hp = 9.0
-speed = 41.0
+speed = 33.0
 moves = Array[ExtResource("2_2nl26")]([SubResource("Resource_2j57r"), SubResource("Resource_m7sem")])
 
 [node name="TextureContainer" type="Node2D" parent="."]

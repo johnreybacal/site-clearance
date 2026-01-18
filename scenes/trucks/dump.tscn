@@ -29,7 +29,7 @@ script = ExtResource("1_onl6s")
 max_heat_level = 8
 title = "Dump Truck"
 max_hp = 15.0
-speed = 46.0
+speed = 41.0
 moves = Array[ExtResource("2_sxspr")]([SubResource("Resource_it2c7"), SubResource("Resource_ci6le")])
 
 [node name="TextureContainer" type="Node2D" parent="."]
