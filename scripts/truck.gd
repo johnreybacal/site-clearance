@@ -28,7 +28,7 @@ func init_stats():
 
 func cool_down(amount: float):
     if heat_level > 0:
-        fighter_data.queue_text("-" + str(round(amount)) + " HEAT", Color.SKY_BLUE)
+        fighter_data.queue_text("-" + str(snapped(amount, 0.01)) + " HEAT", Color.SKY_BLUE)
     heat_level -= amount
     if heat_level < 0:
        heat_level = 0

@@ -156,7 +156,7 @@ func _process(delta: float) -> void:
                 queue_text("Site cleared")
                 var money = max_proceeds * randi_range(7, 15)
                 Global.earn_money(money)
-                queue_text("+ $" + str(round(money)), Color.GREEN)
+                queue_text("+ $" + str(snapped(money, 0.01)), Color.GREEN)
                 await get_tree().create_timer(1.0).timeout
                 for truck in trucks:
                     truck.is_leaving = true
@@ -282,7 +282,7 @@ func remove_fighter(fighter: Fighter):
         # Gradual money increase with difficulty
         var money = fighter.max_hp + Global.enemy_stat_modifier.speed + Global.enemy_stat_modifier.damage
         Global.earn_money(money)
-        queue_text("+ $" + str(round(money)), Color.GREEN)
+        queue_text("+ $" + str(snapped(money, 0.01)), Color.GREEN)
         if fighter.is_kaiju:
             Global.increment_kaiju_defeated()
         else:
@@ -304,7 +304,7 @@ func remove_fighter(fighter: Fighter):
         if len(trucks) == 0:
             var money = current_fighter.max_hp / 2
             Global.earn_money(money)
-            queue_text("+ $" + str(round(money)), Color.GREEN)
+            queue_text("+ $" + str(snapped(money, 0.01)), Color.GREEN)
             turn_queue.clear()
             turn_fighters.clear()
             hud.update_turn_display([])

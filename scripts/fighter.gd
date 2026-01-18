@@ -176,7 +176,7 @@ func take_damage(damage: float, self_inflicted: bool = false):
     if defense_buff_turns > 0:
         damage *= .5
     hp -= damage
-    fighter_data.queue_text("-" + str(round(damage)) + " HP", Color.ORANGE_RED)
+    fighter_data.queue_text("-" + str(snapped(damage, 0.01)) + " HP", Color.ORANGE_RED)
     fighter_data.update_hp(hp, max_hp)
     var smoke: Node2D = smoke_scene.instantiate()
     if self is Enemy:
@@ -205,7 +205,7 @@ func heal(amount: float):
     hp += amount
     if hp > max_hp:
         hp = max_hp
-    fighter_data.queue_text("+" + str(round(amount)) + " HP", Color.GREEN)
+    fighter_data.queue_text("+" + str(snapped(amount, 0.01)) + " HP", Color.GREEN)
     fighter_data.update_hp(hp, max_hp)
 
 func get_speed_penalty():
