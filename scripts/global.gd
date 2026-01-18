@@ -349,7 +349,7 @@ func recruit_operator():
     max_enemies = len(operators) + 1
 
 func get_operator_cost():
-    return 100 * len(operators)
+    return 150 * len(operators)
 
 func upgrade_operator(op: Operator, stat: String):
     var cost = get_upgrade_cost(op, stat)
