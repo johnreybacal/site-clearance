@@ -248,6 +248,9 @@ func add_enemies():
     var num_enemies: int = 1
     if Global.enemies_defeated > 5:
         num_enemies = clampi(randi_range(Global.max_enemies - 2, Global.max_enemies), 1, Global.max_enemies)
+    # Only one kaiju on first boss battle
+    if proceeds == max_proceeds - 1 and Global.kaijus_defeated == 0:
+        num_enemies = 1
     for i in range(num_enemies):
         var enemy: Enemy = enemy_scenes.pick_random().instantiate()
         enemy.init_stats()
