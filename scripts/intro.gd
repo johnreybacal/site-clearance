@@ -11,7 +11,7 @@ Only the robots,[PAUSE] builders of the new world,[PAUSE] could stop them.[PAUSE
 But when the world needed them most,[PAUSE] they[PAUSE], actually,[PAUSE] couldn't stop them.[PAUSE]
 
 Now,[PAUSE] we've repurposed the old machines for combat.[PAUSE]
-And although it can take a beating,[PAUSE] it needs a lot of upgades.[PAUSE]
+And although it can take a beating,[PAUSE] it needs a lot of upgrades.[PAUSE]
 But I believe that we can save the world."
 
 # 4
