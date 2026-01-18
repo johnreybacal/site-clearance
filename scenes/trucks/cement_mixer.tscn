@@ -10,7 +10,7 @@ title = "Cement Trap"
 description = "Stuns an enemy"
 move_type = 1
 heat_cost = 4.0
-stun_debuff_turns = 2
+stun_debuff_turns = 3
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
 [sub_resource type="Resource" id="Resource_f270p"]
@@ -21,7 +21,7 @@ move_type = 1
 target_type = 1
 is_area_target = true
 heat_cost = 4.0
-defense_buff_turns = 1
+defense_buff_turns = 2
 metadata/_custom_type_script = "uid://qjboko3yokku"
 
 [node name="CementMixer" type="Node2D"]

@@ -7,7 +7,7 @@
 [sub_resource type="Resource" id="Resource_a4wfb"]
 script = ExtResource("2_fy0fe")
 title = "Swing"
-description = "Attack all enemies"
+description = "Deals damage to all enemies"
 is_area_target = true
 damage = 4.0
 heat_cost = 6.0
@@ -16,7 +16,7 @@ metadata/_custom_type_script = "uid://qjboko3yokku"
 [sub_resource type="Resource" id="Resource_5pcn0"]
 script = ExtResource("2_fy0fe")
 title = "Throw Debris"
-description = "Damage and slow a single enemy"
+description = "Damages and slows a single enemy"
 move_type = 1
 damage = 5.0
 heat_cost = 4.0

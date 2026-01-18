@@ -16,7 +16,7 @@ metadata/_custom_type_script = "uid://qjboko3yokku"
 [sub_resource type="Resource" id="Resource_dy6n1"]
 script = ExtResource("2_jqwxe")
 title = "Parts Delivery"
-description = "Heal an ally unit"
+description = "Heal an allied unit"
 move_type = 1
 target_type = 1
 heat_cost = 3.5
