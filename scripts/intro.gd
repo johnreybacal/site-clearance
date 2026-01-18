@@ -6,14 +6,13 @@ Long ago,[PAUSE] the heavy machines built our world.[PAUSE]
 Then,[PAUSE] everything changed when the Advanced Robots arrived.[PAUSE]
 They were faster,[PAUSE] making our machines obsolete.[PAUSE]
 
-But then the monsters came.[PAUSE]
-The robots were too fragile to fight back.[PAUSE]
+Then,[PAUSE] everything changed again when the Monsters came.[PAUSE]
+Only the robots,[PAUSE] builder of the new world,[PAUSE] could stop them.[PAUSE]
+But when the world needed them most,[PAUSE] they[PAUSE], actually,[PAUSE] couldn't stop them.[PAUSE]
 
-Now,[PAUSE] we've dragged the old machines out of the scrap yards.[PAUSE]
-We've repurposed them for combat.[PAUSE]
-We have a lot of ground to clear.[PAUSE]
-
-This is Site Clearance."
+Now,[PAUSE] we've repurposed the old machines for combat.[PAUSE]
+And although it can take a beating,[PAUSE] it needs a lot of upgades.[PAUSE]
+But I believe that we can save the world."
 
 # 4
 # 5: Blue
@@ -28,7 +27,7 @@ var is_paused: bool
 
 var type_interval = .25
 
-const PAUSE_INTERVAL = .5
+const PAUSE_INTERVAL = .66
 var pause_interval = PAUSE_INTERVAL
 
 var sequence_len: int

@@ -36,6 +36,7 @@ operator_tab = ExtResource("4_4ytvr")
 position = Vector2(400, 200)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+modulate = Color(0.60784316, 0.4627451, 0.3254902, 1)
 z_index = -1
 texture_filter = 1
 position = Vector2(400, 200)

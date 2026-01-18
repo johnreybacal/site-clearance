@@ -25,37 +25,51 @@ bg_tile_set = ExtResource("3_i2l1n")
 [node name="IntroLabel" type="Label" parent="."]
 z_index = 20
 texture_filter = 1
-offset_left = -378.0
-offset_top = -178.0
-offset_right = 100.0
-offset_bottom = 197.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -382.0
+offset_top = -187.5
+offset_right = 318.0
+offset_bottom = 187.5
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/line_spacing = 1
-theme_override_constants/paragraph_spacing = 0
+theme_override_constants/line_spacing = 2
+theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("2_yjqpq")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 22
 text = "Diesel. Hydraulic. Steel. Iron.
 
 Long ago, the heavy machines built our world.
 Then, everything changed when the Advanced Robots arrived.
 They were faster, making our machines obsolete.
 
-But then the monsters came.
-The robots was too fragile to fight back.
+Then, everything changed again when the Monsters came.
+Only the robots, builder of the new world, could stop them.
+But when the world needed them most, they, actually, couldn't stop them.
 
-Now, we’ve dragged the old machines out of the scrap yards.
-We’ve repurposed them for combat.
-We have a lot of ground to clear.
-
-This is Site Clearance."
+Now, we've repurposed the old machines for combat.
+And although it can take a beating, it needs a lot of upgades.
+But I believe that we can save the world."
 
 [node name="ContinueLabel" type="Label" parent="."]
 z_index = 20
 texture_filter = 1
-offset_left = 148.0
-offset_top = 146.0
-offset_right = 373.0
-offset_bottom = 170.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 352.0
+offset_top = 110.0
+offset_right = 577.0
+offset_bottom = 134.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5707964
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/line_spacing = 1
 theme_override_constants/paragraph_spacing = 0
@@ -69,18 +83,19 @@ modulate = Color(1, 1, 1, 0.6509804)
 z_index = 20
 texture_filter = 1
 layout_mode = 0
-offset_top = 25.0
+offset_top = 24.0
 offset_right = 225.0
-offset_bottom = 49.0
+offset_bottom = 48.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/line_spacing = 1
 theme_override_constants/paragraph_spacing = 0
 theme_override_fonts/font = ExtResource("2_yjqpq")
 theme_override_font_sizes/font_size = 13
 text = "Except the power button"
-horizontal_alignment = 2
+horizontal_alignment = 1
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+modulate = Color(0.60784316, 0.4627451, 0.3254902, 1)
 z_index = -1
 texture_filter = 1
 scale = Vector2(2, 2)
