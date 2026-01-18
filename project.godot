@@ -13,6 +13,8 @@ config_version=5
 config/name="Site Clearance"
 run/main_scene="uid://bcw2x4fmn578g"
 config/features=PackedStringArray("4.5", "Forward Plus")
+boot_splash/bg_color=Color(0.2509804, 0.24705882, 0.21176471, 1)
+boot_splash/image="uid://cb42p33c24mv2"
 config/icon="res://icon.svg"
 
 [autoload]
@@ -23,3 +25,4 @@ Global="*res://scripts/global.gd"
 
 window/size/viewport_width=800
 window/size/viewport_height=400
+window/stretch/mode="canvas_items"

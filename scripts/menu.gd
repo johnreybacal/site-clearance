@@ -63,9 +63,9 @@ func _ready() -> void:
     foldable_container.folded = true
 
 func _process(delta: float) -> void:
-    var sun_position = clampf(800 / get_local_mouse_position().x, 0, 1)
+    var sun_position = clampf(get_local_mouse_position().x / 800, 0, 1)
     if sunlight_foreground.texture.fill_to.x != sun_position:
-        sunlight_foreground.texture.fill_to.x = move_toward(sunlight_foreground.texture.fill_to.x, sun_position, delta / 3)
+        sunlight_foreground.texture.fill_to.x = move_toward(sunlight_foreground.texture.fill_to.x, sun_position, delta)
 
     if start_transition_foreground.modulate.a != 0:
         start_transition_foreground.modulate.a = move_toward(start_transition_foreground.modulate.a, 0, delta * 2)

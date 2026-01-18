@@ -294,11 +294,11 @@ func increment_trees_fallen():
     trees_fallen += 1
 
     if trees_fallen > 250:
-        queue_achievement("Not cool •ˋ◠ˊ•", "Cause 250 trees to fall")
+        queue_achievement("Not cool </3", "Cause 250 trees to fall")
     if trees_fallen > 750:
-        queue_achievement("So not cool •ˋ◠ˊ•", "Cause 750 trees to fall")
+        queue_achievement("So not cool </3", "Cause 750 trees to fall")
     if trees_fallen > 1500:
-        queue_achievement("•ˋ◠ˊ•", "Cause 1500 trees to fall")
+        queue_achievement("</3", "Cause 1500 trees to fall")
 
 func add_total_heat(amount: float):
     total_heat += amount
