@@ -7,7 +7,7 @@ Then,[PAUSE] everything changed when the Advanced Robots arrived.[PAUSE]
 They were faster,[PAUSE] making our machines obsolete.[PAUSE]
 
 Then,[PAUSE] everything changed again when the Monsters came.[PAUSE]
-Only the robots,[PAUSE] builder of the new world,[PAUSE] could stop them.[PAUSE]
+Only the robots,[PAUSE] builders of the new world,[PAUSE] could stop them.[PAUSE]
 But when the world needed them most,[PAUSE] they[PAUSE], actually,[PAUSE] couldn't stop them.[PAUSE]
 
 Now,[PAUSE] we've repurposed the old machines for combat.[PAUSE]
@@ -125,4 +125,5 @@ func _input(event: InputEvent) -> void:
         speed_multiplier = 1
     if event.is_pressed():
         if continue_label.visible:
+            Global.play_ui_feedback()
             get_tree().change_scene_to_file(Global.MENU_SCENE)

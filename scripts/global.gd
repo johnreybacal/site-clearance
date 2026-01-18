@@ -54,6 +54,7 @@ var damage_dealt: float
 var damage_received: float
 
 var bgm: AudioStreamPlayer
+var ui_feedback: AudioStreamPlayer
 
 signal money_updated()
 
@@ -81,7 +82,12 @@ func _ready() -> void:
     bgm = AudioStreamPlayer.new()
     bgm.stream = preload("res://assets/bgm/chill-drum-loop.mp3")
     bgm.volume_db = -15
+    ui_feedback = AudioStreamPlayer.new()
+    ui_feedback.stream = preload("res://assets/sfx/ui_feedback.mp3")
+    ui_feedback.volume_db = -15
+
     add_child(bgm)
+    add_child(ui_feedback)
     bgm.play()
 
 func _process(delta: float) -> void:
@@ -378,3 +384,7 @@ func add_achievement(achievement: Achievement):
     add_child(achievement_notif)
     achievements.append(achievement)
     on_new_achievement.emit()
+
+func play_ui_feedback():
+    ui_feedback.pitch_scale = randf_range(0.8, 1.2)
+    ui_feedback.play()

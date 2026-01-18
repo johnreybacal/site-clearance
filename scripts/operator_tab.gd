@@ -13,6 +13,9 @@ var operator: Global.Operator
 func _ready() -> void:
     redraw()
     Global.money_updated.connect(redraw)
+    hp_button.pressed.connect(Global.play_ui_feedback)
+    damage_button.pressed.connect(Global.play_ui_feedback)
+    speed_button.pressed.connect(Global.play_ui_feedback)
 
 func redraw():
     for stat in Global.stat_keys:

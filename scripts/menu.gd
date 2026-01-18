@@ -11,6 +11,7 @@ const BG_Y_INITIAL = -7
 var bg_y = BG_Y_INITIAL
 
 @onready var foldable_container: FoldableContainer = $MarginContainer/HBoxContainer/FoldableContainer
+@onready var stats_tab_container: TabContainer = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer
 @onready var monsters_defeated_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/MonstersDefeatedValue
 @onready var kaiju_defeated_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/KaijuDefeatedValue
 @onready var trucks_lost_value: Label = $MarginContainer/HBoxContainer/FoldableContainer/TabContainer/Statistics/GridContainer/TrucksLostValue
@@ -39,6 +40,10 @@ func _ready() -> void:
     redraw_money()
     Global.money_updated.connect(redraw_money)
     Global.money_updated.connect(redraw_money_spent)
+
+    stats_tab_container.tab_changed.connect(func(_x): Global.play_ui_feedback())
+    operators_tab_container.tab_changed.connect(func(_x): Global.play_ui_feedback())
+    foldable_container.folding_changed.connect(func(_x): Global.play_ui_feedback())
 
     recruit_button.text = "RECRUIT OPERATOR [$" + str(Global.get_operator_cost()) + "]"
     monsters_defeated_value.text = str(Global.enemies_defeated)
@@ -114,11 +119,13 @@ func redraw_money_spent():
     money_spent_value.text = "$" + str(round(Global.total_spent))
 
 func _on_recruit_button_pressed() -> void:
+    Global.play_ui_feedback()
     Global.recruit_operator()
     draw_operator_tab(Global.operators.back())
     redraw_recruit_operator()
 
 
 func _on_start_button_pressed() -> void:
+    Global.play_ui_feedback()
     Global.save_data()
     get_tree().change_scene_to_file(Global.GAME_SCENE)
